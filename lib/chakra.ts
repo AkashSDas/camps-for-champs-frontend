@@ -1,10 +1,17 @@
 import { extendTheme } from "@chakra-ui/react";
 
+import { pxToRem } from "./pxToRem";
+
 export var theme = extendTheme({
   fonts: {
     heading: `'Cubano', sans-serif`,
     body: `'Poppins', sans-serif`,
     button: `'Poppins', sans-serif`,
+  },
+  color: {
+    brand: {
+      lightOrange: "#FFF3EE",
+    },
   },
   components: {
     Button: {
@@ -16,6 +23,7 @@ export var theme = extendTheme({
           fontWeight: "medium",
           rounded: "full",
           fontSize: "md",
+          h: pxToRem(40),
         },
         lightSolid: {
           bg: "#FFF3EE",
@@ -26,7 +34,32 @@ export var theme = extendTheme({
           fontWeight: "medium",
           rounded: "full",
           fontSize: "md",
+          h: pxToRem(40),
+          px: pxToRem(16),
         },
+        bigSolid: {
+          bg: "#DF6531",
+          color: "#FFFFFF",
+          _hover: { bg: "#D15F2E" },
+          _active: { bg: "#C75A2C" },
+          fontFamily: "body",
+          fontWeight: "medium",
+          rounded: "full",
+          fontSize: "md",
+          h: pxToRem(60),
+          px: pxToRem(32),
+        },
+      },
+    },
+    Heading: {
+      baseStyle: {
+        color: "#22201F",
+      },
+    },
+    Text: {
+      baseStyle: {
+        color: "#4B4B4B",
+        fontFamily: "body",
       },
     },
   },
