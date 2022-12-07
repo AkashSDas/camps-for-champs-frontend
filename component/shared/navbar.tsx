@@ -2,8 +2,8 @@ import NextLink from "next/link";
 
 import { Button, HStack } from "@chakra-ui/react";
 
-import { pxToRem } from "../../../lib/pxToRem";
-import Logo from "../logo";
+import { pxToRem } from "../../lib/pxToRem";
+import Logo from "../icons/logo";
 
 export default function Navbar() {
   return (

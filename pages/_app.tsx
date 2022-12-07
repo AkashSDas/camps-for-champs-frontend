@@ -4,7 +4,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { Poppins } from "@next/font/google";
 import localFont from "@next/font/local";
 
-import Navbar from "../component/icons/shared/navbar";
+import Navbar from "../component/shared/navbar";
 import { theme } from "../lib/chakra";
 
 import type { AppProps } from "next/app";
