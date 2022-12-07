@@ -25,10 +25,15 @@ export default function Navbar() {
         justify="end"
         alignItems="center"
       >
-        <Button variant="ghost">Explore</Button>
-        <Button variant="lightSolid" overflow="hidden">
-          Get started
-        </Button>
+        <NextLink href="/explore">
+          <Button variant="ghost">Explore</Button>
+        </NextLink>
+
+        <NextLink href="/auth/signup">
+          <Button variant="lightSolid" overflow="hidden">
+            Get started
+          </Button>
+        </NextLink>
       </HStack>
     </HStack>
   );
