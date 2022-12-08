@@ -11,6 +11,7 @@ export var theme = extendTheme({
   color: {
     brand: {
       lightOrange: "#FFF3EE",
+      link: "#1877F2",
     },
   },
   components: {
@@ -58,6 +59,18 @@ export var theme = extendTheme({
           rounded: "full",
           fontSize: "md",
           h: pxToRem(60),
+          px: pxToRem(32),
+        },
+        regularSolid: {
+          bg: "#DF6531",
+          color: "#FFFFFF",
+          _hover: { bg: "#D15F2E" },
+          _active: { bg: "#C75A2C" },
+          fontFamily: "body",
+          fontWeight: "medium",
+          rounded: "full",
+          fontSize: "md",
+          h: pxToRem(44),
           px: pxToRem(32),
         },
       },

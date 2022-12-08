@@ -1,13 +1,20 @@
 import { Box, Center, HStack, Image, Text, VStack } from "@chakra-ui/react";
 
 import Promotion from "../../component/auth/promotion";
-import { theme as customTheme } from "../../lib/chakra";
+import SignupSection from "../../component/auth/signup";
 import { pxToRem } from "../../lib/pxToRem";
 
 export default function SignupPage() {
   return (
-    <HStack as="main" mt={pxToRem(64)} px={pxToRem(64)}>
+    <HStack
+      as="main"
+      mt={pxToRem(64)}
+      pl={pxToRem(64)}
+      pr={pxToRem(160)}
+      justifyContent="space-between"
+    >
       <Promotion />
+      <SignupSection />
     </HStack>
   );
 }

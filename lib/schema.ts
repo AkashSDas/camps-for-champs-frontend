@@ -10,9 +10,7 @@ export interface SignupInput {
 }
 
 // Signup
-export var signupSchema = object().shape({
-  email: string()
-    .email({ message: "Invalid" })
-    .required({ message: "Required" }),
-  password: string().required({ message: "Required" }),
-});
+export var signupSchema = object({
+  email: string().email("Invalid").required("Required"),
+  password: string().required("Required"),
+}).required("Required");
