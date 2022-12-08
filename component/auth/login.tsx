@@ -14,6 +14,13 @@ import { login } from "../../services/auth";
 import { FacebookIcon, GoogleIcon, TwitterIcon } from "../icons/social";
 
 export default function LoginSection() {
+  function openLoginWindow(provider: "google" | "facebook" | "twitter") {
+    window.open(
+      `${process.env.NEXT_PUBLIC_BACKEND_AUTH_URL}/auth/login/${provider}`,
+      "_self"
+    );
+  }
+
   var router = useRouter();
   var { reset, register, handleSubmit, formState } = useForm<LoginInput>({
     defaultValues: { email: "", password: "" },
@@ -46,7 +53,7 @@ export default function LoginSection() {
       <VStack justifyContent="center" gap={pxToRem(24)} width="full">
         {/* OAuth buttons */}
         <HStack gap={pxToRem(32)}>
-          <Button variant="outline">
+          <Button variant="outline" onClick={() => openLoginWindow("google")}>
             <GoogleIcon />
           </Button>
 
