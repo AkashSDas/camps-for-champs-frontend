@@ -25,6 +25,17 @@ export var theme = extendTheme({
           fontSize: "md",
           h: pxToRem(40),
         },
+        outline: {
+          _hover: { bg: "#EBEBEB" },
+          _active: { bg: "#E0E0E0" },
+          fontFamily: "body",
+          fontWeight: "medium",
+          rounded: "full",
+          fontSize: "md",
+          h: pxToRem(40),
+          px: pxToRem(24),
+          border: "1px solid #F0F0F0",
+        },
         lightSolid: {
           bg: "#FFF3EE",
           color: "#DF6531",
@@ -60,6 +71,34 @@ export var theme = extendTheme({
       baseStyle: {
         color: "#4B4B4B",
         fontFamily: "body",
+      },
+    },
+    FormLabel: {
+      baseStyle: {
+        color: "#4B4B4B",
+        fontFamily: "body",
+        fontWeight: "medium",
+        fontSize: "sm",
+      },
+    },
+    Input: {
+      defaultProps: {
+        variant: "base",
+      },
+      variants: {
+        base: {
+          field: {
+            border: "0px solid",
+            borderBottom: "2px solid",
+            bg: "#FAFAFA",
+            borderColor: "#CDCDCD",
+            borderRadius: "0",
+            h: pxToRem(44),
+            fontFamily: "body",
+            fontWeight: "medium",
+            outline: "0",
+          },
+        },
       },
     },
   },
