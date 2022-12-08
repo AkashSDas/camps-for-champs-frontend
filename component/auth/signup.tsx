@@ -2,11 +2,13 @@ import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { useMutation } from "react-query";
 
 import { Button, FormControl, FormErrorMessage, FormLabel, Heading, HStack, Input, Text, VStack } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { pxToRem } from "../../lib/pxToRem";
+import { queryClient } from "../../lib/react-query";
 import { SignupInput, signupSchema } from "../../lib/schema";
 import { signup } from "../../services/auth";
 import { FacebookIcon, GoogleIcon, TwitterIcon } from "../icons/social";
@@ -18,22 +20,24 @@ export default function SignupSection() {
     resolver: yupResolver(signupSchema),
   });
 
-  async function onSubmit(data: SignupInput) {
-    var response = await signup(data);
-    if (!response.success) {
-      let errorMsg = response.error?.message;
-      if (!errorMsg) toast.error("Something went wrong");
-      else {
-        if (Array.isArray(errorMsg)) {
-          toast.error(response.error?.message[0] ?? "Something went wrong");
-        } else toast.error(response.error?.message);
-      }
-    } else {
+  var mutation = useMutation({
+    mutationFn: (data: SignupInput) => signup(data),
+    onSuccess: async (_response) => {
+      await queryClient.invalidateQueries(["access-token"]);
       toast.success("Signup successful");
       reset();
       router.push("/");
-    }
-  }
+    },
+    onError: (error: any) => {
+      let errorMsg = error?.message;
+      if (!errorMsg) toast.error("Something went wrong");
+      else {
+        if (Array.isArray(errorMsg)) {
+          toast.error(error?.message[0] ?? "Something went wrong");
+        } else toast.error(error?.message);
+      }
+    },
+  });
 
   return (
     <VStack justifyContent="center" gap={pxToRem(32)} w={pxToRem(400)}>
@@ -63,7 +67,7 @@ export default function SignupSection() {
           as="form"
           justifyContent="center"
           gap={pxToRem(24)}
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit((data) => mutation.mutate(data))}
         >
           <FormControl isInvalid={formState.errors.email ? true : false}>
             <FormLabel>Email</FormLabel>
