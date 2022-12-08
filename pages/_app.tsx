@@ -1,5 +1,6 @@
 import "../styles/globals.css";
 
+import { Toaster } from "react-hot-toast";
 import { QueryClientProvider } from "react-query";
 
 import { ChakraProvider } from "@chakra-ui/react";
@@ -24,6 +25,7 @@ function App({ Component, pageProps }: AppProps) {
         <ChakraProvider theme={theme}>
           <Navbar />
           <Component {...pageProps} />
+          <Toaster />
         </ChakraProvider>
       </div>
     </QueryClientProvider>

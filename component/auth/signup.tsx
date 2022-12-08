@@ -1,30 +1,45 @@
-import { Box } from "framer-motion";
 import NextLink from "next/link";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
-import { Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, Heading, HStack, Input, Text, VStack } from "@chakra-ui/react";
+import { Button, FormControl, FormErrorMessage, FormLabel, Heading, HStack, Input, Text, VStack } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { theme as chakraUiTheme } from "../../lib/chakra";
 import { pxToRem } from "../../lib/pxToRem";
 import { SignupInput, signupSchema } from "../../lib/schema";
+import { signup } from "../../services/auth";
 import { FacebookIcon, GoogleIcon, TwitterIcon } from "../icons/social";
 
 export default function SignupSection() {
-  var { register, handleSubmit, formState } = useForm<SignupInput>({
+  var router = useRouter();
+  var { reset, register, handleSubmit, formState } = useForm<SignupInput>({
     defaultValues: { email: "", password: "" },
     resolver: yupResolver(signupSchema),
   });
 
   async function onSubmit(data: SignupInput) {
-    console.log(data);
+    var response = await signup(data);
+    if (!response.success) {
+      let errorMsg = response.error?.message;
+      if (!errorMsg) toast.error("Something went wrong");
+      else {
+        if (Array.isArray(errorMsg)) {
+          toast.error(response.error?.message[0] ?? "Something went wrong");
+        } else toast.error(response.error?.message);
+      }
+    } else {
+      toast.success("Signup successful");
+      reset();
+      router.push("/");
+    }
   }
 
   return (
     <VStack justifyContent="center" gap={pxToRem(32)} w={pxToRem(400)}>
       <Heading fontSize={pxToRem(40)}>Signup</Heading>
 
-      <VStack justifyContent="center" gap={pxToRem(24)}>
+      <VStack justifyContent="center" gap={pxToRem(24)} width="full">
         {/* OAuth buttons */}
         <HStack gap={pxToRem(32)}>
           <Button variant="outline">
