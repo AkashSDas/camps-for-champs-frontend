@@ -1,9 +1,9 @@
-import { Box, Button, Heading, HStack, Image, Text, theme, VStack } from "@chakra-ui/react";
+import { Box, Button, Heading, HStack, Image, Text, VStack } from "@chakra-ui/react";
 
 import { theme as customTheme } from "../lib/chakra";
 import { pxToRem } from "../lib/pxToRem";
 
-export default function Home() {
+export default function HomePage() {
   return (
     <Box px={pxToRem(32)}>
       <Header />

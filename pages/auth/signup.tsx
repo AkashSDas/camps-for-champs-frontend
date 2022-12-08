@@ -1,4 +1,4 @@
-import { Box, Center, HStack, Image, Text, VStack } from "@chakra-ui/react";
+import { HStack } from "@chakra-ui/react";
 
 import Promotion from "../../component/auth/promotion";
 import SignupSection from "../../component/auth/signup";
