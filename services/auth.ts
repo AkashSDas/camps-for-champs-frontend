@@ -54,3 +54,9 @@ export async function login(input: LoginInput) {
 
   return { success: false, error: response.error };
 }
+
+export async function logout() {
+  var response = await fetchFromAuth("logout", { method: "GET" });
+  if (response.status == 200) return { success: true };
+  return { success: false, error: response.error };
+}
