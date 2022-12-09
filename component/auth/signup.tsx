@@ -43,7 +43,10 @@ export default function SignupSection() {
               <GoogleIcon />
             </Button>
 
-            <Button variant="outline">
+            <Button
+              variant="outline"
+              onClick={() => openSignupWindow("twitter")}
+            >
               <TwitterIcon />
             </Button>
 

@@ -61,7 +61,7 @@ export default function LoginSection() {
             <GoogleIcon />
           </Button>
 
-          <Button variant="outline">
+          <Button variant="outline" onClick={() => openLoginWindow("twitter")}>
             <TwitterIcon />
           </Button>
 
