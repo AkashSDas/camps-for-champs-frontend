@@ -1,4 +1,4 @@
-import { object, string } from "yup";
+import { object, ref, string } from "yup";
 
 // ===========================
 // Auth
@@ -43,3 +43,15 @@ export interface ForgotPasswordInput {
 export var forgotPasswordSchema = object({
   email: string().email("Invalid").required("Required"),
 }).required("Required");
+
+export var resetPasswordSchema = object({
+  password: string().required("Required"),
+  confirmPassword: string()
+    .required("Required")
+    .oneOf([ref("password"), null], "Passwords must match"),
+}).required("Required");
+
+export interface ResetPasswordInput {
+  password: string;
+  confirmPassword: string;
+}
