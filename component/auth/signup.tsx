@@ -7,6 +7,7 @@ import { useMutation } from "react-query";
 import { Button, FormControl, FormErrorMessage, FormLabel, Heading, HStack, Input, Text, VStack } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 
+import { useUser } from "../../lib/hooks";
 import { pxToRem } from "../../lib/pxToRem";
 import { queryClient } from "../../lib/react-query";
 import { SignupInput, signupSchema } from "../../lib/schema";
@@ -61,7 +62,10 @@ export default function SignupSection() {
             <TwitterIcon />
           </Button>
 
-          <Button variant="outline">
+          <Button
+            variant="outline"
+            onClick={() => openSignupWindow("facebook")}
+          >
             <FacebookIcon />
           </Button>
         </HStack>
@@ -124,7 +128,6 @@ export default function SignupSection() {
             {formState.isSubmitting ? "Loading..." : "Signup with email"}
           </Button>
         </VStack>
-
         <Text fontWeight="medium">
           Already have an account?{" "}
           <NextLink href="/auth/login" style={{ color: "#1877F2" }}>

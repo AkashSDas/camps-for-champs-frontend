@@ -65,7 +65,7 @@ export default function LoginSection() {
             <TwitterIcon />
           </Button>
 
-          <Button variant="outline">
+          <Button variant="outline" onClick={() => openLoginWindow("facebook")}>
             <FacebookIcon />
           </Button>
         </HStack>
