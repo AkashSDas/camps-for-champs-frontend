@@ -24,8 +24,21 @@ export function useUser() {
     return userStatus;
   }
 
+  function getLoggedInStatus() {
+    if (newAccessTokenData?.user || userData?.user) {
+      let user = newAccessTokenData?.user || userData?.user;
+
+      // Checking for required fields to be present, if not then signup is not
+      // completed.
+      if (user?.email) return true;
+    }
+
+    return false;
+  }
+
   return {
     user: newAccessTokenData?.user || userData?.user,
+    isLoggedIn: getLoggedInStatus(),
     status: getStatus(),
   };
 }

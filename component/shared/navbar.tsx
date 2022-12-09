@@ -10,7 +10,7 @@ import { logout } from "../../services/auth";
 import Logo from "../icons/logo";
 
 export default function Navbar() {
-  var { user } = useUser();
+  var { isLoggedIn } = useUser();
 
   var mutation = useMutation({
     mutationFn: logout,
@@ -55,7 +55,7 @@ export default function Navbar() {
           <Button variant="ghost">Explore</Button>
         </NextLink>
 
-        {user ? (
+        {isLoggedIn ? (
           <Button variant="ghost" onClick={() => mutation.mutate()}>
             Logout
           </Button>
