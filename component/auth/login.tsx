@@ -80,7 +80,24 @@ export default function LoginSection() {
           onSubmit={handleSubmit((data) => mutation.mutate(data))}
         >
           <FormControl isInvalid={formState.errors.email ? true : false}>
-            <FormLabel>Email</FormLabel>
+            <HStack justifyContent="space-between" alignItems="center">
+              <FormLabel>Email</FormLabel>
+
+              <Text
+                fontFamily="body"
+                fontSize="sm"
+                fontWeight="medium"
+                pb={pxToRem(8)}
+              >
+                <NextLink
+                  href="/auth/forgot-password"
+                  style={{ color: "#1877F2" }}
+                >
+                  Forgot Password
+                </NextLink>
+              </Text>
+            </HStack>
+
             <Input
               type="email"
               variant="base"

@@ -34,3 +34,12 @@ export interface CompleteOAuthInput {
 export var completeOAuthSchema = object({
   email: string().email("Invalid").required("Required"),
 }).required("Required");
+
+export interface ForgotPasswordInput {
+  email: string;
+}
+
+// Signup
+export var forgotPasswordSchema = object({
+  email: string().email("Invalid").required("Required"),
+}).required("Required");
