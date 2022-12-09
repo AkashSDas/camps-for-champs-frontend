@@ -68,14 +68,22 @@ export async function completeOAuth(
   var response = await fetchFromAuth("complete-oauth", {
     method: "PUT",
     data: input,
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
+    headers: { Authorization: `Bearer ${accessToken}` },
   });
 
   if (response.status == 200) {
     return { success: true, user: response.data.user };
   }
 
+  return { success: false, error: response.error };
+}
+
+export async function cancelOAuth(accessToken: string) {
+  var response = await fetchFromAuth("cancel-oauth", {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+
+  if (response.status == 200) return { success: true };
   return { success: false, error: response.error };
 }
