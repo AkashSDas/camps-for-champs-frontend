@@ -5,6 +5,7 @@ import { Button, Heading, HStack, Text, VStack } from "@chakra-ui/react";
 import { useUser } from "../../lib/hooks";
 import { pxToRem } from "../../lib/pxToRem";
 import { FacebookIcon, GoogleIcon, TwitterIcon } from "../icons/social";
+import CompleteOAuthForm from "./complete-oauth-form";
 import SignupForm from "./signup-form";
 
 export default function SignupSection() {
@@ -15,34 +16,51 @@ export default function SignupSection() {
     );
   }
 
-  var { isLoggedIn, user } = useUser();
+  var { user } = useUser();
 
   return (
     <VStack justifyContent="center" gap={pxToRem(32)} w={pxToRem(400)}>
-      <Heading fontSize={pxToRem(40)}>Signup</Heading>
+      <Heading fontSize={pxToRem(40)}>
+        {!user ? "Signup" : "Complete Signup"}
+      </Heading>
+
+      {user && (
+        <Text textAlign="center" fontWeight="500">
+          Your account will be connected to your new CampsForChamps account.
+          Wrong identity?{" "}
+          <Text cursor="pointer" style={{ color: "#1877F2" }}>
+            Start over
+          </Text>
+        </Text>
+      )}
 
       <VStack justifyContent="center" gap={pxToRem(24)} width="full">
         {/* OAuth buttons */}
-        <HStack gap={pxToRem(32)}>
-          <Button variant="outline" onClick={() => openSignupWindow("google")}>
-            <GoogleIcon />
-          </Button>
+        {!user && (
+          <HStack gap={pxToRem(32)}>
+            <Button
+              variant="outline"
+              onClick={() => openSignupWindow("google")}
+            >
+              <GoogleIcon />
+            </Button>
 
-          <Button variant="outline">
-            <TwitterIcon />
-          </Button>
+            <Button variant="outline">
+              <TwitterIcon />
+            </Button>
 
-          <Button
-            variant="outline"
-            onClick={() => openSignupWindow("facebook")}
-          >
-            <FacebookIcon />
-          </Button>
-        </HStack>
+            <Button
+              variant="outline"
+              onClick={() => openSignupWindow("facebook")}
+            >
+              <FacebookIcon />
+            </Button>
+          </HStack>
+        )}
 
-        <Heading size="md">OR</Heading>
+        {!user && <Heading size="md">OR</Heading>}
 
-        <SignupForm />
+        {!user ? <SignupForm /> : <CompleteOAuthForm />}
 
         <Text fontWeight="medium">
           Already have an account?{" "}

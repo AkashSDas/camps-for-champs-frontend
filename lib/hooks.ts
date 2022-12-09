@@ -37,6 +37,7 @@ export function useUser() {
   }
 
   return {
+    accessToken: newAccessTokenData?.accessToken,
     user: newAccessTokenData?.user || userData?.user,
     isLoggedIn: getLoggedInStatus(),
     status: getStatus(),

@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from "axios";
 
-import { LoginInput, SignupInput } from "../lib/schema";
+import { CompleteOAuthInput, LoginInput, SignupInput } from "../lib/schema";
 import fetchFromAPI from "./";
 
 function fetchFromAuth(URL: string, config: AxiosRequestConfig) {
@@ -58,5 +58,24 @@ export async function login(input: LoginInput) {
 export async function logout() {
   var response = await fetchFromAuth("logout", { method: "GET" });
   if (response.status == 200) return { success: true };
+  return { success: false, error: response.error };
+}
+
+export async function completeOAuth(
+  input: CompleteOAuthInput,
+  accessToken: string
+) {
+  var response = await fetchFromAuth("complete-oauth", {
+    method: "PUT",
+    data: input,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (response.status == 200) {
+    return { success: true, user: response.data.user };
+  }
+
   return { success: false, error: response.error };
 }
