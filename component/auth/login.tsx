@@ -32,11 +32,23 @@ export default function LoginSection() {
 
   var mutation = useMutation({
     mutationFn: (data: LoginInput) => login(data),
-    onSuccess: async (_response) => {
-      await queryClient.invalidateQueries(["access-token"]);
-      toast.success("Login successful");
-      reset();
-      router.push("/");
+    onSuccess: async (response) => {
+      if (response.success) {
+        await queryClient.invalidateQueries(["access-token"]);
+        toast.success("Login successful");
+        reset();
+        router.push("/");
+      } else {
+        let errorMsg = response?.error?.message;
+        if (!errorMsg) toast.error("Something went wrong");
+        else {
+          if (Array.isArray(errorMsg)) {
+            toast.error(
+              response?.error?.message?.message[0] ?? "Something went wrong"
+            );
+          } else toast.error(response?.error?.message);
+        }
+      }
     },
     onError: (error: any) => {
       let errorMsg = error?.message;
