@@ -52,7 +52,6 @@ export default function LoginSection() {
   return (
     <VStack justifyContent="center" gap={pxToRem(32)} w={pxToRem(400)}>
       <Heading fontSize={pxToRem(40)}>Login</Heading>
-      {JSON.stringify(user)}
 
       <VStack justifyContent="center" gap={pxToRem(24)} width="full">
         {/* OAuth buttons */}
