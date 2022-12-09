@@ -16,7 +16,7 @@ import { FacebookIcon, GoogleIcon, TwitterIcon } from "../icons/social";
 export default function SignupSection() {
   function openSignupWindow(provider: "google" | "facebook" | "twitter") {
     window.open(
-      `${process.env.NEXT_PUBLIC_BACKEND_AUTH_URL}/auth/signup/${provider}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/signup/${provider}`,
       "_self"
     );
   }

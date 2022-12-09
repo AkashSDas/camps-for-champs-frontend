@@ -7,6 +7,7 @@ import { useMutation } from "react-query";
 import { Button, FormControl, FormErrorMessage, FormLabel, Heading, HStack, Input, Text, VStack } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 
+import { useUser } from "../../lib/hooks";
 import { pxToRem } from "../../lib/pxToRem";
 import { queryClient } from "../../lib/react-query";
 import { LoginInput, loginSchema } from "../../lib/schema";
@@ -14,9 +15,11 @@ import { login } from "../../services/auth";
 import { FacebookIcon, GoogleIcon, TwitterIcon } from "../icons/social";
 
 export default function LoginSection() {
+  var { user } = useUser();
+
   function openLoginWindow(provider: "google" | "facebook" | "twitter") {
     window.open(
-      `${process.env.NEXT_PUBLIC_BACKEND_AUTH_URL}/auth/login/${provider}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login/${provider}`,
       "_self"
     );
   }
@@ -49,6 +52,7 @@ export default function LoginSection() {
   return (
     <VStack justifyContent="center" gap={pxToRem(32)} w={pxToRem(400)}>
       <Heading fontSize={pxToRem(40)}>Login</Heading>
+      {JSON.stringify(user)}
 
       <VStack justifyContent="center" gap={pxToRem(24)} width="full">
         {/* OAuth buttons */}
