@@ -1,8 +1,9 @@
 import NextLink from "next/link";
 import { useMutation } from "react-query";
 
-import { Button, HStack } from "@chakra-ui/react";
+import { Badge, Button, HStack } from "@chakra-ui/react";
 
+import { theme as customTheme } from "../../lib/chakra";
 import { useUser } from "../../lib/hooks";
 import { pxToRem } from "../../lib/pxToRem";
 import { queryClient } from "../../lib/react-query";
@@ -65,6 +66,28 @@ export default function Navbar() {
               Get started
             </Button>
           </NextLink>
+        )}
+
+        {/* Admin stuff */}
+        {isLoggedIn && (
+          <>
+            <Button variant="ghost">Create camp</Button>
+
+            <Badge
+              colorScheme="orange"
+              h={pxToRem(32)}
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              px={pxToRem(8)}
+              rounded="full"
+              fontSize="md"
+              color={customTheme.color.brand.orange}
+              bg={customTheme.color.brand.lightOrange}
+            >
+              Admin
+            </Badge>
+          </>
         )}
       </HStack>
     </HStack>

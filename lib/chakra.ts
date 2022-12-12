@@ -12,6 +12,7 @@ export var theme = extendTheme({
     brand: {
       lightOrange: "#FFF3EE",
       link: "#1877F2",
+      orange: "#DF6531",
     },
   },
   components: {
