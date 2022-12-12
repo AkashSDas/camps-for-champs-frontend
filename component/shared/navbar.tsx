@@ -1,17 +1,21 @@
 import NextLink from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import toast from "react-hot-toast";
 import { useMutation } from "react-query";
 
-import { Badge, Button, HStack } from "@chakra-ui/react";
+import { Badge, Button, HStack, useStatStyles } from "@chakra-ui/react";
 
 import { theme as customTheme } from "../../lib/chakra";
 import { useUser } from "../../lib/hooks";
 import { pxToRem } from "../../lib/pxToRem";
 import { queryClient } from "../../lib/react-query";
 import { logout } from "../../services/auth";
+import { createCamp } from "../../services/camp";
 import Logo from "../icons/logo";
 
 export default function Navbar() {
-  var { isLoggedIn } = useUser();
+  var { isLoggedIn, accessToken, user } = useUser();
 
   var mutation = useMutation({
     mutationFn: logout,
@@ -32,6 +36,9 @@ export default function Navbar() {
       queryClient.invalidateQueries({ queryKey: ["user", "access-token"] });
     },
   });
+
+  var [creatingCamp, setCreatingCamp] = useState(false);
+  var router = useRouter();
 
   return (
     <HStack
@@ -55,7 +62,6 @@ export default function Navbar() {
         <NextLink href="/explore">
           <Button variant="ghost">Explore</Button>
         </NextLink>
-
         {isLoggedIn ? (
           <Button variant="ghost" onClick={() => mutation.mutate()}>
             Logout
@@ -69,9 +75,31 @@ export default function Navbar() {
         )}
 
         {/* Admin stuff */}
-        {isLoggedIn && (
+        {isLoggedIn && user.roles.includes("admin") && (
           <>
-            <Button variant="ghost">Create camp</Button>
+            <Button
+              variant="ghost"
+              disabled={creatingCamp}
+              onClick={async () => {
+                setCreatingCamp(true);
+
+                var response = await createCamp(accessToken);
+                console.log(response);
+                if (response.error) {
+                  toast.error(
+                    response.error?.message ?? "Failed to create camp"
+                  );
+                } else if (response.success) {
+                  toast.success("Camp created successfully");
+                  let id = response.camp._id;
+                  router.push(`/admin/camp/${id}`);
+                }
+
+                setCreatingCamp(false);
+              }}
+            >
+              Create camp
+            </Button>
 
             <Badge
               colorScheme="orange"
