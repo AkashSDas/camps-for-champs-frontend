@@ -12,7 +12,10 @@ export function useUser() {
   var { data: userData, status: userStatus } = useQuery(
     "user",
     () => getUser(newAccessTokenData?.accessToken),
-    { enabled: newAccessTokenData?.user == null }
+    {
+      enabled:
+        newAccessTokenData?.user == null && newAccessTokenStatus == "error",
+    }
   );
 
   // The first request will be made to the `access-token` query, and the second
