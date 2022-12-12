@@ -92,7 +92,7 @@ export default function Navbar() {
                 } else if (response.success) {
                   toast.success("Camp created successfully");
                   let id = response.camp._id;
-                  router.push(`/admin/camp/${id}`);
+                  router.push(`/admin/${id}`);
                 }
 
                 setCreatingCamp(false);
