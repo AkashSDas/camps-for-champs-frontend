@@ -3,7 +3,19 @@ import { useEffect, useRef } from "react";
 import { useQuery } from "react-query";
 
 import { getNewAccessToken } from "../services/auth";
+import { getCampInfo } from "../services/camp";
 import { getUser } from "../services/user";
+
+export function useEditCamp() {
+  var router = useRouter();
+  var { data, status } = useQuery(
+    "get-edit-camp",
+    () => getCampInfo(router.query.campId as string),
+    { enabled: router.query.campId != null, refetchOnWindowFocus: false }
+  );
+
+  return { camp: data?.camp, status, error: data?.error };
+}
 
 export function useUser() {
   var { data: newAccessTokenData, status: newAccessTokenStatus } = useQuery(
