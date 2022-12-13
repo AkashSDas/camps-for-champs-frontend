@@ -9,7 +9,7 @@ function IconWrapper({ children }: { children: JSX.Element }) {
       className="icon"
       w={pxToRem(24)}
       h={pxToRem(24)}
-      _hover={{ cursor: "pointer" }}
+      cursor="pointer"
     >
       {children}
     </Icon>
