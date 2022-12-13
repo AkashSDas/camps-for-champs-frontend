@@ -6,3 +6,19 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+.icon > .sidebar-icon {
+  fill: #f0f0f0;
+}
+
+.icon:hover > .sidebar-icon {
+  fill: #df6531;
+}
+
+.icon > .sidebar-icon-stroke {
+  stroke: #f0f0f0;
+}
+
+.icon:hover > .sidebar-icon-stroke {
+  stroke: #df6531;
+}
