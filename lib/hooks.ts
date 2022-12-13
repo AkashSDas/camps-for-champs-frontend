@@ -9,9 +9,9 @@ import { getUser } from "../services/user";
 export function useEditCamp() {
   var router = useRouter();
   var { data, status } = useQuery(
-    "get-edit-camp",
+    ["get-edit-camp", router.query.campId as string],
     () => getCampInfo(router.query.campId as string),
-    { enabled: router.query.campId != null, refetchOnWindowFocus: false }
+    { enabled: router.query.campId != null }
   );
 
   return { camp: data?.camp, status, error: data?.error };

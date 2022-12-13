@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { useCallback } from "react";
 
 import { Box } from "@chakra-ui/react";
 
@@ -11,7 +12,8 @@ export default function MainContent() {
   var tab = router.query.tab as string;
   var { status } = useEditCamp();
 
-  function DisplayTab() {
+  // Using useCallback to prevent unnecessary re-rendering (continuously)
+  var DisplayTab = useCallback(() => {
     switch (tab) {
       case "settings":
         return <CampSettingsTab />;
@@ -30,7 +32,7 @@ export default function MainContent() {
       default:
         return <div>Invalid tab</div>;
     }
-  }
+  }, [tab]);
 
   return (
     <Box ml={pxToRem(122)} display="flex" justifyContent="center">
