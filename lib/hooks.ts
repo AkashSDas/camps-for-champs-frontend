@@ -1,3 +1,5 @@
+import { useRouter } from "next/router";
+import { useEffect, useRef } from "react";
 import { useQuery } from "react-query";
 
 import { getNewAccessToken } from "../services/auth";
@@ -45,4 +47,35 @@ export function useUser() {
     isLoggedIn: getLoggedInStatus(),
     status: getStatus(),
   };
+}
+
+export function useCampEditorShallowRouting(defaultTab: string) {
+  var router = useRouter();
+  var navigateToSettings = useRef(false);
+
+  useEffect(
+    function () {
+      if (!router.query.campId && !navigateToSettings.current) return;
+
+      router.push(
+        `/admin/${router.query.campId}?tab=${defaultTab}`,
+        undefined,
+        { shallow: true }
+      );
+      navigateToSettings.current = true;
+    },
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [router.query.campId]
+  );
+
+  function navigateToTab(tab: string) {
+    return function () {
+      router.push(`/admin/${router.query.campId}?tab=${tab}`, undefined, {
+        shallow: true,
+      });
+    };
+  }
+
+  return { campId: router.query.campId, navigateToTab };
 }
