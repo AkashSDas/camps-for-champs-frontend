@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useEditCamp, useUser } from "../../lib/hooks";
 import { pxToRem } from "../../lib/pxToRem";
-import { campDetailSchema, CampDetailsInput } from "../../lib/schema";
+import { Amenity, CampAccessibilityType, campDetailSchema, CampDetailsInput } from "../../lib/schema";
 
 export interface CampDetailsInputProps {
   formState: FormState<CampDetailsInput>;
@@ -15,7 +15,7 @@ export interface CampDetailsInputProps {
 
 export default function CampSettingsTab() {
   var { camp } = useEditCamp();
-  var { reset, register, handleSubmit, formState, getValues } =
+  var { reset, register, handleSubmit, formState, getValues, setValue, watch } =
     useForm<CampDetailsInput>({
       defaultValues: {
         name: camp?.name ?? "",
@@ -42,6 +42,84 @@ export default function CampSettingsTab() {
     console.log(data);
   }
 
+  function AmenityInput() {
+    function toggleAmenity(value: Amenity) {
+      if (getValues().amenities.includes(value)) {
+        setValue(
+          "amenities",
+          getValues().amenities.filter((v) => v != value)
+        );
+      } else {
+        setValue("amenities", [...getValues().amenities, value]);
+      }
+    }
+
+    return (
+      <VStack align="flex-start" spacing={pxToRem(16)}>
+        <Text fontWeight="bold">Amenities</Text>
+        <HStack spacing={pxToRem(16)} flexWrap="wrap" justifyContent="start">
+          {Object.values(Amenity)?.map((amenity: Amenity) => (
+            <Radio
+              key={amenity}
+              isChecked={watch("amenities").includes(amenity)}
+              onClick={() => toggleAmenity(amenity)}
+            >
+              {amenity}
+            </Radio>
+          ))}
+        </HStack>
+      </VStack>
+    );
+  }
+
+  function Accessibility() {
+    function toggleAccessibility(value: CampAccessibilityType) {
+      if (getValues().accessibility.includes(value)) {
+        setValue(
+          "accessibility",
+          getValues().accessibility.filter((v) => v != value)
+        );
+      } else {
+        setValue("accessibility", [...getValues().accessibility, value]);
+      }
+    }
+
+    return (
+      <VStack align="flex-start" spacing={pxToRem(16)}>
+        <Text fontWeight="bold">Accessibility</Text>
+        <HStack spacing={pxToRem(16)}>
+          <Radio
+            isChecked={watch("accessibility").includes(
+              CampAccessibilityType.ROAD
+            )}
+            onClick={() => toggleAccessibility(CampAccessibilityType.ROAD)}
+          >
+            Road
+          </Radio>
+          <Radio
+            isChecked={watch("accessibility").includes(
+              CampAccessibilityType.WATER
+            )}
+            onClick={() => toggleAccessibility(CampAccessibilityType.WATER)}
+          >
+            Water
+          </Radio>
+          <Radio
+            isChecked={watch("accessibility").includes(
+              CampAccessibilityType.AIR
+            )}
+            onClick={() => {
+              console.log("air");
+              toggleAccessibility(CampAccessibilityType.AIR);
+            }}
+          >
+            Air
+          </Radio>
+        </HStack>
+      </VStack>
+    );
+  }
+
   return (
     <Box
       as="form"
@@ -59,6 +137,8 @@ export default function CampSettingsTab() {
       <CampUnitLimitInput register={register} formState={formState} />
       <CheckInHrInput register={register} formState={formState} />
       <CheckOutHrInput register={register} formState={formState} />
+      <Accessibility />
+      <AmenityInput />
 
       <Button
         maxW="fit-content"

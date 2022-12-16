@@ -60,6 +60,8 @@ export interface ResetPasswordInput {
 
 export enum CampAccessibilityType {
   ROAD = "road",
+  WATER = "water",
+  AIR = "air",
 }
 
 export enum Amenity {
@@ -81,8 +83,8 @@ export enum Amenity {
 export interface CampDetailsInput {
   name: string;
   description: string;
-  accessibility: CampAccessibilityType;
-  amenities: Amenity;
+  accessibility: CampAccessibilityType[];
+  amenities: Amenity[];
   checkInTime: { hour: string; mintues: string; meridiem: "AM" | "PM" };
   checkOutTime: { hour: string; mintues: string; meridiem: "AM" | "PM" };
   price: number;
