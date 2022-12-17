@@ -8,7 +8,7 @@ export var theme = extendTheme({
     body: `'Poppins', sans-serif`,
     button: `'Poppins', sans-serif`,
   },
-  color: {
+  colors: {
     brand: {
       lightOrange: "#FFF3EE",
       link: "#1877F2",
