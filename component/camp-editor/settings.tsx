@@ -35,7 +35,7 @@ import {
 import { updateCampSettings } from "../../services/camp";
 import { toast } from "react-hot-toast";
 
-export interface CampDetailsInputProps {
+interface CampInputProps {
   formState: FormState<CampDetailsInput>;
   register: UseFormRegister<CampDetailsInput>;
 }
@@ -204,7 +204,7 @@ export default function CampSettingsTab() {
   );
 }
 
-function NameInput({ register, formState }: CampDetailsInputProps) {
+function NameInput({ register, formState }: CampInputProps) {
   return (
     <FormControl>
       <FormLabel htmlFor="name">Name</FormLabel>
@@ -221,7 +221,7 @@ function NameInput({ register, formState }: CampDetailsInputProps) {
   );
 }
 
-function DescriptionInput({ register, formState }: CampDetailsInputProps) {
+function DescriptionInput({ register, formState }: CampInputProps) {
   return (
     <FormControl>
       <FormLabel htmlFor="description">Description</FormLabel>
@@ -243,7 +243,7 @@ function DescriptionInput({ register, formState }: CampDetailsInputProps) {
   );
 }
 
-function PriceInput({ register, formState }: CampDetailsInputProps) {
+function PriceInput({ register, formState }: CampInputProps) {
   return (
     <FormControl>
       <FormLabel htmlFor="price">Price</FormLabel>
@@ -259,7 +259,7 @@ function PriceInput({ register, formState }: CampDetailsInputProps) {
   );
 }
 
-function CampUnitLimitInput({ register, formState }: CampDetailsInputProps) {
+function CampUnitLimitInput({ register, formState }: CampInputProps) {
   return (
     <FormControl>
       <FormLabel htmlFor="campLimit">Camp Limit</FormLabel>
@@ -279,7 +279,7 @@ function CheckInHrInput({
   register,
   formState,
   setValue,
-}: CampDetailsInputProps & { setValue: UseFormSetValue<CampDetailsInput> }) {
+}: CampInputProps & { setValue: UseFormSetValue<CampDetailsInput> }) {
   var { camp } = useEditCamp();
   var [meridiem, setMeridiem] = useState<"AM" | "PM">(
     camp?.checkInTime?.meridiem ?? "AM"
@@ -366,7 +366,7 @@ function CheckOutHrInput({
   register,
   formState,
   setValue,
-}: CampDetailsInputProps & { setValue: UseFormSetValue<CampDetailsInput> }) {
+}: CampInputProps & { setValue: UseFormSetValue<CampDetailsInput> }) {
   var { camp } = useEditCamp();
   var [meridiem, setMeridiem] = useState<"AM" | "PM">(
     camp?.checkOutTime?.meridiem ?? "AM"
