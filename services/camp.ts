@@ -1,4 +1,5 @@
 import { AxiosRequestConfig } from "axios";
+import { CampDetailsInput } from "../lib/schema";
 
 import fetchFromAPI from "./";
 
@@ -27,5 +28,24 @@ export async function getCampInfo(campId: string) {
     return { success: true, camp: response.data.camp };
   }
 
+  return { success: false, error: response.error };
+}
+
+/** Update camp settings */
+export async function updateCampSettings(
+  campId: string,
+  data: CampDetailsInput,
+  accessToken?: string
+) {
+  var response = await fetchFromCamp(`${campId}/details`, {
+    method: "PUT",
+    headers: { Authorization: `Bearer ${accessToken}` },
+    data,
+  });
+  console.log(response?.data?.camp);
+
+  if (response.status == 200) {
+    return { success: true, camp: response.data?.camp };
+  }
   return { success: false, error: response.error };
 }

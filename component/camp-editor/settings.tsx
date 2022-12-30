@@ -32,6 +32,8 @@ import {
   campDetailSchema,
   CampDetailsInput,
 } from "../../lib/schema";
+import { updateCampSettings } from "../../services/camp";
+import { toast } from "react-hot-toast";
 
 export interface CampDetailsInputProps {
   formState: FormState<CampDetailsInput>;
@@ -40,6 +42,8 @@ export interface CampDetailsInputProps {
 
 export default function CampSettingsTab() {
   var { camp } = useEditCamp();
+  var { accessToken } = useUser();
+
   var { register, handleSubmit, formState, getValues, setValue, watch } =
     useForm<CampDetailsInput>({
       defaultValues: {
@@ -64,7 +68,12 @@ export default function CampSettingsTab() {
     });
 
   async function onSubmit(data: CampDetailsInput) {
-    console.log(data);
+    var response = await updateCampSettings(camp?._id, data, accessToken);
+    if (response.success) {
+      toast.success("Camp settings updated");
+    } else {
+      toast.error("Failed to update camp settings");
+    }
   }
 
   function AmenityInput(): JSX.Element {
