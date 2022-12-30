@@ -89,5 +89,9 @@ export function useCampEditorShallowRouting(defaultTab: string) {
     };
   }
 
-  return { campId: router.query.campId, navigateToTab };
+  return {
+    campId: router.query.campId,
+    navigateToTab,
+    currentTab: router.query.tab,
+  };
 }

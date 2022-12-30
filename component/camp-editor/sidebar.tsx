@@ -6,13 +6,29 @@ import { Box } from "@chakra-ui/react";
 
 import { useCampEditorShallowRouting } from "../../lib/hooks";
 import { pxToRem } from "../../lib/pxToRem";
-import { ActivityIcon, CancellationPolicyIcon, DiscountIcon, ImageIcon, LocationIcon, PublicViewIcon, SettingsIcon, TagIcon } from "../icons";
+import {
+  ActivityIcon,
+  CancellationPolicyIcon,
+  DiscountIcon,
+  ImageIcon,
+  LocationIcon,
+  PublicViewIcon,
+  SettingsIcon,
+  TagIcon,
+} from "../icons";
 
 export default function CampEditorSidebar() {
-  var { navigateToTab } = useCampEditorShallowRouting("settings");
+  var { navigateToTab, currentTab } = useCampEditorShallowRouting("settings");
 
   function NavLink({ children, tab }: { children: JSX.Element; tab: string }) {
-    return <div onClick={navigateToTab(tab)}>{children}</div>;
+    return (
+      <Box
+        onClick={navigateToTab(tab)}
+        className={`${currentTab == tab ? "active-icon" : ""}`}
+      >
+        {children}
+      </Box>
+    );
   }
 
   return (

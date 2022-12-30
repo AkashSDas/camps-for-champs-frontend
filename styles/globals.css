@@ -22,3 +22,11 @@
 .icon:hover > .sidebar-icon-stroke {
   stroke: #df6531;
 }
+
+.active-icon .icon > .sidebar-icon {
+  fill: #df6531;
+}
+
+.active-icon .icon > .sidebar-icon-stroke {
+  stroke: #df6531;
+}
