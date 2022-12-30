@@ -62,7 +62,7 @@ export default function CampSettingsTab() {
           meridiem: "AM",
         },
         amenities: camp?.amenities ?? [],
-        accessibility: camp?.accessibility ?? [],
+        accessibilities: camp?.accessibilities ?? [],
       },
       resolver: yupResolver(campDetailSchema),
     });
@@ -114,22 +114,25 @@ export default function CampSettingsTab() {
 
   function Accessibility(): JSX.Element {
     function toggleAccessibility(value: CampAccessibilityType) {
-      if (getValues().accessibility.includes(value)) {
+      if (getValues().accessibilities.includes(value)) {
         setValue(
-          "accessibility",
-          getValues().accessibility.filter((v) => v != value)
+          "accessibilities",
+          getValues().accessibilities.filter((v) => v != value)
         );
       } else {
-        setValue("accessibility", [...getValues().accessibility, value]);
+        setValue("accessibilities", [...getValues().accessibilities, value]);
       }
     }
 
     return (
       <VStack align="flex-start" spacing={pxToRem(16)}>
         <Text fontWeight="bold">Accessibility</Text>
+        <Text fontSize="sm" color="gray.500">
+          {JSON.stringify(formState.errors?.accessibilities?.message)}
+        </Text>
         <HStack spacing={pxToRem(16)}>
           <Checkbox
-            isChecked={watch("accessibility").includes(
+            isChecked={watch("accessibilities").includes(
               CampAccessibilityType.ROAD
             )}
             onChange={() => toggleAccessibility(CampAccessibilityType.ROAD)}
@@ -137,7 +140,7 @@ export default function CampSettingsTab() {
             Road
           </Checkbox>
           <Checkbox
-            isChecked={watch("accessibility").includes(
+            isChecked={watch("accessibilities").includes(
               CampAccessibilityType.WATER
             )}
             onChange={() => toggleAccessibility(CampAccessibilityType.WATER)}
@@ -145,7 +148,7 @@ export default function CampSettingsTab() {
             Water
           </Checkbox>
           <Checkbox
-            isChecked={watch("accessibility").includes(
+            isChecked={watch("accessibilities").includes(
               CampAccessibilityType.AIR
             )}
             onChange={() => toggleAccessibility(CampAccessibilityType.AIR)}
@@ -169,6 +172,8 @@ export default function CampSettingsTab() {
       maxW={pxToRem(800)}
       onSubmit={handleSubmit((data) => onSubmit(data))}
     >
+      <Text>{JSON.stringify(camp?.checkOutTime)}</Text>
+
       {/* Basic inputs */}
       <NameInput register={register} formState={formState} />
       <DescriptionInput register={register} formState={formState} />
@@ -279,7 +284,10 @@ function CheckInHrInput({
   formState,
   setValue,
 }: CampDetailsInputProps & { setValue: UseFormSetValue<CampDetailsInput> }) {
-  var [meridiem, setMeridiem] = useState<"AM" | "PM">("AM");
+  var { camp } = useEditCamp();
+  var [meridiem, setMeridiem] = useState<"AM" | "PM">(
+    camp?.checkInTime?.meridiem ?? "AM"
+  );
 
   return (
     <FormControl>
@@ -363,7 +371,10 @@ function CheckOutHrInput({
   formState,
   setValue,
 }: CampDetailsInputProps & { setValue: UseFormSetValue<CampDetailsInput> }) {
-  var [meridiem, setMeridiem] = useState<"AM" | "PM">("AM");
+  var { camp } = useEditCamp();
+  var [meridiem, setMeridiem] = useState<"AM" | "PM">(
+    camp?.checkOutTime?.meridiem ?? "AM"
+  );
 
   return (
     <FormControl>

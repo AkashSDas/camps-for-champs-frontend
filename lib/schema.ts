@@ -89,7 +89,7 @@ export interface CampDetailsInput {
   checkInTime: { hour: number; minute: number; meridiem: "AM" | "PM" };
   checkOutTime: { hour: number; minute: number; meridiem: "AM" | "PM" };
 
-  accessibility: CampAccessibilityType[];
+  accessibilities: CampAccessibilityType[];
   amenities: Amenity[];
 }
 
@@ -110,9 +110,9 @@ export var campDetailSchema = object({
     meridiem: string().oneOf(["AM", "PM"]).required("Required"),
   }).required("Required"),
 
-  // accessibility: array()
-  //   .optional()
-  //   .oneOf(Object.values(CampAccessibilityType) as any[]),
+  // accessibilities: array()
+  //   .oneOf(Object.values(CampAccessibilityType) as any[])
+  //   .required("Required"),
   // amenities: array()
   //   .optional()
   //   .oneOf(Object.values(Amenity) as any[]),

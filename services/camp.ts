@@ -42,7 +42,6 @@ export async function updateCampSettings(
     headers: { Authorization: `Bearer ${accessToken}` },
     data,
   });
-  console.log(response?.data?.camp);
 
   if (response.status == 200) {
     return { success: true, camp: response.data?.camp };
