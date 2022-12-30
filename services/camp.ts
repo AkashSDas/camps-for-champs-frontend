@@ -67,3 +67,27 @@ export async function updateCampLocation(
   }
   return { success: false, error: response.error };
 }
+
+/** Update camp image */
+export async function addCampImage(
+  campId: string,
+  data: FormData,
+  accessToken?: string
+) {
+  var response = await fetchFromCamp(`${campId}/image`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${accessToken}` },
+    data,
+  });
+
+  console.log(response);
+  if (response.status == 200) {
+    return {
+      success: true,
+      camp: response.data?.camp,
+      imageURL: response.data?.imageURL,
+    };
+  }
+
+  return { success: false, error: response.error };
+}
