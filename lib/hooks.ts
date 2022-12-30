@@ -69,11 +69,24 @@ export function useCampEditorShallowRouting(defaultTab: string) {
     function () {
       if (!router.query.campId && !navigateToSettings.current) return;
 
-      router.push(
-        `/admin/${router.query.campId}?tab=${defaultTab}`,
-        undefined,
-        { shallow: true }
-      );
+      if (
+        router.query.campId &&
+        (!router.query.tab ||
+          ![
+            "settings",
+            "location",
+            "cancellation-policy",
+            "activity",
+            "image",
+            "tag",
+            "discount",
+          ].includes(router.query.tab as string))
+      )
+        router.push(
+          `/admin/${router.query.campId}?tab=${defaultTab}`,
+          undefined,
+          { shallow: true }
+        );
       navigateToSettings.current = true;
     },
 
