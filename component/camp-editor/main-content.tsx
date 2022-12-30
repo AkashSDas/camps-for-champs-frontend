@@ -6,6 +6,7 @@ import { Box } from "@chakra-ui/react";
 import { useEditCamp } from "../../lib/hooks";
 import { pxToRem } from "../../lib/pxToRem";
 import CampSettingsTab from "./settings";
+import CampLocationSettingsTab from "./location";
 
 export default function MainContent() {
   var router = useRouter();
@@ -18,7 +19,7 @@ export default function MainContent() {
       case "settings":
         return <CampSettingsTab />;
       case "location":
-        return <div>Location</div>;
+        return <CampLocationSettingsTab />;
       case "cancellation-policy":
         return <div>Cancellation Policy</div>;
       case "activity":

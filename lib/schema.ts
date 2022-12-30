@@ -117,3 +117,9 @@ export var campDetailSchema = object({
   //   .optional()
   //   .oneOf(Object.values(Amenity) as any[]),
 }).required("Required");
+
+export var campLocationSchema = object({
+  latitude: number().min(-90).max(90).required("Required"),
+  longitude: number().min(-180).max(180).required("Required"),
+  address: string().min(0).max(512).required("Required"),
+}).required("Required");
