@@ -28,7 +28,7 @@ export default function Promotion() {
       w={pxToRem(660)}
       p={pxToRem(48)}
       rounded="3xl"
-      bg={customTheme.color.brand.lightOrange}
+      bg={customTheme.colors.brand.lightOrange}
       alignItems="center"
       justifyContent="center"
       gap={pxToRem(32)}

@@ -1,4 +1,12 @@
-import { Box, Button, Heading, HStack, Image, Text, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Heading,
+  HStack,
+  Image,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 
 import { theme as customTheme } from "../lib/chakra";
 import { pxToRem } from "../lib/pxToRem";
@@ -19,7 +27,7 @@ function Header() {
       px={pxToRem(72)}
       py={pxToRem(48)}
       gap={pxToRem(32)}
-      backgroundColor={customTheme.color.brand.lightOrange}
+      backgroundColor={customTheme.colors.brand.lightOrange}
       rounded="3xl"
     >
       <VStack maxW={pxToRem(582)} gap={pxToRem(24)} alignItems="start">

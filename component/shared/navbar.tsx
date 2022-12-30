@@ -110,8 +110,8 @@ export default function Navbar() {
               px={pxToRem(8)}
               rounded="full"
               fontSize="md"
-              color={customTheme.color.brand.orange}
-              bg={customTheme.color.brand.lightOrange}
+              color={customTheme.colors.brand.orange}
+              bg={customTheme.colors.brand.lightOrange}
             >
               Admin
             </Badge>
