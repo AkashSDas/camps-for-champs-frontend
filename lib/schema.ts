@@ -83,33 +83,37 @@ export enum Amenity {
 export interface CampDetailsInput {
   name: string;
   description: string;
-  accessibility: CampAccessibilityType[];
-  amenities: Amenity[];
-  checkInTime: { hour: string; mintues: string; meridiem: "AM" | "PM" };
-  checkOutTime: { hour: string; mintues: string; meridiem: "AM" | "PM" };
   price: number;
   campLimit: number;
+
+  checkInTime: { hour: number; minute: number; meridiem: "AM" | "PM" };
+  checkOutTime: { hour: number; minute: number; meridiem: "AM" | "PM" };
+
+  accessibility: CampAccessibilityType[];
+  amenities: Amenity[];
 }
 
 export var campDetailSchema = object({
-  name: string().required("Required"),
-  description: string().required("Required"),
-  accessibility: array()
-    .required("Required")
-    .oneOf(Object.values(CampAccessibilityType) as any[]),
-  amenities: array()
-    .required("Required")
-    .oneOf(Object.values(Amenity) as any[]),
+  name: string().min(0).max(128).required("Required"),
+  description: string().min(0).max(4096).required("Required"),
+  price: number().min(0).optional(),
+  campLimit: number().min(0).optional(),
+
   checkInTime: object({
-    hour: string().required("Required"),
-    mintues: string().required("Required"),
-    meridiem: string().required("Required"),
+    hour: number().min(1).max(12).required("Required"),
+    minute: number().min(0).max(60).required("Required"),
+    meridiem: string().oneOf(["AM", "PM"]).required("Required"),
   }).required("Required"),
   checkOutTime: object({
-    hour: string().required("Required"),
-    mintues: string().required("Required"),
-    meridiem: string().required("Required"),
+    hour: number().min(1).max(12).required("Required"),
+    minute: number().min(0).max(60).required("Required"),
+    meridiem: string().oneOf(["AM", "PM"]).required("Required"),
   }).required("Required"),
-  price: number().required("Required"),
-  campLimit: number().required("Required"),
+
+  // accessibility: array()
+  //   .optional()
+  //   .oneOf(Object.values(CampAccessibilityType) as any[]),
+  // amenities: array()
+  //   .optional()
+  //   .oneOf(Object.values(Amenity) as any[]),
 }).required("Required");

@@ -1,12 +1,37 @@
 import { useEffect, useState } from "react";
-import { FormState, useForm, UseFormRegister } from "react-hook-form";
+import {
+  FormState,
+  useForm,
+  UseFormRegister,
+  UseFormSetValue,
+} from "react-hook-form";
 
-import { Box, Button, FormControl, FormErrorMessage, FormLabel, HStack, Input, Radio, Text, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Checkbox,
+  Divider,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Grid,
+  HStack,
+  Input,
+  Radio,
+  SimpleGrid,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useEditCamp, useUser } from "../../lib/hooks";
 import { pxToRem } from "../../lib/pxToRem";
-import { Amenity, CampAccessibilityType, campDetailSchema, CampDetailsInput } from "../../lib/schema";
+import {
+  Amenity,
+  CampAccessibilityType,
+  campDetailSchema,
+  CampDetailsInput,
+} from "../../lib/schema";
 
 export interface CampDetailsInputProps {
   formState: FormState<CampDetailsInput>;
@@ -15,13 +40,13 @@ export interface CampDetailsInputProps {
 
 export default function CampSettingsTab() {
   var { camp } = useEditCamp();
-  var { reset, register, handleSubmit, formState, getValues, setValue, watch } =
+  var { register, handleSubmit, formState, getValues, setValue, watch } =
     useForm<CampDetailsInput>({
       defaultValues: {
         name: camp?.name ?? "",
         description: camp?.description ?? "",
-        price: camp?.price,
-        campLimit: camp?.campLimit,
+        price: camp?.price ?? 0,
+        campLimit: camp?.campLimit ?? 0,
         checkInTime: camp?.checkInTime ?? {
           hour: 0,
           minute: 0,
@@ -35,14 +60,14 @@ export default function CampSettingsTab() {
         amenities: camp?.amenities ?? [],
         accessibility: camp?.accessibility ?? [],
       },
-      // resolver: yupResolver(campDetailSchema),
+      resolver: yupResolver(campDetailSchema),
     });
 
   async function onSubmit(data: CampDetailsInput) {
     console.log(data);
   }
 
-  function AmenityInput() {
+  function AmenityInput(): JSX.Element {
     function toggleAmenity(value: Amenity) {
       if (getValues().amenities.includes(value)) {
         setValue(
@@ -57,22 +82,28 @@ export default function CampSettingsTab() {
     return (
       <VStack align="flex-start" spacing={pxToRem(16)}>
         <Text fontWeight="bold">Amenities</Text>
-        <HStack spacing={pxToRem(16)} flexWrap="wrap" justifyContent="start">
+        <SimpleGrid
+          w="full"
+          minChildWidth={pxToRem(200)}
+          flexWrap="wrap"
+          justifyContent="start"
+        >
           {Object.values(Amenity)?.map((amenity: Amenity) => (
-            <Radio
+            <Checkbox
               key={amenity}
+              pr={pxToRem(16)}
               isChecked={watch("amenities").includes(amenity)}
-              onClick={() => toggleAmenity(amenity)}
+              onChange={() => toggleAmenity(amenity)}
             >
               {amenity}
-            </Radio>
+            </Checkbox>
           ))}
-        </HStack>
+        </SimpleGrid>
       </VStack>
     );
   }
 
-  function Accessibility() {
+  function Accessibility(): JSX.Element {
     function toggleAccessibility(value: CampAccessibilityType) {
       if (getValues().accessibility.includes(value)) {
         setValue(
@@ -88,33 +119,30 @@ export default function CampSettingsTab() {
       <VStack align="flex-start" spacing={pxToRem(16)}>
         <Text fontWeight="bold">Accessibility</Text>
         <HStack spacing={pxToRem(16)}>
-          <Radio
+          <Checkbox
             isChecked={watch("accessibility").includes(
               CampAccessibilityType.ROAD
             )}
-            onClick={() => toggleAccessibility(CampAccessibilityType.ROAD)}
+            onChange={() => toggleAccessibility(CampAccessibilityType.ROAD)}
           >
             Road
-          </Radio>
-          <Radio
+          </Checkbox>
+          <Checkbox
             isChecked={watch("accessibility").includes(
               CampAccessibilityType.WATER
             )}
-            onClick={() => toggleAccessibility(CampAccessibilityType.WATER)}
+            onChange={() => toggleAccessibility(CampAccessibilityType.WATER)}
           >
             Water
-          </Radio>
-          <Radio
+          </Checkbox>
+          <Checkbox
             isChecked={watch("accessibility").includes(
               CampAccessibilityType.AIR
             )}
-            onClick={() => {
-              console.log("air");
-              toggleAccessibility(CampAccessibilityType.AIR);
-            }}
+            onChange={() => toggleAccessibility(CampAccessibilityType.AIR)}
           >
             Air
-          </Radio>
+          </Checkbox>
         </HStack>
       </VStack>
     );
@@ -123,6 +151,7 @@ export default function CampSettingsTab() {
   return (
     <Box
       as="form"
+      mb={pxToRem(64)}
       display="flex"
       flexDirection="column"
       justifyContent="center"
@@ -131,12 +160,25 @@ export default function CampSettingsTab() {
       maxW={pxToRem(800)}
       onSubmit={handleSubmit((data) => onSubmit(data))}
     >
+      {/* Basic inputs */}
       <NameInput register={register} formState={formState} />
       <DescriptionInput register={register} formState={formState} />
       <PriceInput register={register} formState={formState} />
       <CampUnitLimitInput register={register} formState={formState} />
-      <CheckInHrInput register={register} formState={formState} />
-      <CheckOutHrInput register={register} formState={formState} />
+
+      {/* Complex inputs */}
+
+      <CheckInHrInput
+        register={register}
+        formState={formState}
+        setValue={setValue}
+      />
+      <CheckOutHrInput
+        register={register}
+        formState={formState}
+        setValue={setValue}
+      />
+
       <Accessibility />
       <AmenityInput />
 
@@ -156,8 +198,53 @@ function NameInput({ register, formState }: CampDetailsInputProps) {
   return (
     <FormControl>
       <FormLabel htmlFor="name">Name</FormLabel>
-      <Input type="text" variant="base" {...register("name")} />
+      <Input
+        type="text"
+        variant="base"
+        {...register("name")}
+        minLength={0}
+        maxLength={128}
+        required
+      />
       <FormErrorMessage>{formState.errors.name?.message}</FormErrorMessage>
+    </FormControl>
+  );
+}
+
+function DescriptionInput({ register, formState }: CampDetailsInputProps) {
+  return (
+    <FormControl>
+      <FormLabel htmlFor="description">Description</FormLabel>
+      <Input
+        as="textarea"
+        type="text"
+        variant="base"
+        {...register("description")}
+        h={pxToRem(180)}
+        p={pxToRem(16)}
+        minLength={0}
+        maxLength={4096}
+        required
+      />
+      <FormErrorMessage>
+        {formState.errors.description?.message}
+      </FormErrorMessage>
+    </FormControl>
+  );
+}
+
+function PriceInput({ register, formState }: CampDetailsInputProps) {
+  return (
+    <FormControl>
+      <FormLabel htmlFor="price">Price</FormLabel>
+      <Input
+        type="number"
+        variant="base"
+        {...register("price")}
+        min={0}
+        required
+      />
+      <FormErrorMessage>{formState.errors.price?.message}</FormErrorMessage>
     </FormControl>
   );
 }
@@ -166,13 +253,107 @@ function CampUnitLimitInput({ register, formState }: CampDetailsInputProps) {
   return (
     <FormControl>
       <FormLabel htmlFor="campLimit">Camp Limit</FormLabel>
-      <Input type="number" variant="base" {...register("campLimit")} />
+      <Input
+        type="number"
+        variant="base"
+        {...register("campLimit")}
+        min={0}
+        required
+      />
       <FormErrorMessage>{formState.errors.campLimit?.message}</FormErrorMessage>
     </FormControl>
   );
 }
 
-function CheckOutHrInput({ register, formState }: CampDetailsInputProps) {
+function CheckInHrInput({
+  register,
+  formState,
+  setValue,
+}: CampDetailsInputProps & { setValue: UseFormSetValue<CampDetailsInput> }) {
+  var [meridiem, setMeridiem] = useState<"AM" | "PM">("AM");
+
+  return (
+    <FormControl>
+      <FormLabel>Check in time</FormLabel>
+
+      <HStack gap={pxToRem(32)}>
+        {/* Hour */}
+        <VStack>
+          <HStack gap={pxToRem(12)}>
+            <Input
+              type="number"
+              variant="base"
+              {...register("checkInTime.hour")}
+              min={1}
+              max={12}
+              w={pxToRem(100)}
+            />
+
+            <Text fontWeight="medium">hr</Text>
+          </HStack>
+
+          <FormErrorMessage>
+            {formState.errors.checkInTime?.hour?.message}
+          </FormErrorMessage>
+        </VStack>
+
+        {/* Minute */}
+        <VStack>
+          <HStack gap={pxToRem(12)}>
+            <Input
+              type="number"
+              variant="base"
+              {...register("checkInTime.minute")}
+              min={0}
+              max={60}
+              w={pxToRem(100)}
+            />
+
+            <Text fontWeight="medium">min</Text>
+          </HStack>
+
+          <FormErrorMessage>
+            {formState.errors.checkInTime?.minute?.message}
+          </FormErrorMessage>
+        </VStack>
+
+        {/* Meridiem */}
+        <HStack>
+          <Text
+            fontFamily="heading"
+            color={meridiem == "AM" ? "#DF6531" : ""}
+            fontWeight="medium"
+            cursor="pointer"
+            onClick={() => {
+              setMeridiem("PM");
+              setValue("checkInTime.meridiem", "AM");
+            }}
+          >
+            AM
+          </Text>
+          <Text
+            fontFamily="heading"
+            color={meridiem == "PM" ? "#DF6531" : ""}
+            fontWeight="medium"
+            cursor="pointer"
+            onClick={() => {
+              setMeridiem("PM");
+              setValue("checkInTime.meridiem", "PM");
+            }}
+          >
+            PM
+          </Text>
+        </HStack>
+      </HStack>
+    </FormControl>
+  );
+}
+
+function CheckOutHrInput({
+  register,
+  formState,
+  setValue,
+}: CampDetailsInputProps & { setValue: UseFormSetValue<CampDetailsInput> }) {
   var [meridiem, setMeridiem] = useState<"AM" | "PM">("AM");
 
   return (
@@ -206,7 +387,7 @@ function CheckOutHrInput({ register, formState }: CampDetailsInputProps) {
             <Input
               type="number"
               variant="base"
-              {...register("checkOutTime.mintues")}
+              {...register("checkOutTime.minute")}
               min={0}
               max={60}
               w={pxToRem(100)}
@@ -216,7 +397,7 @@ function CheckOutHrInput({ register, formState }: CampDetailsInputProps) {
           </HStack>
 
           <FormErrorMessage>
-            {formState.errors.checkOutTime?.mintues?.message}
+            {formState.errors.checkOutTime?.minute?.message}
           </FormErrorMessage>
         </VStack>
 
@@ -227,7 +408,10 @@ function CheckOutHrInput({ register, formState }: CampDetailsInputProps) {
             color={meridiem == "AM" ? "#DF6531" : ""}
             fontWeight="medium"
             cursor="pointer"
-            onClick={() => setMeridiem("AM")}
+            onClick={() => {
+              setMeridiem("PM");
+              setValue("checkOutTime.meridiem", "AM");
+            }}
           >
             AM
           </Text>
@@ -236,115 +420,15 @@ function CheckOutHrInput({ register, formState }: CampDetailsInputProps) {
             color={meridiem == "PM" ? "#DF6531" : ""}
             fontWeight="medium"
             cursor="pointer"
-            onClick={() => setMeridiem("PM")}
+            onClick={() => {
+              setMeridiem("PM");
+              setValue("checkOutTime.meridiem", "PM");
+            }}
           >
             PM
           </Text>
         </HStack>
       </HStack>
-    </FormControl>
-  );
-}
-
-function CheckInHrInput({ register, formState }: CampDetailsInputProps) {
-  var [meridiem, setMeridiem] = useState<"AM" | "PM">("AM");
-
-  return (
-    <FormControl>
-      <FormLabel>Check in time</FormLabel>
-
-      <HStack gap={pxToRem(32)}>
-        {/* Hour */}
-        <VStack>
-          <HStack gap={pxToRem(12)}>
-            <Input
-              type="number"
-              variant="base"
-              {...register("checkInTime.hour")}
-              min={0}
-              max={24}
-              w={pxToRem(100)}
-            />
-
-            <Text fontWeight="medium">hr</Text>
-          </HStack>
-
-          <FormErrorMessage>
-            {formState.errors.checkInTime?.hour?.message}
-          </FormErrorMessage>
-        </VStack>
-
-        {/* Minute */}
-        <VStack>
-          <HStack gap={pxToRem(12)}>
-            <Input
-              type="number"
-              variant="base"
-              {...register("checkInTime.mintues")}
-              min={0}
-              max={60}
-              w={pxToRem(100)}
-            />
-
-            <Text fontWeight="medium">min</Text>
-          </HStack>
-
-          <FormErrorMessage>
-            {formState.errors.checkInTime?.mintues?.message}
-          </FormErrorMessage>
-        </VStack>
-
-        {/* Meridiem */}
-        <HStack>
-          <Text
-            fontFamily="heading"
-            color={meridiem == "AM" ? "#DF6531" : ""}
-            fontWeight="medium"
-            cursor="pointer"
-            onClick={() => setMeridiem("AM")}
-          >
-            AM
-          </Text>
-          <Text
-            fontFamily="heading"
-            color={meridiem == "PM" ? "#DF6531" : ""}
-            fontWeight="medium"
-            cursor="pointer"
-            onClick={() => setMeridiem("PM")}
-          >
-            PM
-          </Text>
-        </HStack>
-      </HStack>
-    </FormControl>
-  );
-}
-
-function DescriptionInput({ register, formState }: CampDetailsInputProps) {
-  return (
-    <FormControl>
-      <FormLabel htmlFor="description">Description</FormLabel>
-      <Input
-        as="textarea"
-        type="text"
-        variant="base"
-        {...register("description")}
-        h={pxToRem(180)}
-        p={pxToRem(16)}
-      />
-      <FormErrorMessage>
-        {formState.errors.description?.message}
-      </FormErrorMessage>
-    </FormControl>
-  );
-}
-
-function PriceInput({ register, formState }: CampDetailsInputProps) {
-  return (
-    <FormControl>
-      <FormLabel htmlFor="price">Price</FormLabel>
-      <Input type="number" variant="base" {...register("price")} />
-      <FormErrorMessage>{formState.errors.price?.message}</FormErrorMessage>
     </FormControl>
   );
 }
