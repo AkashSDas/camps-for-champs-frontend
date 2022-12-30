@@ -46,6 +46,10 @@ export default function Navbar() {
       role="navigation"
       justify="space-between"
       alignItems="center"
+      position="sticky"
+      top={0}
+      zIndex={10}
+      bg="white"
       h={pxToRem(60)}
       mx={pxToRem(32)}
     >

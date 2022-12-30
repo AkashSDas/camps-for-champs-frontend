@@ -127,9 +127,7 @@ export default function CampSettingsTab() {
     return (
       <VStack align="flex-start" spacing={pxToRem(16)}>
         <Text fontWeight="bold">Accessibility</Text>
-        <Text fontSize="sm" color="gray.500">
-          {JSON.stringify(formState.errors?.accessibilities?.message)}
-        </Text>
+
         <HStack spacing={pxToRem(16)}>
           <Checkbox
             isChecked={watch("accessibilities").includes(
@@ -172,8 +170,6 @@ export default function CampSettingsTab() {
       maxW={pxToRem(800)}
       onSubmit={handleSubmit((data) => onSubmit(data))}
     >
-      <Text>{JSON.stringify(camp?.checkOutTime)}</Text>
-
       {/* Basic inputs */}
       <NameInput register={register} formState={formState} />
       <DescriptionInput register={register} formState={formState} />
