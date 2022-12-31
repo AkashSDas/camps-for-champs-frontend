@@ -7,6 +7,7 @@ import { useEditCamp } from "../../lib/hooks";
 import { pxToRem } from "../../lib/pxToRem";
 import CampSettingsTab from "./settings";
 import CampLocationSettingsTab from "./location";
+import CancellationPolicyTab from "./cancellation-policy-tab";
 
 export default function MainContent() {
   var router = useRouter();
@@ -21,7 +22,7 @@ export default function MainContent() {
       case "location":
         return <CampLocationSettingsTab />;
       case "cancellation-policy":
-        return <div>Cancellation Policy</div>;
+        return <CancellationPolicyTab />;
       case "activity":
         return <div>Activity</div>;
       case "image":

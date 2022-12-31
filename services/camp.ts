@@ -1,4 +1,5 @@
 import { AxiosRequestConfig } from "axios";
+import { CancellationPolicyInput } from "../component/camp-editor/cancellation-policy-tab";
 import { CampLocationInput } from "../component/camp-editor/location";
 import { CampDetailsInput } from "../lib/schema";
 
@@ -35,7 +36,9 @@ export async function getCampInfo(campId: string) {
 /** Update camp settings */
 export async function updateCampSettings(
   campId: string,
-  data: CampDetailsInput,
+  data: Partial<
+    CampDetailsInput & { cancellationPolicy?: CancellationPolicyInput }
+  >,
   accessToken?: string
 ) {
   var response = await fetchFromCamp(`${campId}/details`, {
