@@ -8,6 +8,7 @@ import { pxToRem } from "../../lib/pxToRem";
 import CampSettingsTab from "./settings";
 import CampLocationSettingsTab from "./location";
 import CancellationPolicyTab from "./cancellation-policy-tab";
+import ActivityTab from "./activity-tab";
 
 export default function MainContent() {
   var router = useRouter();
@@ -24,7 +25,7 @@ export default function MainContent() {
       case "cancellation-policy":
         return <CancellationPolicyTab />;
       case "activity":
-        return <div>Activity</div>;
+        return <ActivityTab />;
       case "image":
         return <div>Image</div>;
       case "tag":

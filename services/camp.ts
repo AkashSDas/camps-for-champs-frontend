@@ -1,4 +1,5 @@
 import { AxiosRequestConfig } from "axios";
+import { ActivityInput } from "../component/camp-editor/activity-tab";
 import { CancellationPolicyInput } from "../component/camp-editor/cancellation-policy-tab";
 import { CampLocationInput } from "../component/camp-editor/location";
 import { CampDetailsInput } from "../lib/schema";
@@ -37,7 +38,9 @@ export async function getCampInfo(campId: string) {
 export async function updateCampSettings(
   campId: string,
   data: Partial<
-    CampDetailsInput & { cancellationPolicy?: CancellationPolicyInput }
+    CampDetailsInput & { cancellationPolicy?: CancellationPolicyInput } & {
+      activities: ActivityInput[];
+    }
   >,
   accessToken?: string
 ) {
@@ -47,6 +50,7 @@ export async function updateCampSettings(
     data,
   });
 
+  console.log(response);
   if (response.status == 200) {
     return { success: true, camp: response.data?.camp };
   }
