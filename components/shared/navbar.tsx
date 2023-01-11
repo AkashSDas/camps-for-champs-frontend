@@ -36,7 +36,9 @@ export default function Navbar(): JSX.Element {
           <LogoutIcon className="icon-normal-stroke" />
         </IconButton>
 
-        <Button variant="inverted">Get started</Button>
+        <Button data-testid="get-started" variant="inverted">
+          Get started
+        </Button>
       </HStack>
     </HStack>
   );
