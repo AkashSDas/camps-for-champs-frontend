@@ -32,12 +32,12 @@ var colors = {
     blue2: "#73A3F4",
     blue3: "#4285F4",
     blue4: "#2976F4",
-    gray0: "#FFFFFF",
-    gray1: "#F5F5F5",
-    gray2: "#EDEDED",
-    gray3: "#D1D1D1",
-    gray4: "#545454",
-    gray5: "#22201F",
+    grey0: "#FFFFFF",
+    grey1: "#F5F5F5",
+    grey2: "#EDEDED",
+    grey3: "#D1D1D1",
+    grey4: "#545454",
+    grey5: "#22201F",
     orange0: "#FFFBFA",
     orange1: "#FFEAE0",
     orange2: "#FFB494",
@@ -48,7 +48,32 @@ var colors = {
   },
 };
 
+var Button = {
+  variants: {
+    inverted: {
+      bg: colors.b.orange1,
+      color: colors.b.orange6,
+      fontFamily: "body",
+      fontWeight: "normal",
+      rounded: "full",
+      fontSize: "md",
+      h: pxToRem(40),
+      px: pxToRem(12),
+      _hover: { bg: "#FFDBCC" },
+      _active: { bg: "#FFCFBA" },
+    },
+    "icon-ghost": {
+      h: pxToRem(40),
+      px: pxToRem(10),
+      rounded: pxToRem(14),
+      _hover: { bg: colors.b.grey1 },
+      _active: { bg: colors.b.grey2 },
+    },
+  },
+};
+
 export var theme = extendTheme({
   fonts,
   colors,
+  components: { Button },
 });

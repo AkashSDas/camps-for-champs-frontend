@@ -1,0 +1,15 @@
+@keyframes wiggle {
+  0%,
+  100% {
+    padding-inline: 12px;
+    height: 40px;
+  }
+  50% {
+    padding-inline: 24px;
+    height: 36px;
+  }
+}
+
+.icon-normal-stroke {
+  stroke: #545454;
+}
