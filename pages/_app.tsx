@@ -4,6 +4,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { Poppins } from "@next/font/google";
 import localFont from "@next/font/local";
 
+import Layout from "../components/shared/layout";
 import { theme } from "../lib/chakra-ui";
 
 import type { AppProps } from "next/app";
@@ -17,7 +18,9 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <div className={`${poppins.className} ${cubano.className}`}>
       <ChakraProvider theme={theme}>
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </ChakraProvider>
     </div>
   );
