@@ -8,7 +8,11 @@ import Layout from "../components/shared/layout";
 import { theme } from "../lib/chakra-ui";
 
 import type { AppProps } from "next/app";
-const poppins = Poppins({ weight: ["400", "500", "600", "700", "800", "900"] });
+
+const poppins = Poppins({
+  weight: ["400", "500", "600", "700", "800", "900"],
+  variable: "--font-poppins",
+});
 const cubano = localFont({
   src: "../public/cubano.ttf",
   variable: "--font-cubano",

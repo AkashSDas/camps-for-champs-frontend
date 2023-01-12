@@ -9,7 +9,7 @@ export function pxToRem(px: number): string {
 // =====================================
 
 var fonts = {
-  heading: "Cubanor, sans-serif",
+  heading: "Cubano, sans-serif",
   body: "Poppins, sans-serif",
   button: "Poppins, sans-serif",
 };
