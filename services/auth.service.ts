@@ -1,5 +1,6 @@
 import fetchFromAPI from "../lib/axios";
 import { LoginInput, SignupInput } from "../lib/input-schema";
+import { GetNewAccessTokenResponse } from "./types/auth.service.type";
 
 export async function signup(data: SignupInput) {
   var response = await fetchFromAPI("/auth/email-signup", {
@@ -19,7 +20,7 @@ export async function signup(data: SignupInput) {
   return { message: response.error.message, success: false };
 }
 
-export async function getNewAccessToken() {
+export async function getNewAccessToken(): Promise<GetNewAccessTokenResponse> {
   var response = await fetchFromAPI("/auth/access-token", { method: "GET" });
 
   if (response.statusCode == 200) {
