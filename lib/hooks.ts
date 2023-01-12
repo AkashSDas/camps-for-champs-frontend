@@ -3,7 +3,10 @@ import { useQuery } from "react-query";
 import { getNewAccessToken } from "../services/auth.service";
 
 export function useUser() {
-  var { data, status } = useQuery("user", getNewAccessToken);
+  var { data, status } = useQuery("user", getNewAccessToken, {
+    retry: false,
+    refetchOnWindowFocus: false,
+  });
 
   return {
     isLoggedIn: !!data?.user,
