@@ -18,16 +18,15 @@ async function fetchFromAPI(URL: string, config: AxiosRequestConfig) {
           data: { message: "Network Error" },
         };
       }
-    } else
+    } else {
       throw new Error("Error occurred while making request to the backend");
+    }
   }
 
   return {
     statusCode: response!?.status ?? error?.status ?? 500,
     data: response!?.data ?? error?.data ?? {},
-    error: error?.data ?? {
-      message: "Error occurred while making request to the backend",
-    },
+    error: error?.data,
     success: response!?.status < 300,
   };
 }
