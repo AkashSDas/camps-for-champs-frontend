@@ -17,3 +17,16 @@ export async function signup(data: SignupInput) {
 
   return { message: response.error.message };
 }
+
+export async function getNewAccessToken() {
+  var response = await fetchFromAPI("/auth/access-token", { method: "GET" });
+
+  if (response.statusCode == 200) {
+    return {
+      user: response.data.user,
+      accessToken: response.data.accessToken,
+    };
+  }
+
+  return { message: response.error.message };
+}
