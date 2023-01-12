@@ -51,3 +51,16 @@ export async function login(data: LoginInput) {
 
   return { message: response.error.message, success: false };
 }
+
+export async function logout(accessToken: string) {
+  var response = await fetchFromAPI("/auth/logout", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+
+  if (response.statusCode == 200) {
+    return { success: true, message: "Successfully logged out" };
+  }
+
+  return { message: response.error.message, success: false };
+}

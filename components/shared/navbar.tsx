@@ -1,14 +1,45 @@
 import NextLink from "next/link";
+import { useMutation } from "react-query";
 
-import { Button, Center, Divider, HStack, IconButton } from "@chakra-ui/react";
+import { Button, Center, Divider, HStack, IconButton, useToast } from "@chakra-ui/react";
 
 import { pxToRem, theme } from "../../lib/chakra-ui";
 import { useUser } from "../../lib/hooks";
+import { queryClient } from "../../lib/react-query";
+import { logout } from "../../services/auth.service";
+import { GetNewAccessTokenResponse } from "../../services/types/auth.service.type";
 import { LoginIcon, LogoutIcon, SearchIcon } from "../icons";
 import Logo from "../icons/logo";
 
 export default function Navbar(): JSX.Element {
-  var { isLoggedIn } = useUser();
+  var toast = useToast();
+  var { isLoggedIn, accessToken } = useUser();
+
+  var mutation = useMutation({
+    mutationFn: () => logout(accessToken as string),
+    onMutate: async function handelLogoutMutation() {
+      var previousData = queryClient.getQueryData(
+        "user"
+      ) as GetNewAccessTokenResponse;
+
+      queryClient.setQueryData("user", {
+        success: false,
+        message: "User is logged out",
+        user: undefined,
+        accessToken: undefined,
+      } as GetNewAccessTokenResponse);
+
+      toast({
+        title: "Logged out",
+        description: "You have been logged out successfully",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+
+      return { previousData };
+    },
+  });
 
   return (
     <HStack
@@ -38,7 +69,11 @@ export default function Navbar(): JSX.Element {
         </Center>
 
         {isLoggedIn ? (
-          <IconButton aria-label="Logout" variant="icon-ghost">
+          <IconButton
+            aria-label="Logout user"
+            variant="icon-ghost"
+            onClick={() => mutation.mutate()}
+          >
             <LogoutIcon className="icon-normal-stroke" />
           </IconButton>
         ) : (
