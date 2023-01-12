@@ -74,6 +74,17 @@ var Button = {
       _hover: { bg: "#EB5413" },
       _active: { bg: "#D64C11" },
     },
+    outline: {
+      _hover: { bg: colors.b.grey1 },
+      _active: { bg: colors.b.grey2 },
+      fontFamily: "body",
+      fontWeight: "medium",
+      rounded: "full",
+      fontSize: "md",
+      h: pxToRem(40),
+      px: pxToRem(24),
+      border: `1px solid ${colors.b.grey3}`,
+    },
     "icon-ghost": {
       h: pxToRem(40),
       px: pxToRem(10),
