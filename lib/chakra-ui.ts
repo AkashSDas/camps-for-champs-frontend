@@ -62,6 +62,18 @@ var Button = {
       _hover: { bg: "#FFDBCC" },
       _active: { bg: "#FFCFBA" },
     },
+    solid: {
+      bg: colors.b.orange5,
+      color: colors.b.grey0,
+      fontFamily: "body",
+      fontWeight: "normal",
+      rounded: "full",
+      fontSize: "md",
+      h: pxToRem(40),
+      px: pxToRem(24),
+      _hover: { bg: "#EB5413" },
+      _active: { bg: "#D64C11" },
+    },
     "icon-ghost": {
       h: pxToRem(40),
       px: pxToRem(10),
@@ -72,8 +84,51 @@ var Button = {
   },
 };
 
+var Text = {
+  baseStyle: {
+    fontFamily: "body",
+    color: colors.b.grey4,
+  },
+};
+
+var FormLabel = {
+  baseStyle: {
+    color: colors.b.grey4,
+    fontFamily: "body",
+    fontWeight: "medium",
+    fontSize: "sm",
+  },
+};
+
+var Input = {
+  defaultProps: {
+    variant: "base",
+  },
+  variants: {
+    base: {
+      field: {
+        border: "0px solid",
+        borderBottom: "2px solid",
+        bg: colors.b.grey1,
+        borderColor: colors.b.grey4,
+        borderRadius: "0",
+        h: pxToRem(40),
+        fontFamily: "body",
+        fontWeight: "medium",
+        outline: "0",
+      },
+    },
+  },
+};
+
+var Heading = {
+  baseStyle: {
+    color: colors.b.grey5,
+  },
+};
+
 export var theme = extendTheme({
   fonts,
   colors,
-  components: { Button },
+  components: { Button, Heading, Text, FormLabel, Input },
 });

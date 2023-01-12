@@ -9,13 +9,14 @@ export async function signup(data: SignupInput) {
 
   if (response.statusCode == 201) {
     return {
+      success: true,
       message: "Account created successfully",
       user: response.data.user,
       accessToken: response.data.accessToken,
     };
   }
 
-  return { message: response.error.message };
+  return { message: response.error.message, success: false };
 }
 
 export async function getNewAccessToken() {
@@ -23,10 +24,11 @@ export async function getNewAccessToken() {
 
   if (response.statusCode == 200) {
     return {
+      success: true,
       user: response.data.user,
       accessToken: response.data.accessToken,
     };
   }
 
-  return { message: response.error.message };
+  return { message: response.error.message, success: false };
 }
