@@ -1,10 +1,15 @@
+import NextLink from "next/link";
+
 import { Button, Center, Divider, HStack, IconButton } from "@chakra-ui/react";
 
 import { pxToRem, theme } from "../../lib/chakra-ui";
-import { LogoutIcon, SearchIcon } from "../icons";
+import { useUser } from "../../lib/hooks";
+import { LoginIcon, LogoutIcon, SearchIcon } from "../icons";
 import Logo from "../icons/logo";
 
 export default function Navbar(): JSX.Element {
+  var { isLoggedIn } = useUser();
+
   return (
     <HStack
       as="nav"
@@ -32,13 +37,25 @@ export default function Navbar(): JSX.Element {
           />
         </Center>
 
-        <IconButton aria-label="Logout user" variant="icon-ghost">
-          <LogoutIcon className="icon-normal-stroke" />
-        </IconButton>
+        {isLoggedIn ? (
+          <IconButton aria-label="Logout" variant="icon-ghost">
+            <LogoutIcon className="icon-normal-stroke" />
+          </IconButton>
+        ) : (
+          <NextLink href="/auth/login">
+            <IconButton aria-label="Login with email" variant="icon-ghost">
+              <LoginIcon className="icon-normal-stroke" />
+            </IconButton>
+          </NextLink>
+        )}
 
-        <Button data-testid="get-started" variant="inverted">
-          Get started
-        </Button>
+        {!isLoggedIn && (
+          <NextLink href="/auth/signup">
+            <Button data-testid="get-started" variant="inverted">
+              Get started
+            </Button>
+          </NextLink>
+        )}
       </HStack>
     </HStack>
   );
