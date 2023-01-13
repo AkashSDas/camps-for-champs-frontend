@@ -99,3 +99,22 @@ export async function cancelOauthSignup(accessToken: string) {
 
   return { message: response.error.message, success: false };
 }
+
+export async function createOauthSession(token: string) {
+  var response = await fetchFromAPI("/auth/oauth-session", {
+    method: "POST",
+    data: { token },
+  });
+
+  if (response.statusCode == 200) {
+    return {
+      success: true,
+      message: "Session created",
+      user: response.data.user,
+      accessToken: response.data.accessToken,
+    };
+  }
+
+  console.log(response.statusCode);
+  return { message: response.error.message, success: false };
+}
