@@ -29,7 +29,6 @@ export default function SignupSection(): JSX.Element {
   var mutation = useMutation({
     mutationFn: () => createOauthSession(router.query?.token as string),
     onSuccess: async function updateUser(data, _variables, _context) {
-      console.log(data);
       if (!data.success) {
         toast({
           title: "Failed to create session",
