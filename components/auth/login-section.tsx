@@ -1,6 +1,8 @@
 import NextLink from "next/link";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
-import { Button, Heading, HStack, Text, VStack } from "@chakra-ui/react";
+import { Button, Heading, HStack, Text, useToast, VStack } from "@chakra-ui/react";
 
 import { pxToRem, theme } from "../../lib/chakra-ui";
 import { useUser } from "../../lib/hooks";
@@ -9,6 +11,8 @@ import LoginForm from "./login-form";
 
 export default function LoginSection(): JSX.Element {
   var { isLoggedIn } = useUser();
+  var toast = useToast();
+  var router = useRouter();
 
   function openLoginWindow(provider: "google" | "facebook" | "twitter") {
     window.open(
@@ -16,6 +20,25 @@ export default function LoginSection(): JSX.Element {
       "_self"
     );
   }
+
+  useEffect(
+    function checkInvalidOAuthSignup() {
+      if (router.query?.info == "signup-invalid") {
+        toast({
+          title: "Signup is incomplete",
+          description: "You're signup process is incomplete",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+
+      router.push("/auth/login", undefined, { shallow: true });
+    },
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [router.query?.info]
+  );
 
   return (
     <VStack justifyContent="center" gap={pxToRem(32)} px={pxToRem(64)}>
