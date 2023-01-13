@@ -27,3 +27,7 @@ export var loginSchema = object({
     )
     .required("Required"),
 }).required("Required");
+
+export var completeOauthSignupSchema = object({
+  email: string().email("Invalid").required("Required"),
+}).required("Required");

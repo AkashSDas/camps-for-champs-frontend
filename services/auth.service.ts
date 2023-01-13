@@ -1,5 +1,5 @@
 import fetchFromAPI from "../lib/axios";
-import { LoginInput, SignupInput } from "../lib/input-schema";
+import { CompleteOauthSignupInput, LoginInput, SignupInput } from "../lib/input-schema";
 import { GetNewAccessTokenResponse } from "./types/auth.service.type";
 
 export async function signup(data: SignupInput) {
@@ -60,6 +60,29 @@ export async function logout(accessToken: string) {
 
   if (response.statusCode == 200) {
     return { success: true, message: "Successfully logged out" };
+  }
+
+  return { message: response.error.message, success: false };
+}
+
+export async function completeOauthSignup(
+  accessToken: string,
+  input: CompleteOauthSignupInput
+) {
+  var response = await fetchFromAPI("/auth/complete-oauth-signup", {
+    method: "PUT",
+    data: input,
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+  console.log(response);
+
+  if (response.statusCode == 200) {
+    return {
+      success: true,
+      message: "Signup completed",
+      user: response.data.user,
+      accessToken: response.data.accessToken,
+    };
   }
 
   return { message: response.error.message, success: false };

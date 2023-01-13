@@ -9,7 +9,7 @@ export function useUser() {
   });
 
   return {
-    isLoggedIn: !!data?.user,
+    isLoggedIn: !!data?.user && !!data?.accessToken && !!data?.user?.email,
     user: data?.user,
     accessToken: data?.accessToken,
     message: data?.message,
