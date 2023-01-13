@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 
@@ -15,12 +16,20 @@ import { completeOauthSignup, signup } from "../../services/auth.service";
 export default function CompleteSignupForm(): JSX.Element {
   var toast = useToast();
   var router = useRouter();
-  var { accessToken } = useUser();
+  var { user, accessToken } = useUser();
   var { reset, register, handleSubmit, formState } =
     useForm<CompleteOauthSignupInput>({
       defaultValues: { email: "" },
       resolver: yupResolver(completeOauthSignupSchema),
     });
+
+  useEffect(
+    function redirectUserWithOauthIsCompleted() {
+      // Condition when user oauth is completed
+      if (user?.email) router.push("/");
+    },
+    [router, user?.email]
+  );
 
   var mutation = useMutation({
     mutationFn: (data: CompleteOauthSignupInput) =>
