@@ -6,6 +6,7 @@ export function useUser() {
   var { data, status } = useQuery("user", getNewAccessToken, {
     retry: false,
     refetchOnWindowFocus: false,
+    refetchInterval: 5 * 60 * 1000, // Refresh every 30 minutes (access token expires in 5mins)
   });
 
   return {
