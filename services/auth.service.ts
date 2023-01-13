@@ -74,7 +74,6 @@ export async function completeOauthSignup(
     data: input,
     headers: { Authorization: `Bearer ${accessToken}` },
   });
-  console.log(response);
 
   if (response.statusCode == 200) {
     return {
@@ -83,6 +82,19 @@ export async function completeOauthSignup(
       user: response.data.user,
       accessToken: response.data.accessToken,
     };
+  }
+
+  return { message: response.error.message, success: false };
+}
+
+export async function cancelOauthSignup(accessToken: string) {
+  var response = await fetchFromAPI("/auth/cancel-oauth-signup", {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+
+  if (response.statusCode == 200) {
+    return { success: true, message: "Signup cancelled" };
   }
 
   return { message: response.error.message, success: false };

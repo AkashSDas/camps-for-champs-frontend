@@ -5,6 +5,7 @@ import { Button, Heading, HStack, Text, VStack } from "@chakra-ui/react";
 import { pxToRem, theme } from "../../lib/chakra-ui";
 import { useUser } from "../../lib/hooks";
 import { FacebookIcon, GoogleIcon, TwitterIcon } from "../icons/social";
+import CancelOauthSignup from "./cancel-oauth-signup";
 import CompleteSignupForm from "./complete-signup-form";
 import SignupForm from "./signup-form";
 
@@ -27,7 +28,7 @@ export default function SignupSection(): JSX.Element {
       {isLoggedIn && (
         <Text w="full" maxW={pxToRem(400)} textAlign="center" fontSize="sm">
           Your account will be connected to your new CampsForChamps account.
-          Wrong identity? Cancel
+          Wrong identity? <CancelOauthSignup />
         </Text>
       )}
 
