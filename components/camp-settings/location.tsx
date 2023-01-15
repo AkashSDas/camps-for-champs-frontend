@@ -17,8 +17,8 @@ export default function LocationSettings() {
   var { register, handleSubmit, formState } = useForm({
     defaultValues: {
       address: camp?.address ?? "",
-      latitude: camp?.coordinates ? camp.coordinates[0] : undefined,
-      longitude: camp?.coordinates ? camp.coordinates[1] : undefined,
+      latitude: camp?.location ? camp.location.coordinates[0] : undefined,
+      longitude: camp?.location ? camp.location.coordinates[1] : undefined,
       googleMapURL: camp?.googleMapURL ?? undefined,
     },
   });

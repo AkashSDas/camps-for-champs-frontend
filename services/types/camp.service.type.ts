@@ -17,7 +17,10 @@ export interface Camp {
   };
   googleMapURL?: string;
   address?: string;
-  coordinates?: number[];
+  location?: {
+    type: "Point";
+    coordinates: number[];
+  };
 }
 
 export interface GetCampResponse {
