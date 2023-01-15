@@ -85,6 +85,13 @@ var Button = {
       px: pxToRem(24),
       border: `1px solid ${colors.b.grey3}`,
     },
+    ghost: {
+      h: pxToRem(40),
+      px: pxToRem(10),
+      rounded: pxToRem(14),
+      _hover: { bg: colors.b.grey1 },
+      _active: { bg: colors.b.grey2 },
+    },
     "icon-ghost": {
       h: pxToRem(40),
       px: pxToRem(10),
