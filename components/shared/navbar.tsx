@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect } from "react";
 import { useMutation } from "react-query";
 
-import { Button, Center, Divider, HStack, IconButton, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverFooter, PopoverHeader, PopoverTrigger, Portal, Spinner, Text, Tooltip, useToast } from "@chakra-ui/react";
+import { Button, Center, Divider, HStack, IconButton, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverFooter, PopoverHeader, PopoverTrigger, Portal, Spinner, Text, Tooltip, useDisclosure, useToast } from "@chakra-ui/react";
 
 import { pxToRem, theme } from "../../lib/chakra-ui";
 import { useUser } from "../../lib/hooks";
@@ -43,6 +43,8 @@ export default function Navbar(): JSX.Element {
       return { previousData };
     },
   });
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <HStack
@@ -103,7 +105,14 @@ export default function Navbar(): JSX.Element {
 
         {isLoggedIn && (
           <Tooltip label="Settings">
-            <Popover closeOnEsc gutter={4} variant="responsive">
+            <Popover
+              closeOnEsc
+              gutter={4}
+              variant="responsive"
+              onClose={onClose}
+              onOpen={onOpen}
+              isOpen={isOpen}
+            >
               {/* Trigger */}
               <PopoverTrigger>
                 <IconButton
@@ -115,7 +124,7 @@ export default function Navbar(): JSX.Element {
               </PopoverTrigger>
 
               {/* Section */}
-              <UserPopoverContent />
+              <UserPopoverContent handleClose={onClose} />
             </Popover>
           </Tooltip>
         )}
@@ -124,7 +133,7 @@ export default function Navbar(): JSX.Element {
   );
 }
 
-function UserPopoverContent() {
+function UserPopoverContent({ handleClose }: { handleClose: () => void }) {
   var { isLoggedIn, user } = useUser();
 
   function ViewAllCampsForAdminButton() {
@@ -163,13 +172,14 @@ function UserPopoverContent() {
           >
             ADMIN
           </PopoverHeader>
-          <CreateCampButton />
+          <CreateCampButton handleClose={handleClose} />
           <ViewAllCampsForAdminButton />
         </>
       );
     }
 
     return null;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn, user?.roles]);
 
   return (
@@ -183,7 +193,7 @@ function UserPopoverContent() {
   );
 }
 
-function CreateCampButton() {
+function CreateCampButton({ handleClose }: { handleClose: () => void }) {
   var toast = useToast();
   var router = useRouter();
   var { accessToken } = useUser();
@@ -201,7 +211,8 @@ function CreateCampButton() {
         });
 
         await queryClient.invalidateQueries(["edit-camp", data.camp.campId]);
-        router.push(`/camp/${data.camp.campId}`);
+        handleClose();
+        router.push(`/admin/${data.camp.campId}`);
       } else {
         toast({
           title: "Failed to create camp",
