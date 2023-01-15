@@ -47,7 +47,7 @@ export default function Navbar(): JSX.Element {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <VStack w="full" position="fixed" gap={0}>
+    <VStack w="full" position="fixed" gap={0} zIndex={10}>
       <HStack
         as="nav"
         w="full"
@@ -57,6 +57,7 @@ export default function Navbar(): JSX.Element {
         alignItems="center"
         gap={pxToRem(16)}
         borderColor={theme.colors.b.grey2}
+        bg={theme.colors.b.grey0}
       >
         <Logo />
 

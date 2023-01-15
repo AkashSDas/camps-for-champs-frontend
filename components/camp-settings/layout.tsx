@@ -19,9 +19,9 @@ export enum Tab {
 
 export function CampSettingsLayout({ children }: { children: JSX.Element }) {
   return (
-    <Box position="relative" w="full">
+    <Box position="relative" w="full" mb={pxToRem(256)}>
       <Sidebar />
-      <Box ml={pxToRem(80)}>{children}</Box>
+      <Box>{children}</Box>
     </Box>
   );
 }
@@ -31,7 +31,7 @@ function Sidebar() {
   var { camp } = useEditCamp();
 
   function navigationToSetting(tab: Tab) {
-    router.push(`/admin/${camp.campId}?tab=${tab}`);
+    router.push(`/admin/${camp?.campId}?tab=${tab}`);
   }
 
   return (

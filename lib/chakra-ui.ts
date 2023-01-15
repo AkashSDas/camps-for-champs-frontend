@@ -165,5 +165,13 @@ var Tooltip = {
 export var theme = extendTheme({
   fonts,
   colors,
-  components: { Button, Heading, Text, FormLabel, Input, Popover, Tooltip },
+  components: {
+    Button,
+    Heading,
+    Text,
+    FormLabel,
+    Input,
+    Popover,
+    Tooltip,
+  },
 });
