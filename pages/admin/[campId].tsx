@@ -6,6 +6,7 @@ import { Box, Spinner } from "@chakra-ui/react";
 import BasicSettings from "../../components/camp-settings/basic-settings";
 import CancellationPolicySettings from "../../components/camp-settings/cancellation-policy";
 import { Tab } from "../../components/camp-settings/layout";
+import LocationSettings from "../../components/camp-settings/location";
 import { pxToRem } from "../../lib/chakra-ui";
 import { useEditCamp } from "../../lib/hooks";
 
@@ -20,7 +21,7 @@ export default function EditCampPage() {
       case Tab.SETTINGS:
         return <BasicSettings />;
       case Tab.LOCATION:
-        return <div>Location</div>;
+        return <LocationSettings />;
       case Tab.TIMING:
         return <div>Timing</div>;
       case Tab.CANCELLATION:

@@ -55,3 +55,13 @@ export var cancellationPolicySchema = object({
   type: string().oneOf(["flexible", "moderate", "strict"]).required("Required"),
   description: string().max(512, "Too long").required("Required"),
 });
+
+161;
+
+// The latitude must be a number between -90 and 90 and the longitude between -180 and 180.
+export var locationSchema = object({
+  address: string().max(128, "Too long").optional(),
+  latitude: number().min(-90).max(90).optional(),
+  longitude: number().min(-180).max(180).optional(),
+  googleMapURL: string().url("Invalid").optional(),
+});

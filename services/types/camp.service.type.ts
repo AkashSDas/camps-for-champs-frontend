@@ -15,6 +15,9 @@ export interface Camp {
     type: PolicyType;
     description: string;
   };
+  googleMapURL?: string;
+  address?: string;
+  coordinates?: number[];
 }
 
 export interface GetCampResponse {

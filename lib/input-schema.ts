@@ -35,3 +35,9 @@ export interface CancellationPolicyInput {
   type?: "flexible" | "moderate" | "strict";
   description?: string;
 }
+
+export interface LocationInput {
+  address?: string;
+  coordinates?: string;
+  googleMapURL?: string;
+}
