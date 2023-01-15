@@ -1,4 +1,4 @@
-import { Accessibility, Amenity } from "../../lib/camp";
+import { Accessibility, Amenity, PolicyType } from "../../lib/camp";
 
 export interface Camp {
   _id: string;
@@ -11,6 +11,10 @@ export interface Camp {
   createdAt: string;
   updatedAt: string;
   campId: string;
+  cancellationPolicy?: {
+    type: PolicyType;
+    description: string;
+  };
 }
 
 export interface GetCampResponse {

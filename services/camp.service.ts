@@ -1,5 +1,5 @@
 import fetchFromAPI from "../lib/axios";
-import { BasicSettingInput } from "../lib/input-schema";
+import { BasicSettingInput, CancellationPolicyInput } from "../lib/input-schema";
 import { GetCampResponse, UpdateCampSettingsResponse } from "./types/camp.service.type";
 
 export async function adminCheckForRequest(userRoles: string[], cb: Function) {
@@ -55,6 +55,28 @@ export async function updateCampSetting(
   accessToken: string
 ): Promise<UpdateCampSettingsResponse> {
   var response = await fetchFromAPI(`/camp/${id}/settings`, {
+    method: "PUT",
+    headers: { Authorization: `Bearer ${accessToken}` },
+    data,
+  });
+
+  if (response.statusCode == 200) {
+    return {
+      success: true,
+      message: "Settings updated",
+      camp: response.data.camp,
+    };
+  }
+
+  return { message: response.error.message, success: false };
+}
+
+export async function updateCancellationPolicySettings(
+  id: string,
+  data: CancellationPolicyInput,
+  accessToken: string
+): Promise<UpdateCampSettingsResponse> {
+  var response = await fetchFromAPI(`/camp/${id}/cancellation-policy`, {
     method: "PUT",
     headers: { Authorization: `Bearer ${accessToken}` },
     data,

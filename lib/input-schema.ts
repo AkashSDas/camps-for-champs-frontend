@@ -30,3 +30,8 @@ export interface BasicSettingInput {
   price?: number;
   campLimit?: number;
 }
+
+export interface CancellationPolicyInput {
+  type?: "flexible" | "moderate" | "strict";
+  description?: string;
+}

@@ -50,3 +50,8 @@ export var basicSettingSchema = object({
   price: number().min(0, "Too low").optional(),
   campLimit: number().min(0, "Too low").optional(),
 });
+
+export var cancellationPolicySchema = object({
+  type: string().oneOf(["flexible", "moderate", "strict"]).required("Required"),
+  description: string().max(512, "Too long").required("Required"),
+});
