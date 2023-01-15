@@ -145,8 +145,19 @@ var Heading = {
   },
 };
 
+var Popover = {
+  variants: {
+    responsive: {
+      popper: {
+        maxWidth: "unset",
+        width: "unset",
+      },
+    },
+  },
+};
+
 export var theme = extendTheme({
   fonts,
   colors,
-  components: { Button, Heading, Text, FormLabel, Input },
+  components: { Button, Heading, Text, FormLabel, Input, Popover },
 });

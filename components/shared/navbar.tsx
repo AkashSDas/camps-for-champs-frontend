@@ -100,7 +100,7 @@ export default function Navbar(): JSX.Element {
 
         {isLoggedIn && (
           <Tooltip label="Settings">
-            <Popover variant="">
+            <Popover closeOnEsc gutter={4} variant="responsive">
               {/* Trigger */}
               <PopoverTrigger>
                 <IconButton
@@ -137,7 +137,9 @@ function UserPopoverContent() {
       >
         <HStack gap={pxToRem(4)}>
           <AddIcon h={20} w={20} className="icon-normal-stroke" />
-          <Text>Create camp</Text>
+          <Text fontSize="sm" fontWeight="medium">
+            Create camp
+          </Text>
         </HStack>
       </Button>
     );
@@ -156,7 +158,9 @@ function UserPopoverContent() {
       >
         <HStack gap={pxToRem(4)}>
           <FolderIcon h={20} w={20} className="icon-normal-stroke" />
-          <Text>All camps</Text>
+          <Text fontSize="sm" fontWeight="medium">
+            All camps
+          </Text>
         </HStack>
       </Button>
     );
@@ -168,8 +172,7 @@ function UserPopoverContent() {
         <>
           <PopoverHeader
             fontSize="xs"
-            letterSpacing={pxToRem(4)}
-            mb={pxToRem(4)}
+            letterSpacing={pxToRem(2)}
             borderBottom="none"
           >
             ADMIN
@@ -185,7 +188,7 @@ function UserPopoverContent() {
 
   return (
     <Portal>
-      <PopoverContent mr={pxToRem(16)} boxShadow="md">
+      <PopoverContent w={pxToRem(240)} mr={pxToRem(24)} boxShadow="md">
         <PopoverBody>
           <AdminContent />
         </PopoverBody>
