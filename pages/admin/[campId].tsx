@@ -3,30 +3,34 @@ import { useCallback, useEffect } from "react";
 
 import { Box, Spinner } from "@chakra-ui/react";
 
+import BasicSettings from "../../components/camp-settings/basic-settings";
+import { Tab } from "../../components/camp-settings/layout";
 import { pxToRem } from "../../lib/chakra-ui";
 import { useEditCamp } from "../../lib/hooks";
 
 export default function EditCampPage() {
   var router = useRouter();
-  var tab = router.query.tab as string;
+  var tab = router.query.tab as Tab;
   var { isLoading, camp } = useEditCamp();
 
   // Using useCallback to prevent unnecessary re-rendering (continuously)
   var DisplayTab = useCallback(() => {
     switch (tab) {
-      case "settings":
-        return <div>Settings</div>;
-      case "location":
+      case Tab.SETTINGS:
+        return <BasicSettings />;
+      case Tab.LOCATION:
         return <div>Location</div>;
-      case "cancellation-policy":
+      case Tab.TIMING:
+        return <div>Timing</div>;
+      case Tab.CANCELLATION:
         return <div>Policy</div>;
-      case "activity":
+      case Tab.ACTIVITIES:
         return <div>Activity</div>;
-      case "image":
+      case Tab.IMAGES:
         return <div>Image</div>;
-      case "tag":
+      case Tab.TAGS:
         return <div>Tag</div>;
-      case "discount":
+      case Tab.DISCOUNTS:
         return <div>Discount</div>;
       default:
         return <div>Invalid tab</div>;
@@ -35,20 +39,8 @@ export default function EditCampPage() {
 
   useEffect(
     function handleTabChange() {
-      if (
-        camp &&
-        (!tab ||
-          ![
-            "settings",
-            "location",
-            "cancellation-policy",
-            "activity",
-            "image",
-            "tag",
-            "discount",
-          ].includes(tab))
-      ) {
-        router.replace(`/admin/${camp.campId}?tab=settings`);
+      if (camp && (!tab || !Object.values(Tab).includes(tab))) {
+        router.replace(`/admin/${camp.campId}?tab=${Tab.SETTINGS}`);
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
