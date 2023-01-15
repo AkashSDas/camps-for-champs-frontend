@@ -156,8 +156,14 @@ var Popover = {
   },
 };
 
+var Tooltip = {
+  baseStyle: {
+    bg: colors.b.grey5,
+  },
+};
+
 export var theme = extendTheme({
   fonts,
   colors,
-  components: { Button, Heading, Text, FormLabel, Input, Popover },
+  components: { Button, Heading, Text, FormLabel, Input, Popover, Tooltip },
 });

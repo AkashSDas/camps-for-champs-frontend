@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect } from "react";
 import { useMutation } from "react-query";
 
-import { Button, Center, Divider, HStack, IconButton, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverFooter, PopoverHeader, PopoverTrigger, Portal, Spinner, Text, Tooltip, useDisclosure, useToast } from "@chakra-ui/react";
+import { Badge, Button, Center, Divider, HStack, IconButton, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverFooter, PopoverHeader, PopoverTrigger, Portal, Spinner, Text, Tooltip, useDisclosure, useToast, VStack } from "@chakra-ui/react";
 
 import { pxToRem, theme } from "../../lib/chakra-ui";
 import { useUser } from "../../lib/hooks";
@@ -16,7 +16,7 @@ import Logo from "../icons/logo";
 
 export default function Navbar(): JSX.Element {
   var toast = useToast();
-  var { isLoggedIn, accessToken } = useUser();
+  var { isLoggedIn, accessToken, user } = useUser();
 
   var mutation = useMutation({
     mutationFn: () => logout(accessToken as string),
@@ -47,89 +47,113 @@ export default function Navbar(): JSX.Element {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <HStack
-      as="nav"
-      w="full"
-      h={pxToRem(56)}
-      px={pxToRem(24)}
-      justifyContent="space-between"
-      alignItems="center"
-      gap={pxToRem(16)}
-      borderBottomWidth={pxToRem(1)}
-      borderColor={theme.colors.b.grey2}
-    >
-      <Logo />
+    <VStack w="full" position="relative" gap={0}>
+      <HStack
+        as="nav"
+        w="full"
+        h={pxToRem(56)}
+        px={pxToRem(24)}
+        justifyContent="space-between"
+        alignItems="center"
+        gap={pxToRem(16)}
+        borderColor={theme.colors.b.grey2}
+      >
+        <Logo />
 
-      <HStack alignItems="center" gap={pxToRem(8)}>
-        <Tooltip label="Search">
-          <IconButton aria-label="Search camps" variant="icon-ghost">
-            <SearchIcon className="icon-normal-stroke" h={20} w={20} />
-          </IconButton>
-        </Tooltip>
-
-        <Center h={pxToRem(22)}>
-          <Divider
-            orientation="vertical"
-            variant="solid"
-            borderColor={theme.colors.b.grey2}
-          />
-        </Center>
-
-        {isLoggedIn ? (
-          <Tooltip label="Logout">
-            <IconButton
-              aria-label="Logout user"
-              variant="icon-ghost"
-              onClick={() => mutation.mutate()}
-            >
-              <LogoutIcon className="icon-normal-stroke" />
+        <HStack alignItems="center" gap={pxToRem(8)}>
+          <Tooltip label="Search">
+            <IconButton aria-label="Search camps" variant="icon-ghost">
+              <SearchIcon className="icon-normal-stroke" h={20} w={20} />
             </IconButton>
           </Tooltip>
-        ) : (
-          <Tooltip label="Login">
-            <NextLink href="/auth/login">
-              <IconButton aria-label="Login with email" variant="icon-ghost">
-                <LoginIcon className="icon-normal-stroke" />
+
+          <Center h={pxToRem(22)}>
+            <Divider
+              orientation="vertical"
+              variant="solid"
+              borderColor={theme.colors.b.grey2}
+            />
+          </Center>
+
+          {isLoggedIn ? (
+            <Tooltip label="Logout">
+              <IconButton
+                aria-label="Logout user"
+                variant="icon-ghost"
+                onClick={() => mutation.mutate()}
+              >
+                <LogoutIcon className="icon-normal-stroke" />
               </IconButton>
-            </NextLink>
-          </Tooltip>
-        )}
-
-        {!isLoggedIn && (
-          <NextLink href="/auth/signup">
-            <Button data-testid="get-started" variant="inverted">
-              Get started
-            </Button>
-          </NextLink>
-        )}
-
-        {isLoggedIn && (
-          <Tooltip label="Settings">
-            <Popover
-              closeOnEsc
-              gutter={4}
-              variant="responsive"
-              onClose={onClose}
-              onOpen={onOpen}
-              isOpen={isOpen}
-            >
-              {/* Trigger */}
-              <PopoverTrigger>
-                <IconButton
-                  aria-label="User settings dropdown"
-                  variant="icon-ghost"
-                >
-                  <UserCircleIcon className="icon-normal-stroke" />
+            </Tooltip>
+          ) : (
+            <Tooltip label="Login">
+              <NextLink href="/auth/login">
+                <IconButton aria-label="Login with email" variant="icon-ghost">
+                  <LoginIcon className="icon-normal-stroke" />
                 </IconButton>
-              </PopoverTrigger>
+              </NextLink>
+            </Tooltip>
+          )}
 
-              {/* Section */}
-              <UserPopoverContent handleClose={onClose} />
-            </Popover>
-          </Tooltip>
-        )}
+          {!isLoggedIn && (
+            <NextLink href="/auth/signup">
+              <Button data-testid="get-started" variant="inverted">
+                Get started
+              </Button>
+            </NextLink>
+          )}
+
+          {isLoggedIn && (
+            <Tooltip label="Settings">
+              <Popover
+                closeOnEsc
+                gutter={4}
+                variant="responsive"
+                onClose={onClose}
+                onOpen={onOpen}
+                isOpen={isOpen}
+              >
+                {/* Trigger */}
+                <PopoverTrigger>
+                  <IconButton
+                    aria-label="User settings dropdown"
+                    variant="icon-ghost"
+                  >
+                    <UserCircleIcon className="icon-normal-stroke" />
+                  </IconButton>
+                </PopoverTrigger>
+
+                {/* Section */}
+                <UserPopoverContent handleClose={onClose} />
+              </Popover>
+            </Tooltip>
+          )}
+        </HStack>
       </HStack>
-    </HStack>
+
+      {isLoggedIn && user?.roles.includes("admin") && (
+        <HStack
+          position="absolute"
+          top={50}
+          borderTop="1px solid"
+          borderTopColor={theme.colors.b.orange5}
+          w="full"
+          justifyContent="center"
+        >
+          <HStack
+            bg={theme.colors.b.orange5}
+            h={pxToRem(28)}
+            px={pxToRem(12)}
+            roundedBottomLeft={pxToRem(12)}
+            roundedBottomRight={pxToRem(12)}
+          >
+            <Text fontFamily="heading" color={theme.colors.b.grey0}>
+              Admin
+            </Text>
+          </HStack>
+        </HStack>
+      )}
+    </VStack>
   );
 }
 

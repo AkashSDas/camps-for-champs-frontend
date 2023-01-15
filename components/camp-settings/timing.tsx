@@ -2,10 +2,10 @@ import { Text } from "@chakra-ui/react";
 
 import { CampSettingsLayout } from "./layout";
 
-export default function BasicSettings() {
+export default function TimingSettings() {
   return (
     <CampSettingsLayout>
-      <Text>Basic settings</Text>
+      <Text>Timing settings</Text>
     </CampSettingsLayout>
   );
 }

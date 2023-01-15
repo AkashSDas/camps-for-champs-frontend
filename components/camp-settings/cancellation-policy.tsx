@@ -2,10 +2,10 @@ import { Text } from "@chakra-ui/react";
 
 import { CampSettingsLayout } from "./layout";
 
-export default function BasicSettings() {
+export default function CancellationPolicySettings() {
   return (
     <CampSettingsLayout>
-      <Text>Basic settings</Text>
+      <Text>Cancellation policy</Text>
     </CampSettingsLayout>
   );
 }
