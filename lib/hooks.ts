@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
 import { getNewAccessToken } from "../services/auth.service";
-import { adminCheckForRequest, getCamp } from "../services/camp.service";
+import { getCamp } from "../services/camp.service";
 
 export function useUser() {
   var { data, status } = useQuery("user", getNewAccessToken, {
@@ -25,7 +25,7 @@ export function useEditCamp() {
   var { user, accessToken } = useUser();
 
   var { data, status } = useQuery(
-    "edit-camp",
+    ["edit-camp", router.query.campId],
     () => getCamp(router.query.campId as string, accessToken as string),
     {
       enabled:

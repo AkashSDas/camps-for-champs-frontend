@@ -1,12 +1,15 @@
 import NextLink from "next/link";
+import { useRouter } from "next/router";
+import { useCallback, useEffect } from "react";
 import { useMutation } from "react-query";
 
-import { Button, Center, Divider, HStack, IconButton, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverFooter, PopoverHeader, PopoverTrigger, Portal, Text, Tooltip, useToast } from "@chakra-ui/react";
+import { Button, Center, Divider, HStack, IconButton, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverFooter, PopoverHeader, PopoverTrigger, Portal, Spinner, Text, Tooltip, useToast } from "@chakra-ui/react";
 
 import { pxToRem, theme } from "../../lib/chakra-ui";
 import { useUser } from "../../lib/hooks";
 import { queryClient } from "../../lib/react-query";
 import { logout } from "../../services/auth.service";
+import { createCamp } from "../../services/camp.service";
 import { GetNewAccessTokenResponse } from "../../services/types/auth.service.type";
 import { AddIcon, FolderIcon, LoginIcon, LogoutIcon, SearchIcon, UserCircleIcon } from "../icons";
 import Logo from "../icons/logo";
@@ -124,27 +127,6 @@ export default function Navbar(): JSX.Element {
 function UserPopoverContent() {
   var { isLoggedIn, user } = useUser();
 
-  function CreateCampButton() {
-    return (
-      <Button
-        variant="ghost"
-        w="full"
-        fontWeight="normal"
-        justifyContent="start"
-        fontSize="sm"
-        h={pxToRem(36)}
-        rounded="md"
-      >
-        <HStack gap={pxToRem(4)}>
-          <AddIcon h={20} w={20} className="icon-normal-stroke" />
-          <Text fontSize="sm" fontWeight="medium">
-            Create camp
-          </Text>
-        </HStack>
-      </Button>
-    );
-  }
-
   function ViewAllCampsForAdminButton() {
     return (
       <Button
@@ -166,7 +148,11 @@ function UserPopoverContent() {
     );
   }
 
-  function AdminContent() {
+  // Memoize this component because it was re-rendering CreateCampButton
+  // component again & again. Another way to avoid re-rendering is to
+  // add refetchOnMount to false (but user needs to be fetch again when
+  // component remounts)
+  var AdminContent = useCallback(() => {
     if (isLoggedIn && user?.roles.includes("admin")) {
       return (
         <>
@@ -184,7 +170,7 @@ function UserPopoverContent() {
     }
 
     return null;
-  }
+  }, [isLoggedIn, user?.roles]);
 
   return (
     <Portal>
@@ -194,5 +180,73 @@ function UserPopoverContent() {
         </PopoverBody>
       </PopoverContent>
     </Portal>
+  );
+}
+
+function CreateCampButton() {
+  var toast = useToast();
+  var router = useRouter();
+  var { accessToken } = useUser();
+
+  var mutation = useMutation({
+    mutationFn: () => createCamp(accessToken as string),
+    onSuccess: async function handleCreateCampSuccess(data, _variables) {
+      if (data.success && data.camp) {
+        toast({
+          title: "Camp created",
+          description: "You have created a new camp",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+
+        await queryClient.invalidateQueries(["edit-camp", data.camp.campId]);
+        router.push(`/camp/${data.camp.campId}`);
+      } else {
+        toast({
+          title: "Failed to create camp",
+          description: data.message,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    },
+    onError: function handleCreateCampError(error) {
+      toast({
+        title: "Failed to create camp",
+        description:
+          error instanceof Error ? error.message : "Something went wrong",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    },
+  });
+
+  return (
+    <Button
+      variant="ghost"
+      w="full"
+      fontWeight="normal"
+      justifyContent={mutation.isLoading ? "center" : "start"}
+      fontSize="sm"
+      h={pxToRem(36)}
+      rounded="md"
+      onClick={() => mutation.mutate()}
+    >
+      <HStack gap={pxToRem(4)}>
+        {mutation.isLoading ? (
+          <Spinner size="sm" />
+        ) : (
+          <>
+            <AddIcon h={20} w={20} className="icon-normal-stroke" />
+            <Text fontSize="sm" fontWeight="medium">
+              Create camp
+            </Text>
+          </>
+        )}
+      </HStack>
+    </Button>
   );
 }
