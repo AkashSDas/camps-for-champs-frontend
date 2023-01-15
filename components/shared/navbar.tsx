@@ -47,7 +47,7 @@ export default function Navbar(): JSX.Element {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <VStack w="full" position="relative" gap={0}>
+    <VStack w="full" position="fixed" gap={0}>
       <HStack
         as="nav"
         w="full"

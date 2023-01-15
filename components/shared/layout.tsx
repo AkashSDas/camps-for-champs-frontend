@@ -1,5 +1,6 @@
-import { VStack } from "@chakra-ui/react";
+import { Box, VStack } from "@chakra-ui/react";
 
+import { pxToRem } from "../../lib/chakra-ui";
 import Navbar from "./navbar";
 
 interface Props {
@@ -8,9 +9,11 @@ interface Props {
 
 export default function Layout({ children }: Props): JSX.Element {
   return (
-    <VStack>
+    <VStack position="relative">
       <Navbar />
-      {children}
+      <Box pt={pxToRem(56)} w="full">
+        {children}
+      </Box>
     </VStack>
   );
 }
