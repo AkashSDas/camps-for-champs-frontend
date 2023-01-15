@@ -1,18 +1,22 @@
 import { useForm } from "react-hook-form";
+import { useMutation } from "react-query";
 import ResizeTextarea from "react-textarea-autosize";
 
-import { Button, Checkbox, Divider, FormControl, FormLabel, Heading, HStack, Input, Select, SimpleGrid, Text, Textarea, useToast, VStack } from "@chakra-ui/react";
+import { Button, Checkbox, Divider, FormControl, FormErrorMessage, FormLabel, Heading, HStack, Input, Select, SimpleGrid, Spinner, Text, Textarea, useToast, VStack } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { Accessibility, Amenity } from "../../lib/camp";
 import { pxToRem, theme } from "../../lib/chakra-ui";
-import { useEditCamp } from "../../lib/hooks";
+import { useEditCamp, useUser } from "../../lib/hooks";
 import { BasicSettingInput } from "../../lib/input-schema";
 import { basicSettingSchema } from "../../lib/yup-schema";
+import { updateCampSetting } from "../../services/camp.service";
 import { CampSettingsLayout } from "./layout";
 
 export default function BasicSettings() {
   var { camp } = useEditCamp();
+  var { accessToken } = useUser();
+  var toast = useToast();
 
   var { register, handleSubmit, formState, watch, getValues, setValue } =
     useForm<BasicSettingInput>({
@@ -26,6 +30,79 @@ export default function BasicSettings() {
       },
       resolver: yupResolver(basicSettingSchema),
     });
+
+  var mutation = useMutation({
+    mutationFn: async (data: BasicSettingInput) =>
+      updateCampSetting(camp?.campId as string, data, accessToken as string),
+    onSuccess: function updateCampSettingSuccess(data, _variables, _context) {
+      if (!data.success) {
+        toast({
+          title: "Update camp setting failed",
+          description: data.message,
+          status: "error",
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: "Setting updated",
+          description: data.message,
+          status: "success",
+          isClosable: true,
+        });
+      }
+    },
+    onError(error) {
+      toast({
+        title: "Update camp setting failed",
+        description: (error as any)?.message ?? "Please try again later",
+        status: "error",
+        isClosable: true,
+      });
+    },
+  });
+
+  return (
+    <CampSettingsLayout>
+      <VStack w="full">
+        <VStack
+          as="form"
+          onSubmit={handleSubmit(
+            async (data) => await mutation.mutateAsync(data)
+          )}
+          w="full"
+          maxW={pxToRem(800)}
+          pt={pxToRem(28 + 24)}
+          gap={pxToRem(24)}
+          alignItems="center"
+        >
+          <Heading as="h1" size="lg">
+            Basic Settings
+          </Heading>
+
+          <Divider w="full" maxW={pxToRem(400)} />
+
+          <NameInput />
+          <AboutInput />
+          <AccessibilityInput />
+          <AmenityInput />
+          <PriceInput />
+          <CampLimitInput />
+
+          <Button type="submit" px={pxToRem(64)} variant="solid">
+            {mutation.isLoading ? (
+              <Spinner />
+            ) : (
+              <Text color={theme.colors.b.grey0}>Save</Text>
+            )}
+          </Button>
+        </VStack>
+      </VStack>
+    </CampSettingsLayout>
+  );
+
+  // =====================================
+  // Utilities
+  // =====================================
 
   function toggleAccessibility(value: Accessibility) {
     if ((getValues().accessibilities as Accessibility[]).includes(value)) {
@@ -42,6 +119,10 @@ export default function BasicSettings() {
       ]);
     }
   }
+
+  // =====================================
+  // Components
+  // =====================================
 
   function AccessibilityInput() {
     return (
@@ -77,6 +158,10 @@ export default function BasicSettings() {
             Air
           </Checkbox>
         </HStack>
+
+        <FormErrorMessage>
+          {formState.errors.accessibilities?.message}
+        </FormErrorMessage>
       </FormControl>
     );
   }
@@ -113,6 +198,10 @@ export default function BasicSettings() {
             </Checkbox>
           ))}
         </SimpleGrid>
+
+        <FormErrorMessage>
+          {formState.errors.amenities?.message}
+        </FormErrorMessage>
       </FormControl>
     );
   }
@@ -136,20 +225,19 @@ export default function BasicSettings() {
           }
           resize="none"
         />
+
+        <FormErrorMessage>{formState.errors.about?.message}</FormErrorMessage>
       </FormControl>
     );
   }
 
   function NameInput() {
     return (
-      <FormControl w={pxToRem(400)} isInvalid={!!formState.errors.about}>
-        <FormLabel>About</FormLabel>
+      <FormControl w={pxToRem(400)} isInvalid={!!formState.errors.name}>
+        <FormLabel>Name</FormLabel>
         <Input
           type="text"
-          as={ResizeTextarea}
-          {...register("about")}
-          minH={pxToRem(100)}
-          py={pxToRem(12)}
+          {...register("name")}
           borderColor={
             formState.errors.about
               ? "b.red4"
@@ -157,8 +245,9 @@ export default function BasicSettings() {
               ? "b.green4"
               : "b.grey4"
           }
-          resize="none"
         />
+
+        <FormErrorMessage>{formState.errors.name?.message}</FormErrorMessage>
       </FormControl>
     );
   }
@@ -179,6 +268,8 @@ export default function BasicSettings() {
               : "b.grey4"
           }
         />
+
+        <FormErrorMessage>{formState.errors.price?.message}</FormErrorMessage>
       </FormControl>
     );
   }
@@ -199,39 +290,11 @@ export default function BasicSettings() {
               : "b.grey4"
           }
         />
+
+        <FormErrorMessage>
+          {formState.errors.campLimit?.message}
+        </FormErrorMessage>
       </FormControl>
     );
   }
-
-  return (
-    <CampSettingsLayout>
-      <VStack w="full">
-        <VStack
-          as="form"
-          w="full"
-          maxW={pxToRem(800)}
-          pt={pxToRem(28 + 24)}
-          gap={pxToRem(24)}
-          alignItems="center"
-        >
-          <Heading as="h1" size="lg">
-            Basic Settings
-          </Heading>
-
-          <Divider w="full" maxW={pxToRem(400)} />
-
-          <NameInput />
-          <AboutInput />
-          <AccessibilityInput />
-          <AmenityInput />
-          <PriceInput />
-          <CampLimitInput />
-
-          <Button px={pxToRem(64)} variant="solid">
-            Save
-          </Button>
-        </VStack>
-      </VStack>
-    </CampSettingsLayout>
-  );
 }

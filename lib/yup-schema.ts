@@ -41,12 +41,12 @@ export var completeOauthSignupSchema = object({
 export var basicSettingSchema = object({
   name: string().max(128, "Too long").optional(),
   about: string().max(4096, "Too long").optional(),
-  accessibilities: array()
-    .oneOf(Object.values(Accessibility) as any[])
-    .optional(),
-  amenities: array()
-    .oneOf(Object.values(Amenity) as any[])
-    .optional(),
+  // accessibilities: array()
+  //   .oneOf(Object.values(Accessibility) as any[])
+  //   .optional(),
+  // amenities: array()
+  //   .oneOf(Object.values(Amenity) as any[])
+  //   .optional(),
   price: number().min(0, "Too low").optional(),
   campLimit: number().min(0, "Too low").optional(),
 });
