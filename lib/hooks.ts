@@ -1,6 +1,8 @@
+import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
 import { getNewAccessToken } from "../services/auth.service";
+import { adminCheckForRequest, getCamp } from "../services/camp.service";
 
 export function useUser() {
   var { data, status } = useQuery("user", getNewAccessToken, {
@@ -13,6 +15,28 @@ export function useUser() {
     isLoggedIn: !!data?.user && !!data?.accessToken,
     user: data?.user,
     accessToken: data?.accessToken,
+    message: data?.message,
+    isLoading: status == "loading",
+  };
+}
+
+export function useEditCamp() {
+  var router = useRouter();
+  var { user, accessToken } = useUser();
+
+  var { data, status } = useQuery(
+    "edit-camp",
+    () => getCamp(router.query.campId as string, accessToken as string),
+    {
+      enabled:
+        !!accessToken && !!router.query.campId && user?.roles.includes("admin"),
+      retry: false,
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  return {
+    camp: data?.camp,
     message: data?.message,
     isLoading: status == "loading",
   };
