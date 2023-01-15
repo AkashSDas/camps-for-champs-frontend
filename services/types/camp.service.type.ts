@@ -21,6 +21,8 @@ export interface Camp {
     type: "Point";
     coordinates: number[];
   };
+  startDate?: string;
+  endDate?: string;
 }
 
 export interface GetCampResponse {

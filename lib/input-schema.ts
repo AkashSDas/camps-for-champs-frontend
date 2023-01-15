@@ -41,3 +41,8 @@ export interface LocationInput {
   coordinates?: string;
   googleMapURL?: string;
 }
+
+export interface TimingInput {
+  startDate?: Date;
+  endDate?: Date;
+}
