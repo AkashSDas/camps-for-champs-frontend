@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
 import { getNewAccessToken } from "../services/auth.service";
-import { getCamp, getCamps } from "../services/camp.service";
+import { getCamp, getCamps, getPublicCamps } from "../services/camp.service";
 
 export function useUser() {
   var { data, status } = useQuery("user", getNewAccessToken, {
@@ -54,6 +54,19 @@ export function useEditCamps() {
       refetchOnWindowFocus: false,
     }
   );
+
+  return {
+    camps: data?.camps,
+    message: data?.message,
+    isLoading: status == "loading",
+  };
+}
+
+export function useCamps() {
+  var { data, status } = useQuery("public-camps", getPublicCamps, {
+    retry: false,
+    refetchOnWindowFocus: false,
+  });
 
   return {
     camps: data?.camps,

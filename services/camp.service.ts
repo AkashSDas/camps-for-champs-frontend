@@ -176,3 +176,17 @@ export async function getCamps(accessToken: string): Promise<GetCampsResponse> {
 
   return { message: response.error.message, success: false };
 }
+
+export async function getPublicCamps(): Promise<GetCampsResponse> {
+  var response = await fetchFromAPI("/public-camps", { method: "GET" });
+
+  if (response.statusCode == 200) {
+    return {
+      success: true,
+      message: "Successfully fetched camps",
+      camps: response.data.camps,
+    };
+  }
+
+  return { message: response.error.message, success: false };
+}
