@@ -19,3 +19,10 @@
 .icon-normal-fill {
   fill: #545454;
 }
+
+.orange-text-gradient {
+  background: -webkit-linear-gradient(#df8531, #df6531);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
