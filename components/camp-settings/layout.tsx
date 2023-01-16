@@ -4,7 +4,7 @@ import { Box, IconButton, Tooltip, VStack } from "@chakra-ui/react";
 
 import { pxToRem, theme } from "../../lib/chakra-ui";
 import { useEditCamp } from "../../lib/hooks";
-import { AlaramIcon, ImageIcon, LocationIcon, ReceiptIcon, SettingsIcon } from "../icons";
+import { AlaramIcon, ImageIcon, LocationIcon, PackageIcon, ReceiptIcon, SettingsIcon } from "../icons";
 
 export enum Tab {
   SETTINGS = "settings",
@@ -15,6 +15,7 @@ export enum Tab {
   IMAGES = "images",
   TAGS = "tags",
   DISCOUNTS = "discounts",
+  PUBLISH = "publish",
 }
 
 export function CampSettingsLayout({ children }: { children: JSX.Element }) {
@@ -91,6 +92,16 @@ function Sidebar() {
           onClick={() => navigationToSetting(Tab.IMAGES)}
         >
           <ImageIcon className="icon-normal-stroke" />
+        </IconButton>
+      </Tooltip>
+
+      <Tooltip label="Publish" placement="right">
+        <IconButton
+          aria-label="Publish camp"
+          variant="icon-ghost"
+          onClick={() => navigationToSetting(Tab.PUBLISH)}
+        >
+          <PackageIcon className="icon-normal-stroke" />
         </IconButton>
       </Tooltip>
     </VStack>

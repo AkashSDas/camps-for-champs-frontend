@@ -7,6 +7,7 @@ import BasicSettings from "../../components/camp-settings/basic-settings";
 import CancellationPolicySettings from "../../components/camp-settings/cancellation-policy";
 import { Tab } from "../../components/camp-settings/layout";
 import LocationSettings from "../../components/camp-settings/location";
+import PublishSettings from "../../components/camp-settings/publish-settings";
 import TimingSettings from "../../components/camp-settings/timing";
 import { pxToRem } from "../../lib/chakra-ui";
 import { useEditCamp } from "../../lib/hooks";
@@ -35,6 +36,8 @@ export default function EditCampPage() {
         return <div>Tag</div>;
       case Tab.DISCOUNTS:
         return <div>Discount</div>;
+      case Tab.PUBLISH:
+        return <PublishSettings />;
       default:
         return <div>Invalid tab</div>;
     }

@@ -1,4 +1,5 @@
 import fetchFromAPI from "../lib/axios";
+import { CampStatus } from "../lib/camp";
 import { BasicSettingInput, CancellationPolicyInput, LocationInput, TimingInput } from "../lib/input-schema";
 import { GetCampResponse, UpdateCampSettingsResponse } from "./types/camp.service.type";
 
@@ -121,6 +122,28 @@ export async function updateTimingSettings(
   accessToken: string
 ): Promise<UpdateCampSettingsResponse> {
   var response = await fetchFromAPI(`/camp/${id}/timing`, {
+    method: "PUT",
+    headers: { Authorization: `Bearer ${accessToken}` },
+    data,
+  });
+
+  if (response.statusCode == 200) {
+    return {
+      success: true,
+      message: "Settings updated",
+      camp: response.data.camp,
+    };
+  }
+
+  return { message: response.error.message, success: false };
+}
+
+export async function updateStatus(
+  id: string,
+  data: { status: CampStatus },
+  accessToken: string
+): Promise<UpdateCampSettingsResponse> {
+  var response = await fetchFromAPI(`/camp/${id}/status`, {
     method: "PUT",
     headers: { Authorization: `Bearer ${accessToken}` },
     data,
