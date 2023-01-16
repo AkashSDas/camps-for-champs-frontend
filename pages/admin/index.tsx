@@ -1,3 +1,5 @@
+import { useRouter } from "next/router";
+
 import { Badge, Card, CardBody, Divider, Heading, HStack, Image, SimpleGrid, Spinner, Stack, Text, VStack } from "@chakra-ui/react";
 
 import { pxToRem } from "../../lib/chakra-ui";
@@ -39,6 +41,8 @@ export default function AdminPage() {
 }
 
 function CampCard({ camp }: { camp: Camp }) {
+  var router = useRouter();
+
   return (
     <Card
       w="full"
@@ -46,6 +50,7 @@ function CampCard({ camp }: { camp: Camp }) {
       rounded="2xl"
       cursor="pointer"
       _hover={{ bg: "b.grey1" }}
+      onClick={() => router.push(`/admin/${camp.campId}`)}
     >
       <CardBody p={pxToRem(8)} gap={pxToRem(8)}>
         <Image
