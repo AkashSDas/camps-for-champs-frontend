@@ -5,6 +5,7 @@ import { Box, Spinner } from "@chakra-ui/react";
 
 import BasicSettings from "../../components/camp-settings/basic-settings";
 import CancellationPolicySettings from "../../components/camp-settings/cancellation-policy";
+import ImagesSettings from "../../components/camp-settings/images";
 import { Tab } from "../../components/camp-settings/layout";
 import LocationSettings from "../../components/camp-settings/location";
 import PublishSettings from "../../components/camp-settings/publish-settings";
@@ -31,7 +32,7 @@ export default function EditCampPage() {
       case Tab.ACTIVITIES:
         return <div>Activity</div>;
       case Tab.IMAGES:
-        return <div>Image</div>;
+        return <ImagesSettings />;
       case Tab.TAGS:
         return <div>Tag</div>;
       case Tab.DISCOUNTS:
