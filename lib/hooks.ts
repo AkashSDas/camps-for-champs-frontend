@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
 import { getNewAccessToken } from "../services/auth.service";
-import { getCamp } from "../services/camp.service";
+import { getCamp, getCamps } from "../services/camp.service";
 
 export function useUser() {
   var { data, status } = useQuery("user", getNewAccessToken, {
@@ -37,6 +37,26 @@ export function useEditCamp() {
 
   return {
     camp: data?.camp,
+    message: data?.message,
+    isLoading: status == "loading",
+  };
+}
+
+export function useEditCamps() {
+  var { user, accessToken } = useUser();
+
+  var { data, status } = useQuery(
+    "edit-camps",
+    () => getCamps(accessToken as string),
+    {
+      enabled: !!accessToken && user?.roles.includes("admin"),
+      retry: false,
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  return {
+    camps: data?.camps,
     message: data?.message,
     isLoading: status == "loading",
   };

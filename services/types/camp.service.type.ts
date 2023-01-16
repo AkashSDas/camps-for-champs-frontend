@@ -38,3 +38,9 @@ export interface UpdateCampSettingsResponse {
   message?: string;
   camp?: Camp;
 }
+
+export interface GetCampsResponse {
+  success: boolean;
+  message?: string;
+  camps?: Camp[];
+}

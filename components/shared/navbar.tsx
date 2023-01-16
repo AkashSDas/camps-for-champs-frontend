@@ -160,6 +160,7 @@ export default function Navbar(): JSX.Element {
 
 function UserPopoverContent({ handleClose }: { handleClose: () => void }) {
   var { isLoggedIn, user } = useUser();
+  var router = useRouter();
 
   function ViewAllCampsForAdminButton() {
     return (
@@ -171,6 +172,7 @@ function UserPopoverContent({ handleClose }: { handleClose: () => void }) {
         fontSize="sm"
         h={pxToRem(36)}
         rounded="md"
+        onClick={() => router.push("/admin")}
       >
         <HStack gap={pxToRem(4)}>
           <FolderIcon h={20} w={20} className="icon-normal-stroke" />
