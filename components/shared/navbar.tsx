@@ -1,18 +1,43 @@
+import Logo from "../icons/logo";
 import NextLink from "next/link";
-import { useRouter } from "next/router";
-import { useCallback, useEffect } from "react";
-import { useMutation } from "react-query";
-
-import { Badge, Button, Center, Divider, HStack, IconButton, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverFooter, PopoverHeader, PopoverTrigger, Portal, Spinner, Text, Tooltip, useDisclosure, useToast, VStack } from "@chakra-ui/react";
-
-import { pxToRem, theme } from "../../lib/chakra-ui";
-import { useUser } from "../../lib/hooks";
-import { queryClient } from "../../lib/react-query";
-import { logout } from "../../services/auth.service";
 import { createCamp } from "../../services/camp.service";
 import { GetNewAccessTokenResponse } from "../../services/types/auth.service.type";
-import { AddIcon, FolderIcon, LoginIcon, LogoutIcon, SearchIcon, UserCircleIcon } from "../icons";
-import Logo from "../icons/logo";
+import { logout } from "../../services/auth.service";
+import { pxToRem, theme } from "../../lib/chakra-ui";
+import { queryClient } from "../../lib/react-query";
+import { useCallback } from "react";
+import { useMutation } from "react-query";
+import { useRouter } from "next/router";
+import { useUser } from "../../lib/hooks";
+
+import {
+  Button,
+  Center,
+  Divider,
+  HStack,
+  IconButton,
+  Popover,
+  PopoverBody,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
+  Portal,
+  Spinner,
+  Text,
+  Tooltip,
+  useDisclosure,
+  useToast,
+  VStack,
+} from "@chakra-ui/react";
+
+import {
+  AddIcon,
+  FolderIcon,
+  LoginIcon,
+  LogoutIcon,
+  SearchIcon,
+  UserCircleIcon,
+} from "../icons";
 
 export default function Navbar(): JSX.Element {
   var toast = useToast();
@@ -81,9 +106,14 @@ export default function Navbar(): JSX.Element {
               <IconButton
                 aria-label="Logout user"
                 variant="icon-ghost"
+                disabled={mutation.isLoading}
                 onClick={() => mutation.mutate()}
               >
-                <LogoutIcon className="icon-normal-stroke" />
+                {mutation.isLoading ? (
+                  <Spinner />
+                ) : (
+                  <LogoutIcon className="icon-normal-stroke" />
+                )}
               </IconButton>
             </Tooltip>
           ) : (
@@ -134,9 +164,10 @@ export default function Navbar(): JSX.Element {
 
       {isLoggedIn && user?.roles.includes("admin") && (
         <HStack
+          id="admin-bar"
           position="absolute"
           top={50}
-          borderTop="1px solid"
+          borderTop="2px solid"
           borderTopColor={theme.colors.b.orange5}
           w="full"
           justifyContent="center"

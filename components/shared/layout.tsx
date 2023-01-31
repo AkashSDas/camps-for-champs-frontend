@@ -1,7 +1,7 @@
-import { Box, VStack } from "@chakra-ui/react";
-
-import { pxToRem } from "../../lib/chakra-ui";
 import Navbar from "./navbar";
+import { Box, VStack } from "@chakra-ui/react";
+import { pxToRem } from "../../lib/chakra-ui";
+
 
 interface Props {
   children: JSX.Element;
