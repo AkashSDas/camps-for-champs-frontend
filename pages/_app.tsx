@@ -1,14 +1,11 @@
-import "../styles/globals.css";
-
-import { QueryClientProvider } from "react-query";
-
+import Layout from "../components/shared/layout";
+import localFont from "@next/font/local";
 import { ChakraProvider } from "@chakra-ui/react";
 import { Poppins } from "@next/font/google";
-import localFont from "@next/font/local";
-
-import Layout from "../components/shared/layout";
-import { theme } from "../lib/chakra-ui";
 import { queryClient } from "../lib/react-query";
+import { QueryClientProvider } from "react-query";
+import { theme } from "../lib/chakra-ui";
+import "../styles/globals.css";
 
 import type { AppProps } from "next/app";
 const poppins = Poppins({

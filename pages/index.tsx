@@ -1,7 +1,14 @@
-import { Box, Button, Heading, HStack, Image, Text, VStack } from "@chakra-ui/react";
-
 import PublicCamps from "../components/camps/public-camps";
 import { pxToRem } from "../lib/chakra-ui";
+import {
+  Box,
+  Button,
+  Heading,
+  HStack,
+  Image,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 
 export default function HomePage() {
   return (
@@ -36,7 +43,7 @@ function Header() {
           Find a camp for your requirements!
         </Text>
 
-        <Button variant="bigSolid">Book your camp</Button>
+        <Button variant="solid">Book your camp</Button>
       </VStack>
 
       <Box mixBlendMode="luminosity">
