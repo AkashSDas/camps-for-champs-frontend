@@ -1,15 +1,23 @@
-import { useRouter } from "next/router";
+import { login } from "../../services/auth.service";
+import { LoginInput } from "../../lib/input-schema";
+import { loginSchema } from "../../lib/yup-schema";
+import { pxToRem } from "../../lib/chakra-ui";
+import { queryClient } from "../../lib/react-query";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
-
-import { Button, FormControl, FormErrorMessage, FormLabel, Input, Spinner, useToast, VStack } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { pxToRem } from "../../lib/chakra-ui";
-import { LoginInput } from "../../lib/input-schema";
-import { queryClient } from "../../lib/react-query";
-import { loginSchema } from "../../lib/yup-schema";
-import { login } from "../../services/auth.service";
+import {
+  Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+  Spinner,
+  useToast,
+  VStack,
+} from "@chakra-ui/react";
 
 export default function LoginForm(): JSX.Element {
   var toast = useToast();
@@ -69,7 +77,7 @@ export default function LoginForm(): JSX.Element {
       as="form"
       justifyContent="center"
       gap={pxToRem(24)}
-      onSubmit={handleSubmit((data) => mutation.mutate(data))}
+      onSubmit={handleSubmit(async (data) => await mutation.mutateAsync(data))}
     >
       {/* Email field */}
       <FormControl isInvalid={formState.errors.email ? true : false}>

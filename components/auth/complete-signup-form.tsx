@@ -1,17 +1,25 @@
-import { useRouter } from "next/router";
+import { completeOauthSignup } from "../../services/auth.service";
+import { CompleteOauthSignupInput } from "../../lib/input-schema";
+import { completeOauthSignupSchema } from "../../lib/yup-schema";
+import { pxToRem } from "../../lib/chakra-ui";
+import { queryClient } from "../../lib/react-query";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
-
-import { Button, FormControl, FormErrorMessage, FormLabel, Input, Spinner, useToast, VStack } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { useUser } from "../../lib/hooks";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { pxToRem } from "../../lib/chakra-ui";
-import { useUser } from "../../lib/hooks";
-import { CompleteOauthSignupInput, SignupInput } from "../../lib/input-schema";
-import { queryClient } from "../../lib/react-query";
-import { completeOauthSignupSchema, signupSchema } from "../../lib/yup-schema";
-import { completeOauthSignup, signup } from "../../services/auth.service";
+import {
+  Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+  Spinner,
+  useToast,
+  VStack,
+} from "@chakra-ui/react";
 
 export default function CompleteSignupForm(): JSX.Element {
   var toast = useToast();

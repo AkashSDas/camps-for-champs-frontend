@@ -1,11 +1,9 @@
-import { useMutation } from "react-query";
-
-import { Button, useToast } from "@chakra-ui/react";
-
-import { useUser } from "../../lib/hooks";
-import { queryClient } from "../../lib/react-query";
+import { Button, Spinner, useToast } from "@chakra-ui/react";
 import { cancelOauthSignup } from "../../services/auth.service";
 import { GetNewAccessTokenResponse } from "../../services/types/auth.service.type";
+import { queryClient } from "../../lib/react-query";
+import { useMutation } from "react-query";
+import { useUser } from "../../lib/hooks";
 
 export default function CancelOauthSignup() {
   var toast = useToast();
@@ -43,9 +41,10 @@ export default function CancelOauthSignup() {
       color="b.blue4"
       fontWeight="medium"
       fontSize="sm"
+      disabled={mutation.isLoading}
       onClick={() => mutation.mutate()}
     >
-      Cancel
+      {mutation.isLoading ? <Spinner /> : "Cancel"}
     </Button>
   );
 }
