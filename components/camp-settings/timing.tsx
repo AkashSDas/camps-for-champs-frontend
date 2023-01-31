@@ -1,13 +1,26 @@
+import { CampSettingsLayout } from "./layout";
+import { pxToRem, theme } from "../../lib/chakra-ui";
+import { TimingInput } from "../../lib/input-schema";
+import { updateTimingSettings } from "../../services/camp.service";
+import { useEditCamp, useUser } from "../../lib/hooks";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 
-import { Button, Divider, FormControl, FormErrorMessage, FormLabel, Heading, HStack, Input, Spinner, Text, useToast, VStack } from "@chakra-ui/react";
+import {
+  Button,
+  Divider,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Heading,
+  HStack,
+  Input,
+  Spinner,
+  Text,
+  useToast,
+  VStack,
+} from "@chakra-ui/react";
 
-import { pxToRem, theme } from "../../lib/chakra-ui";
-import { useEditCamp, useUser } from "../../lib/hooks";
-import { TimingInput } from "../../lib/input-schema";
-import { updateTimingSettings } from "../../services/camp.service";
-import { CampSettingsLayout } from "./layout";
 
 export default function TimingSettings() {
   var { camp } = useEditCamp();

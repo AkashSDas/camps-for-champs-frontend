@@ -1,12 +1,7 @@
-import { useMutation } from "react-query";
-
-import { Badge, Divider, Heading, HStack, Select, useToast, VStack } from "@chakra-ui/react";
-
-import { CampStatus } from "../../lib/camp";
-import { pxToRem } from "../../lib/chakra-ui";
-import { useEditCamp, useUser } from "../../lib/hooks";
-import { updateStatus } from "../../services/camp.service";
 import { CampSettingsLayout } from "./layout";
+import { Divider, Heading, VStack } from "@chakra-ui/react";
+import { pxToRem } from "../../lib/chakra-ui";
+
 
 export default function ImagesSettings() {
   return (

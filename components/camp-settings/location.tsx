@@ -1,13 +1,25 @@
-import { Controller, useForm } from "react-hook-form";
-import { useMutation } from "react-query";
 import ResizeTextarea from "react-textarea-autosize";
-
-import { Button, Divider, FormControl, FormErrorMessage, FormLabel, Heading, HStack, Input, Radio, RadioGroup, Spinner, Text, useToast, VStack } from "@chakra-ui/react";
-
-import { pxToRem, theme } from "../../lib/chakra-ui";
-import { useEditCamp, useUser } from "../../lib/hooks";
-import { updateLocationSettings } from "../../services/camp.service";
 import { CampSettingsLayout } from "./layout";
+import { pxToRem, theme } from "../../lib/chakra-ui";
+import { updateLocationSettings } from "../../services/camp.service";
+import { useEditCamp, useUser } from "../../lib/hooks";
+import { useForm } from "react-hook-form";
+import { useMutation } from "react-query";
+
+import {
+  Button,
+  Divider,
+  FormControl,
+  FormErrorMessage,
+  FormHelperText,
+  FormLabel,
+  Heading,
+  Input,
+  Spinner,
+  Text,
+  useToast,
+  VStack,
+} from "@chakra-ui/react";
 
 export default function LocationSettings() {
   var { camp } = useEditCamp();
@@ -170,6 +182,9 @@ export default function LocationSettings() {
           }
         />
 
+        <FormHelperText fontFamily="body" fontStyle="italic">
+          Format (https://goo.gl/maps/ncZo17Wpr855Fyj29)
+        </FormHelperText>
         <FormErrorMessage>
           {formState.errors.googleMapURL?.message}
         </FormErrorMessage>

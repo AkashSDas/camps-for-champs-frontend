@@ -1,10 +1,17 @@
-import { useRouter } from "next/router";
-
 import { Box, IconButton, Tooltip, VStack } from "@chakra-ui/react";
-
 import { pxToRem, theme } from "../../lib/chakra-ui";
 import { useEditCamp } from "../../lib/hooks";
-import { AlaramIcon, ImageIcon, LocationIcon, PackageIcon, ReceiptIcon, SettingsIcon } from "../icons";
+import { useRouter } from "next/router";
+
+
+import {
+  AlaramIcon,
+  ImageIcon,
+  LocationIcon,
+  PackageIcon,
+  ReceiptIcon,
+  SettingsIcon,
+} from "../icons";
 
 export enum Tab {
   SETTINGS = "settings",

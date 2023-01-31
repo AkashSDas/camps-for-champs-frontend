@@ -1,37 +1,44 @@
-import { Controller, useForm } from "react-hook-form";
-import { useMutation } from "react-query";
 import ResizeTextarea from "react-textarea-autosize";
-
-import { Button, Divider, FormControl, FormErrorMessage, FormLabel, Heading, HStack, Input, Radio, RadioGroup, Spinner, Text, useToast, VStack } from "@chakra-ui/react";
-import { yupResolver } from "@hookform/resolvers/yup";
-
-import { pxToRem, theme } from "../../lib/chakra-ui";
-import { useEditCamp, useUser } from "../../lib/hooks";
+import { CampSettingsLayout } from "./layout";
 import { CancellationPolicyInput } from "../../lib/input-schema";
 import { cancellationPolicySchema } from "../../lib/yup-schema";
-import { updateCampSetting, updateCancellationPolicySettings } from "../../services/camp.service";
-import { CampSettingsLayout } from "./layout";
+import { Controller, useForm } from "react-hook-form";
+import { pxToRem, theme } from "../../lib/chakra-ui";
+import { updateCancellationPolicySettings } from "../../services/camp.service";
+import { useEditCamp, useUser } from "../../lib/hooks";
+import { useMutation } from "react-query";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+import {
+  Button,
+  Divider,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Heading,
+  HStack,
+  Input,
+  Radio,
+  RadioGroup,
+  Spinner,
+  Text,
+  useToast,
+  VStack,
+} from "@chakra-ui/react";
 
 export default function CancellationPolicySettings() {
   var { camp } = useEditCamp();
   var { accessToken } = useUser();
   var toast = useToast();
 
-  var {
-    register,
-    handleSubmit,
-    formState,
-    watch,
-    getValues,
-    setValue,
-    control,
-  } = useForm<CancellationPolicyInput>({
-    defaultValues: {
-      type: camp?.cancellationPolicy?.type ?? undefined,
-      description: camp?.cancellationPolicy?.description ?? "",
-    },
-    resolver: yupResolver(cancellationPolicySchema),
-  });
+  var { register, handleSubmit, formState, control } =
+    useForm<CancellationPolicyInput>({
+      defaultValues: {
+        type: camp?.cancellationPolicy?.type ?? undefined,
+        description: camp?.cancellationPolicy?.description ?? "",
+      },
+      resolver: yupResolver(cancellationPolicySchema),
+    });
 
   var mutation = useMutation({
     mutationFn: async (data: CancellationPolicyInput) =>

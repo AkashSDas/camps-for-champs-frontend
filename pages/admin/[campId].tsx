@@ -1,17 +1,15 @@
-import { useRouter } from "next/router";
-import { useCallback, useEffect } from "react";
-
-import { Box, Spinner } from "@chakra-ui/react";
-
 import BasicSettings from "../../components/camp-settings/basic-settings";
 import CancellationPolicySettings from "../../components/camp-settings/cancellation-policy";
 import ImagesSettings from "../../components/camp-settings/images";
-import { Tab } from "../../components/camp-settings/layout";
 import LocationSettings from "../../components/camp-settings/location";
 import PublishSettings from "../../components/camp-settings/publish-settings";
 import TimingSettings from "../../components/camp-settings/timing";
+import { Box, Center, Image, Spinner, Text, VStack } from "@chakra-ui/react";
 import { pxToRem } from "../../lib/chakra-ui";
+import { Tab } from "../../components/camp-settings/layout";
+import { useCallback, useEffect } from "react";
 import { useEditCamp } from "../../lib/hooks";
+import { useRouter } from "next/router";
 
 export default function EditCampPage() {
   var router = useRouter();
@@ -56,13 +54,35 @@ export default function EditCampPage() {
 
   if (isLoading) {
     return (
-      <Box pt={pxToRem(128)}>
-        <Spinner size="lg" />
-      </Box>
+      <Center>
+        <Box pt={pxToRem(128)}>
+          <Spinner size="lg" />
+        </Box>
+      </Center>
     );
   }
 
-  if (!camp) return <Box>404</Box>;
+  if (!camp)
+    return (
+      <Center mt={pxToRem(64)}>
+        <VStack gap={pxToRem(16)}>
+          <Box mixBlendMode="luminosity">
+            <Image
+              w={pxToRem(614)}
+              h={pxToRem(422)}
+              src="https://media.giphy.com/media/kaq6GnxDlJaBq/giphy.gif"
+              alt="Welcome gif"
+              objectFit="cover"
+              rounded="3xl"
+            />
+          </Box>
+
+          <Text fontSize={pxToRem(56)} fontFamily="heading">
+            Camp not found
+          </Text>
+        </VStack>
+      </Center>
+    );
 
   return <DisplayTab />;
 }
