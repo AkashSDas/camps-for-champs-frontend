@@ -1,6 +1,10 @@
 import fetchFromAPI from "../lib/axios";
-import { CompleteOauthSignupInput, LoginInput, SignupInput } from "../lib/input-schema";
 import { GetNewAccessTokenResponse } from "./types/auth.service.type";
+import {
+  CompleteOauthSignupInput,
+  LoginInput,
+  SignupInput,
+} from "../lib/input-schema";
 
 export async function signup(data: SignupInput) {
   var response = await fetchFromAPI("/auth/email-signup", {
@@ -115,6 +119,5 @@ export async function createOauthSession(token: string) {
     };
   }
 
-  console.log(response.statusCode);
   return { message: response.error.message, success: false };
 }

@@ -1,7 +1,16 @@
 import fetchFromAPI from "../lib/axios";
 import { CampStatus } from "../lib/camp";
-import { BasicSettingInput, CancellationPolicyInput, LocationInput, TimingInput } from "../lib/input-schema";
-import { GetCampResponse, GetCampsResponse, UpdateCampSettingsResponse } from "./types/camp.service.type";
+import {
+  BasicSettingInput,
+  CancellationPolicyInput,
+  LocationInput,
+  TimingInput,
+} from "../lib/input-schema";
+import {
+  GetCampResponse,
+  GetCampsResponse,
+  UpdateCampSettingsResponse,
+} from "./types/camp.service.type";
 
 export async function adminCheckForRequest(userRoles: string[], cb: Function) {
   if (userRoles.includes("admin")) return await cb();

@@ -1,6 +1,4 @@
-import { array, number, object, string } from "yup";
-
-import { Accessibility, Amenity } from "./camp";
+import { number, object, string } from "yup";
 
 // =====================================
 // Auth
