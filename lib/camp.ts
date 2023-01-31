@@ -31,3 +31,11 @@ export enum PolicyType {
   MODERATE = "moderate",
   STRICT = "strict",
 }
+
+export enum ImageType {
+  COVER = "cover",
+  LOCATION = "location",
+  FOOD = "food",
+  ACTIVITY = "activity",
+  ACCOMMODATION = "accommodation",
+}

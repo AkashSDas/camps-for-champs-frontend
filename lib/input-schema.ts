@@ -1,8 +1,8 @@
+import { Accessibility, Amenity, ImageType } from "./camp";
 // =====================================
 // Auth
 // =====================================
 
-import { Accessibility, Amenity } from "./camp";
 
 export interface SignupInput {
   email: string;
@@ -45,4 +45,10 @@ export interface LocationInput {
 export interface TimingInput {
   startDate?: Date;
   endDate?: Date;
+}
+
+export interface ImageInput {
+  type: ImageType;
+  URL?: string;
+  description?: string;
 }

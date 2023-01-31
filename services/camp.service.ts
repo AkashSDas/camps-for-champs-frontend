@@ -199,3 +199,26 @@ export async function getPublicCamps(): Promise<GetCampsResponse> {
 
   return { message: response.error.message, success: false };
 }
+
+export async function addImage(
+  id: string,
+  data: FormData,
+  accessToken: string
+) {
+  var response = await fetchFromAPI(`/camp/${id}/image`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${accessToken}` },
+    data,
+  });
+
+  if (response.statusCode == 200) {
+    return {
+      success: true,
+      message: "Image uploaded",
+      camp: response.data.camp,
+      image: response.data.image,
+    };
+  }
+
+  return { message: response.error.message, success: false };
+}
