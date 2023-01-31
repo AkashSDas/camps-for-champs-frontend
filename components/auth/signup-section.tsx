@@ -1,18 +1,24 @@
-import NextLink from "next/link";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { useMutation } from "react-query";
-
-import { Button, Heading, HStack, Text, useToast, VStack } from "@chakra-ui/react";
-
-import { pxToRem, theme } from "../../lib/chakra-ui";
-import { useUser } from "../../lib/hooks";
-import { queryClient } from "../../lib/react-query";
-import { createOauthSession } from "../../services/auth.service";
-import { FacebookIcon, GoogleIcon, TwitterIcon } from "../icons/social";
 import CancelOauthSignup from "./cancel-oauth-signup";
 import CompleteSignupForm from "./complete-signup-form";
+import NextLink from "next/link";
 import SignupForm from "./signup-form";
+import { createOauthSession } from "../../services/auth.service";
+import { FacebookIcon, GoogleIcon, TwitterIcon } from "../icons/social";
+import { pxToRem, theme } from "../../lib/chakra-ui";
+import { queryClient } from "../../lib/react-query";
+import { useEffect } from "react";
+import { useMutation } from "react-query";
+import { useRouter } from "next/router";
+import { useUser } from "../../lib/hooks";
+
+import {
+  Button,
+  Heading,
+  HStack,
+  Text,
+  useToast,
+  VStack,
+} from "@chakra-ui/react";
 
 export default function SignupSection(): JSX.Element {
   var { isLoggedIn } = useUser();

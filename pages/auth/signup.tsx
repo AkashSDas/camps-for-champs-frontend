@@ -1,8 +1,7 @@
-import { Box, Center, Heading, HStack, Image, Text, VStack } from "@chakra-ui/react";
-
 import PromotionCard from "../../components/auth/promotion-card";
 import SignupSection from "../../components/auth/signup-section";
-import { pxToRem, theme } from "../../lib/chakra-ui";
+import { HStack } from "@chakra-ui/react";
+import { pxToRem } from "../../lib/chakra-ui";
 
 export default function SignupPage(): JSX.Element {
   return (

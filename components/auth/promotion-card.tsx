@@ -1,6 +1,6 @@
 import { Box, Center, HStack, Image, Text, VStack } from "@chakra-ui/react";
-
 import { pxToRem } from "../../lib/chakra-ui";
+
 
 export default function PromotionCard(): JSX.Element {
   function Services(): JSX.Element {

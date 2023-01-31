@@ -9,10 +9,10 @@ export var signupSchema = object({
   password: string()
     .min(8, "Too short")
     .max(20, "Too long")
-    .matches(
-      /^(?=(.*[a-z]){3,})(?=(.*[A-Z]){2,})(?=(.*[0-9]){2,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/,
-      "Weak"
-    )
+    .matches(/(.*[a-z]{3,})/, "At least 3 lowercase letters")
+    .matches(/(.*[A-Z]{2,})/, "At least 2 uppercase letters")
+    .matches(/(.*[0-9]{2,})/, "At least 2 numbers")
+    .matches(/(.*[!@#$%^&*()\-__+.]{1,})/, "At least 1 special character")
     .required("Required"),
 }).required("Required");
 
