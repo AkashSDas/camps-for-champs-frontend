@@ -222,3 +222,25 @@ export async function addImage(
 
   return { message: response.error.message, success: false };
 }
+
+export async function removeImage(
+  id: string,
+  data: { id?: string; URL: string },
+  accessToken: string
+) {
+  var response = await fetchFromAPI(`/camp/${id}/image`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${accessToken}` },
+    data,
+  });
+
+  if (response.statusCode == 200) {
+    return {
+      success: true,
+      message: "Image removed",
+      camp: response.data.camp,
+    };
+  }
+
+  return { message: response.error.message, success: false };
+}

@@ -3,7 +3,6 @@ import { Accessibility, Amenity, ImageType } from "./camp";
 // Auth
 // =====================================
 
-
 export interface SignupInput {
   email: string;
   password: string;
