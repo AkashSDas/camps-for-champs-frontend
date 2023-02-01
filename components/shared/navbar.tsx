@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Logo from "../icons/logo";
 import NextLink from "next/link";
 import { createCamp } from "../../services/camp.service";
@@ -84,7 +85,9 @@ export default function Navbar(): JSX.Element {
         borderColor={theme.colors.b.grey2}
         bg={theme.colors.b.grey0}
       >
-        <Logo />
+        <Link href="/">
+          <Logo />
+        </Link>
 
         <HStack alignItems="center" gap={pxToRem(8)}>
           <Tooltip label="Search">
@@ -203,7 +206,10 @@ function UserPopoverContent({ handleClose }: { handleClose: () => void }) {
         fontSize="sm"
         h={pxToRem(36)}
         rounded="md"
-        onClick={() => router.push("/admin")}
+        onClick={() => {
+          router.push("/admin");
+          handleClose();
+        }}
       >
         <HStack gap={pxToRem(4)}>
           <FolderIcon h={20} w={20} className="icon-normal-stroke" />
