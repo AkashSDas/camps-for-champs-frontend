@@ -244,3 +244,19 @@ export async function removeImage(
 
   return { message: response.error.message, success: false };
 }
+
+export async function getPublicCamp(id: string): Promise<GetCampResponse> {
+  var response = await fetchFromAPI(`/public-camp/public/${id}`, {
+    method: "GET",
+  });
+
+  if (response.statusCode == 200) {
+    return {
+      success: true,
+      message: "Successfully fetched camp",
+      camp: response.data.camp,
+    };
+  }
+
+  return { message: response.error.message, success: false };
+}

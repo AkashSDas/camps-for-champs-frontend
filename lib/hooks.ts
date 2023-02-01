@@ -1,8 +1,12 @@
-import { useRouter } from "next/router";
-import { useQuery } from "react-query";
-
 import { getNewAccessToken } from "../services/auth.service";
-import { getCamp, getCamps, getPublicCamps } from "../services/camp.service";
+import { useQuery } from "react-query";
+import { useRouter } from "next/router";
+import {
+  getCamp,
+  getCamps,
+  getPublicCamp,
+  getPublicCamps,
+} from "../services/camp.service";
 
 export function useUser() {
   var { data, status } = useQuery("user", getNewAccessToken, {
@@ -70,6 +74,25 @@ export function useCamps() {
 
   return {
     camps: data?.camps,
+    message: data?.message,
+    isLoading: status == "loading",
+  };
+}
+
+export function useCamp() {
+  var router = useRouter();
+  var { data, status } = useQuery(
+    ["public-camp", router.query?.campId],
+    () => getPublicCamp(router.query.campId as string),
+    {
+      retry: false,
+      refetchOnWindowFocus: false,
+      enabled: !!router.query.campId,
+    }
+  );
+
+  return {
+    camp: data?.camp,
     message: data?.message,
     isLoading: status == "loading",
   };

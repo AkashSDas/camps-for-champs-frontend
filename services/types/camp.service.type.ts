@@ -44,3 +44,9 @@ export interface GetCampsResponse {
   message?: string;
   camps?: Camp[];
 }
+
+export interface GetCampResponse {
+  success: boolean;
+  message?: string;
+  camp?: Camp;
+}
