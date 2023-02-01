@@ -1,10 +1,20 @@
+import { Camp } from "../../services/types/camp.service.type";
+import { pxToRem } from "../../lib/chakra-ui";
+import { useCamps } from "../../lib/hooks";
 import { useRouter } from "next/router";
 
-import { Badge, Card, CardBody, Divider, Heading, HStack, Image, SimpleGrid, Spinner, Stack, Text, VStack } from "@chakra-ui/react";
-
-import { pxToRem } from "../../lib/chakra-ui";
-import { useCamps, useEditCamps } from "../../lib/hooks";
-import { Camp } from "../../services/types/camp.service.type";
+import {
+  Badge,
+  Card,
+  CardBody,
+  HStack,
+  Image,
+  SimpleGrid,
+  Spinner,
+  Stack,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 
 export default function PublicCamps() {
   var { camps, isLoading } = useCamps();

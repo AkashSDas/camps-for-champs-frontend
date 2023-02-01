@@ -187,7 +187,7 @@ export async function getCamps(accessToken: string): Promise<GetCampsResponse> {
 }
 
 export async function getPublicCamps(): Promise<GetCampsResponse> {
-  var response = await fetchFromAPI("/public-camps/public", { method: "GET" });
+  var response = await fetchFromAPI("/public-camp/public", { method: "GET" });
 
   if (response.statusCode == 200) {
     return {
