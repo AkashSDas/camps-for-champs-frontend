@@ -1,4 +1,5 @@
 import { Camp } from "../../services/types/camp.service.type";
+import { CampStatus, ImageType } from "../../lib/camp";
 import { pxToRem } from "../../lib/chakra-ui";
 import { useEditCamps } from "../../lib/hooks";
 import { useRouter } from "next/router";
@@ -17,7 +18,6 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-
 
 export default function AdminPage() {
   var { camps, isLoading } = useEditCamps();
@@ -42,7 +42,7 @@ export default function AdminPage() {
         {isLoading && <Spinner size="lg" />}
 
         {!isLoading && camps && (
-          <SimpleGrid columns={[1, 2, 3]} spacing={pxToRem(24)}>
+          <SimpleGrid columns={[1, 2]} spacing={pxToRem(24)}>
             {camps.map((camp) => (
               <CampCard key={camp.campId} camp={camp} />
             ))}
@@ -59,7 +59,7 @@ function CampCard({ camp }: { camp: Camp }) {
   return (
     <Card
       w="full"
-      maxW={pxToRem(300)}
+      maxW={pxToRem(400)}
       rounded="2xl"
       cursor="pointer"
       _hover={{ bg: "b.grey1" }}
@@ -67,7 +67,13 @@ function CampCard({ camp }: { camp: Camp }) {
     >
       <CardBody p={pxToRem(8)} gap={pxToRem(8)}>
         <Image
-          src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+          h={pxToRem(200)}
+          w={pxToRem(400)}
+          objectFit="cover"
+          src={
+            camp.images.find((img) => (img.type = ImageType.COVER))?.URL ??
+            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+          }
           alt={camp.name ?? "Camp image"}
           borderRadius="xl"
         />
@@ -78,12 +84,17 @@ function CampCard({ camp }: { camp: Camp }) {
           </Text>
 
           <HStack>
-            <Badge w="fit-content" variant="subtle">
+            <Badge
+              w="fit-content"
+              variant="subtle"
+              letterSpacing={pxToRem(2)}
+              bg={camp.status == CampStatus.ACTIVE ? "b.green1" : "b.red1"}
+            >
               {camp.status}
             </Badge>
 
             {camp.price && (
-              <Badge w="fit-content" variant="subtle">
+              <Badge w="fit-content" variant="outline">
                 ₹{camp.price}
               </Badge>
             )}
