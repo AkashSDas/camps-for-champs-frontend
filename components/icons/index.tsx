@@ -336,3 +336,18 @@ export function HeartIcon(props: IconProps): JSX.Element {
     </IconWrapper>
   );
 }
+
+export function ArrowDownIcon(props: IconProps): JSX.Element {
+  return (
+    <IconWrapper {...props}>
+      <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M14.167 8.33325L10.0003 11.6666L5.83366 8.33325"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </IconWrapper>
+  );
+}
