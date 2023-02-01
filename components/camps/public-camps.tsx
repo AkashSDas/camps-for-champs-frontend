@@ -25,7 +25,7 @@ export default function PublicCamps() {
       <VStack
         w="full"
         justifyContent="center"
-        maxW={pxToRem(800)}
+        maxW={pxToRem(1024)}
         pt={pxToRem(28 + 24)}
         pb={pxToRem(256)}
         gap={pxToRem(24)}
@@ -35,6 +35,7 @@ export default function PublicCamps() {
 
         {!isLoading && camps && (
           <SimpleGrid
+            w="full"
             columns={[1, 2, 3]}
             minChildWidth={pxToRem(300)}
             spacing={pxToRem(24)}
