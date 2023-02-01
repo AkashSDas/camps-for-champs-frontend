@@ -20,6 +20,10 @@
   fill: #545454;
 }
 
+.icon-red-stroke {
+  stroke: #e35d52;
+}
+
 .orange-text-gradient {
   background: -webkit-linear-gradient(#df8531, #df6531);
   background-clip: text;

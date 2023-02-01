@@ -322,3 +322,17 @@ export function BackspaceIcon(props: IconProps): JSX.Element {
     </IconWrapper>
   );
 }
+
+export function HeartIcon(props: IconProps): JSX.Element {
+  return (
+    <IconWrapper {...props}>
+      <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M9.57378 3.52672L9 4.14317L8.42621 3.52672C6.84175 1.82443 4.27282 1.82443 2.68835 3.52671C1.10388 5.229 1.10388 7.98895 2.68835 9.69124L7.85243 15.2393C8.48621 15.9202 9.51379 15.9202 10.1476 15.2393L15.3116 9.69124C16.8961 7.98895 16.8961 5.229 15.3116 3.52672C13.7272 1.82443 11.1583 1.82443 9.57378 3.52672Z"
+          strokeWidth="1.5"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </IconWrapper>
+  );
+}
