@@ -58,10 +58,11 @@ export var useCampBookingStore = create<CampBooking>()((set, get) => ({
     if (amount >= 0) set({ amounToCharge: amount });
   },
   setCheckIn: function updateCheckIn(date: Date) {
-    if (datetimeShouldBeInFuture(date)) set({ checkIn: date });
+    // if (datetimeShouldBeInFuture(date)) set({ checkIn: date });
+    set({ checkIn: date });
   },
   setCheckOut: function updateCheckOut(date: Date) {
-    if (datetimeShouldBeInFuture(date)) set({ checkOut: date });
+    set({ checkOut: date });
   },
 }));
 
