@@ -1,6 +1,9 @@
-import { ArrowDownIcon } from "../icons";
+import GuestAndUnitModal from "./guest-and-unit-modal";
+import { AddIcon, ArrowDownIcon, MinusIcon } from "../icons";
 import { pxToRem } from "../../lib/chakra-ui";
 import { useCamp } from "../../lib/hooks";
+import { useCampBookingStore } from "../../store/camp-booking.store";
+import { useEffect, useState } from "react";
 import {
   VStack,
   HStack,
@@ -8,10 +11,23 @@ import {
   Button,
   Text,
   Box,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+  Heading,
 } from "@chakra-ui/react";
 
 export default function BookingPanel() {
   var { camp } = useCamp();
+  var { isOpen, onOpen, onClose } = useDisclosure();
+  var { reset } = useCampBookingStore((state) => ({
+    reset: state.reset,
+  }));
 
   return (
     <VStack
@@ -27,6 +43,14 @@ export default function BookingPanel() {
       position="sticky"
       top={pxToRem(64)}
     >
+      <GuestAndUnitModal
+        isOpen={isOpen}
+        onClose={() => {
+          onClose();
+          reset();
+        }}
+      />
+
       <HStack justifyContent="space-between" w="full">
         <HStack>
           <Text fontFamily="heading" fontSize="lg">
@@ -48,7 +72,11 @@ export default function BookingPanel() {
           <Text fontSize={pxToRem(12.8)}>No guest</Text>
         </HStack>
 
-        <IconButton aria-label="Select guests" variant="icon-ghost">
+        <IconButton
+          aria-label="Select guests"
+          variant="icon-ghost"
+          onClick={onOpen}
+        >
           <ArrowDownIcon className="icon-normal-stroke" />
         </IconButton>
       </HStack>

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-interface Guest {
+export interface Guest {
   type: "adult" | "child" | "pet";
   count: number;
 }
@@ -11,22 +11,40 @@ interface CampBooking {
   amounToCharge: number;
   checkIn?: Date;
   checkOut?: Date;
+
+  incrementGuest: (type: Guest["type"], count: number) => void;
+  incrementCampUnit: (count: number) => void;
+  setAmount: (amount: number) => void;
+  reset: () => void;
 }
 
-export var useCampBookingStore = create<CampBooking>()((set) => ({
-  guests: [],
-  campUnitsBooked: 0,
+export var useCampBookingStore = create<CampBooking>()((set, get) => ({
+  guests: [
+    { type: "adult", count: 1 },
+    { type: "child", count: 0 },
+    { type: "pet", count: 0 },
+  ],
+  campUnitsBooked: 1,
   amounToCharge: 0,
   checkIn: undefined,
   checkOut: undefined,
-
-  addGuest: function pushGuest(guest: Guest) {
-    set((state) => ({ guests: [...state.guests, guest] }));
+  reset() {
+    set({
+      guests: [
+        { type: "adult", count: 1 },
+        { type: "child", count: 0 },
+        { type: "pet", count: 0 },
+      ],
+      campUnitsBooked: 1,
+      amounToCharge: 0,
+      checkIn: undefined,
+      checkOut: undefined,
+    });
   },
-  removeGuest: function filterGuest(type: Guest["type"]) {
+  incrementGuest: function increment(type: Guest["type"], count: number) {
     set((state) => ({
       guests: state.guests.map((g) => {
-        if (g.type == type && g.count > 0) g.count - 1;
+        if (g.type == type) g.count += count;
         return g;
       }),
     }));
