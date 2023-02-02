@@ -25,6 +25,7 @@ export interface Camp {
   endDate?: string;
   images: { id?: string; URL: string; type: string; description?: string }[];
   status: CampStatus;
+  bookings: number;
 }
 
 export interface GetCampResponse {

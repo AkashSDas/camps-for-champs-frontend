@@ -1,4 +1,5 @@
 import { Accessibility, Amenity, ImageType } from "./camp";
+import { Guest } from "../store/camp-booking.store";
 // =====================================
 // Auth
 // =====================================
@@ -50,4 +51,12 @@ export interface ImageInput {
   type: ImageType;
   URL?: string;
   description?: string;
+}
+
+export interface BookCampInput {
+  checkIn: string;
+  checkOut: string;
+  guests: Guest[];
+  amountToCharge: number;
+  campUnitsBooked: number;
 }
