@@ -1,3 +1,4 @@
+import BookCampButton from "./book-camp-button";
 import GuestAndUnitModal from "./guest-and-unit-modal";
 import { ArrowDownIcon, MinusIcon } from "../icons";
 import { formatDateTime } from "./camp-info";
@@ -118,9 +119,7 @@ export default function BookingPanel() {
       </HStack>
 
       <Box>
-        <Button variant="solid" px={pxToRem(64)} h={pxToRem(48)}>
-          Book now
-        </Button>
+        <BookCampButton />
       </Box>
     </VStack>
   );
