@@ -1,8 +1,10 @@
+import { bookCamp } from "../../services/booking.service";
 import { BookCampInput } from "../../lib/input-schema";
-import { Button, useToast } from "@chakra-ui/react";
+import { Button, Spinner, Text, useToast } from "@chakra-ui/react";
 import { pxToRem } from "../../lib/chakra-ui";
-import { useCamp } from "../../lib/hooks";
+import { useCamp, useUser } from "../../lib/hooks";
 import { useCampBookingStore } from "../../store/camp-booking.store";
+import { useState } from "react";
 
 export default function BookCampButton() {
   var toast = useToast();
@@ -15,6 +17,8 @@ export default function BookCampButton() {
     })
   );
   var { camp } = useCamp();
+  var { accessToken } = useUser();
+  var [loading, setLoading] = useState(false);
 
   function submitValidation() {
     var isValid = false;
@@ -52,14 +56,14 @@ export default function BookCampButton() {
       });
     } else if (camp?.startDate && checkIn < new Date(camp.startDate)) {
       toast({
-        title: "Camp is not available for booking yet",
+        title: "Camp will start after your check in date",
         status: "error",
         duration: 5000,
         isClosable: true,
       });
     } else if (camp?.endDate && checkOut > new Date(camp.endDate)) {
       toast({
-        title: "Camp is not available for booking anymore",
+        title: "Camp will end before your check out date",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -72,15 +76,50 @@ export default function BookCampButton() {
   }
 
   async function handleSubmit() {
-    if (!submitValidation() && !camp) return;
+    if (!submitValidation() || !camp) return;
+    if (!accessToken) {
+      toast({
+        title: "Please login to book a camp",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+
+      return;
+    }
 
     var bookingData: BookCampInput = {
       checkIn: checkIn!.toISOString(),
       checkOut: checkOut!.toISOString(),
-      guests: guests,
+      guests: guests.filter((g) => {
+        if (g.count == 0) return false;
+        return true;
+      }),
       amountToCharge: (camp as any).price * campUnitsBooked,
       campUnitsBooked,
     };
+
+    setLoading(true);
+    var response = await bookCamp(accessToken!, camp!.campId, bookingData);
+    setLoading(false);
+
+    if (response.success) {
+      toast({
+        title: "Booking successful",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+
+      return;
+    }
+
+    toast({
+      title: response.message,
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+    });
   }
 
   return (
@@ -90,7 +129,7 @@ export default function BookCampButton() {
       px={pxToRem(64)}
       h={pxToRem(48)}
     >
-      Book now
+      {loading ? <Spinner /> : "Book now"}
     </Button>
   );
 }

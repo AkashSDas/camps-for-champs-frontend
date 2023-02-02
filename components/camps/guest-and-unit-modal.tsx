@@ -47,7 +47,9 @@ export default function GuestAndUnitModal({ isOpen, onClose }: Props) {
         </ModalBody>
 
         <ModalFooter>
-          <Button variant="solid">Save</Button>
+          <Button variant="solid" onClick={onClose}>
+            Save
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
