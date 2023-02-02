@@ -1,10 +1,9 @@
 import GuestAndUnitModal from "./guest-and-unit-modal";
-import { AddIcon, ArrowDownIcon, MinusIcon } from "../icons";
+import { ArrowDownIcon, MinusIcon } from "../icons";
 import { formatDateTime } from "./camp-info";
 import { pxToRem } from "../../lib/chakra-ui";
 import { useCamp } from "../../lib/hooks";
 import { useCampBookingStore } from "../../store/camp-booking.store";
-import { useEffect, useRef, useState } from "react";
 import {
   VStack,
   HStack,
@@ -12,29 +11,20 @@ import {
   Button,
   Text,
   Box,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
   useDisclosure,
-  Heading,
   Popover,
   PopoverTrigger,
   PopoverContent,
   PopoverBody,
-  PopoverHeader,
   Input,
 } from "@chakra-ui/react";
 
 export default function BookingPanel() {
   var { camp } = useCamp();
   var { isOpen, onOpen, onClose } = useDisclosure();
-  var { reset, checkIn, checkOut } = useCampBookingStore((state) => ({
-    reset: state.reset,
+  var { checkIn, checkOut, guests } = useCampBookingStore((state) => ({
     checkIn: state.checkIn,
+    guests: state.guests,
     checkOut: state.checkOut,
   }));
 
@@ -56,7 +46,6 @@ export default function BookingPanel() {
         isOpen={isOpen}
         onClose={() => {
           onClose();
-          reset();
         }}
       />
 
@@ -78,7 +67,15 @@ export default function BookingPanel() {
             Guests
           </Text>
 
-          <Text fontSize={pxToRem(12.8)}>No guest</Text>
+          <Text fontSize={pxToRem(12.8)}>
+            {`${guests.find((g) => g.type == "adult")?.count} adults ` +
+              (guests.find((g) => g.type == "child")!?.count > 0
+                ? `, ${guests.find((g) => g.type == "child")?.count} children `
+                : "") +
+              (guests.find((g) => g.type == "pet")!?.count > 0
+                ? `, ${guests.find((g) => g.type == "pet")?.count} pets `
+                : "")}
+          </Text>
         </HStack>
 
         <IconButton
