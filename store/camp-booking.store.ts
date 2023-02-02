@@ -16,6 +16,8 @@ interface CampBooking {
   incrementCampUnit: (count: number) => void;
   setAmount: (amount: number) => void;
   reset: () => void;
+  setCheckIn: (date: Date) => void;
+  setCheckOut: (date: Date) => void;
 }
 
 export var useCampBookingStore = create<CampBooking>()((set, get) => ({

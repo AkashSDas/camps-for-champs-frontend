@@ -1,9 +1,10 @@
 import GuestAndUnitModal from "./guest-and-unit-modal";
 import { AddIcon, ArrowDownIcon, MinusIcon } from "../icons";
+import { formatDateTime } from "./camp-info";
 import { pxToRem } from "../../lib/chakra-ui";
 import { useCamp } from "../../lib/hooks";
 import { useCampBookingStore } from "../../store/camp-booking.store";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   VStack,
   HStack,
@@ -20,13 +21,21 @@ import {
   ModalFooter,
   useDisclosure,
   Heading,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverBody,
+  PopoverHeader,
+  Input,
 } from "@chakra-ui/react";
 
 export default function BookingPanel() {
   var { camp } = useCamp();
   var { isOpen, onOpen, onClose } = useDisclosure();
-  var { reset } = useCampBookingStore((state) => ({
+  var { reset, checkIn, checkOut } = useCampBookingStore((state) => ({
     reset: state.reset,
+    checkIn: state.checkIn,
+    checkOut: state.checkOut,
   }));
 
   return (
@@ -88,12 +97,12 @@ export default function BookingPanel() {
             Check in
           </Text>
 
-          <Text fontSize={pxToRem(12.8)}>Select date</Text>
+          <Text fontSize={pxToRem(12.8)}>
+            {checkIn ? formatDateTime(checkIn) : "Select date"}
+          </Text>
         </HStack>
 
-        <IconButton aria-label="Select guests" variant="icon-ghost">
-          <ArrowDownIcon className="icon-normal-stroke" />
-        </IconButton>
+        <CheckInInput />
       </HStack>
 
       {/* Select check out */}
@@ -103,12 +112,12 @@ export default function BookingPanel() {
             Check out
           </Text>
 
-          <Text fontSize={pxToRem(12.8)}>Select date</Text>
+          <Text fontSize={pxToRem(12.8)}>
+            {checkOut ? formatDateTime(checkOut) : "Select date"}
+          </Text>
         </HStack>
 
-        <IconButton aria-label="Select guests" variant="icon-ghost">
-          <ArrowDownIcon className="icon-normal-stroke" />
-        </IconButton>
+        <CheckOutInput />
       </HStack>
 
       <Box>
@@ -117,5 +126,55 @@ export default function BookingPanel() {
         </Button>
       </Box>
     </VStack>
+  );
+}
+
+function CheckOutInput() {
+  var { setCheckOut } = useCampBookingStore((state) => ({
+    setCheckOut: state.setCheckOut,
+  }));
+
+  return (
+    <Popover>
+      <PopoverTrigger>
+        <IconButton aria-label="Open datetime picker" variant="icon-ghost">
+          <ArrowDownIcon className="icon-normal-stroke" />
+        </IconButton>
+      </PopoverTrigger>
+
+      <PopoverContent>
+        <PopoverBody>
+          <Input
+            type="datetime-local"
+            onChange={(e) => setCheckOut(new Date(e.target.value))}
+          />
+        </PopoverBody>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
+function CheckInInput() {
+  var { setCheckIn } = useCampBookingStore((state) => ({
+    setCheckIn: state.setCheckIn,
+  }));
+
+  return (
+    <Popover>
+      <PopoverTrigger>
+        <IconButton aria-label="Open datetime picker" variant="icon-ghost">
+          <ArrowDownIcon className="icon-normal-stroke" />
+        </IconButton>
+      </PopoverTrigger>
+
+      <PopoverContent>
+        <PopoverBody>
+          <Input
+            type="datetime-local"
+            onChange={(e) => setCheckIn(new Date(e.target.value))}
+          />
+        </PopoverBody>
+      </PopoverContent>
+    </Popover>
   );
 }

@@ -178,17 +178,25 @@ export default function CampInfo() {
   }
 }
 
-function capitalize(str: string) {
+export function capitalize(str: string) {
   return str[0].toUpperCase() + str.slice(1);
 }
 
-function getTimeFromDatetime(datetime: string) {
+export function getTimeFromDatetime(datetime: string) {
   return datetime.split("T")[1].slice(0, 5);
 }
 
-function formatTimeTo12Hour(time: string) {
+export function formatTimeTo12Hour(time: string) {
   var [hour, minute] = time.split(":");
   var hour12 = parseInt(hour) % 12;
   var ampm = parseInt(hour) < 12 ? "AM" : "PM";
   return `${hour12}:${minute} ${ampm}`;
+}
+
+export function formatDateTime(datetime: Date) {
+  return `${datetime.getDate()}/${
+    datetime.getMonth() + 1
+  }/${datetime.getFullYear()} ${formatTimeTo12Hour(
+    datetime.toTimeString().slice(0, 5)
+  )}`;
 }
