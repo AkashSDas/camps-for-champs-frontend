@@ -1,4 +1,6 @@
 import { getNewAccessToken } from "../services/auth.service";
+import { getUserBookings } from "../services/booking.service";
+import { stat } from "fs";
 import { useQuery } from "react-query";
 import { useRouter } from "next/router";
 import {
@@ -93,6 +95,25 @@ export function useCamp() {
 
   return {
     camp: data?.camp,
+    message: data?.message,
+    isLoading: status == "loading",
+  };
+}
+
+export function useUserBookings() {
+  var { accessToken } = useUser();
+  var { data, status } = useQuery(
+    ["user-bookings", accessToken],
+    () => getUserBookings(accessToken as string),
+    {
+      retry: false,
+      refetchOnWindowFocus: false,
+      enabled: accessToken != null,
+    }
+  );
+
+  return {
+    bookings: data?.bookings,
     message: data?.message,
     isLoading: status == "loading",
   };

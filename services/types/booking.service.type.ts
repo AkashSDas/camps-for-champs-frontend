@@ -22,3 +22,9 @@ export interface BookCampResponse {
   booking?: Booking;
   camp?: Camp;
 }
+
+export interface GetBookingsResponse {
+  message: string;
+  success: boolean;
+  bookings?: Booking[];
+}
