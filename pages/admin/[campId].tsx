@@ -1,4 +1,5 @@
 import BasicSettings from "../../components/camp-settings/basic-settings";
+import CampBookings from "../../components/camp-settings/bookings";
 import CancellationPolicySettings from "../../components/camp-settings/cancellation-policy";
 import ImagesSettings from "../../components/camp-settings/images";
 import LocationSettings from "../../components/camp-settings/location";
@@ -37,6 +38,8 @@ export default function EditCampPage() {
         return <div>Discount</div>;
       case Tab.PUBLISH:
         return <PublishSettings />;
+      case Tab.BOOKINGS:
+        return <CampBookings />;
       default:
         return <div>Invalid tab</div>;
     }

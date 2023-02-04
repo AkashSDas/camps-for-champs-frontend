@@ -3,7 +3,6 @@ import { pxToRem, theme } from "../../lib/chakra-ui";
 import { useEditCamp } from "../../lib/hooks";
 import { useRouter } from "next/router";
 
-
 import {
   AlaramIcon,
   ImageIcon,
@@ -11,6 +10,7 @@ import {
   PackageIcon,
   ReceiptIcon,
   SettingsIcon,
+  TableIcon,
 } from "../icons";
 
 export enum Tab {
@@ -23,6 +23,7 @@ export enum Tab {
   TAGS = "tags",
   DISCOUNTS = "discounts",
   PUBLISH = "publish",
+  BOOKINGS = "bookings",
 }
 
 export function CampSettingsLayout({ children }: { children: JSX.Element }) {
@@ -109,6 +110,16 @@ function Sidebar() {
           onClick={() => navigationToSetting(Tab.PUBLISH)}
         >
           <PackageIcon className="icon-normal-stroke" />
+        </IconButton>
+      </Tooltip>
+
+      <Tooltip label="Bookings" placement="right">
+        <IconButton
+          aria-label="Camp bookings"
+          variant="icon-ghost"
+          onClick={() => navigationToSetting(Tab.BOOKINGS)}
+        >
+          <TableIcon className="icon-normal-fill" />
         </IconButton>
       </Tooltip>
     </VStack>
