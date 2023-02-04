@@ -1,11 +1,11 @@
-import {
-  checkActiveBooking,
-  getUserBookings,
-} from "../services/booking.service";
 import { getNewAccessToken } from "../services/auth.service";
 import { stat } from "fs";
 import { useQuery } from "react-query";
 import { useRouter } from "next/router";
+import {
+  checkActiveBooking,
+  getUserBookings,
+} from "../services/booking.service";
 import {
   getCamp,
   getCamps,
@@ -137,7 +137,7 @@ export function useCheckActiveBooking() {
   );
 
   return {
-    bookings: data?.bookings,
+    booking: data?.booking,
     message: data?.message,
     isLoading: status == "loading",
   };

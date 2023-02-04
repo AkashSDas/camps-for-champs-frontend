@@ -2,12 +2,13 @@ import BookingPanel from "../../components/camps/booking-panel";
 import CampInfo from "../../components/camps/camp-info";
 import { Box, Center, Grid, GridItem, Spinner } from "@chakra-ui/react";
 import { pxToRem } from "../../lib/chakra-ui";
-import { useCamp } from "../../lib/hooks";
+import { useCamp, useCheckActiveBooking } from "../../lib/hooks";
 
 export default function CampPage() {
   var { camp, isLoading } = useCamp();
+  var { isLoading: checkingBooking } = useCheckActiveBooking();
 
-  if (isLoading || !camp) {
+  if (isLoading || !camp || checkingBooking) {
     return (
       <Center mt={pxToRem(40)}>
         <Box pt={pxToRem(128)}>

@@ -1,9 +1,10 @@
 import BookCampButton from "./book-camp-button";
 import GuestAndUnitModal from "./guest-and-unit-modal";
+import Link from "next/link";
 import { ArrowDownIcon, MinusIcon } from "../icons";
 import { formatDateTime } from "./camp-info";
 import { pxToRem } from "../../lib/chakra-ui";
-import { useCamp } from "../../lib/hooks";
+import { useCamp, useCheckActiveBooking } from "../../lib/hooks";
 import { useCampBookingStore } from "../../store/camp-booking.store";
 import {
   VStack,
@@ -18,6 +19,7 @@ import {
   PopoverContent,
   PopoverBody,
   Input,
+  Heading,
 } from "@chakra-ui/react";
 
 export default function BookingPanel() {
@@ -28,6 +30,33 @@ export default function BookingPanel() {
     guests: state.guests,
     checkOut: state.checkOut,
   }));
+  var { booking, isLoading: checkingBooking } = useCheckActiveBooking();
+
+  if (checkingBooking) return <></>;
+  if (booking) {
+    return (
+      <VStack
+        w="full"
+        minW={pxToRem(400)}
+        maxW={pxToRem(400)}
+        bg="b.grey0"
+        shadow="md"
+        gap={pxToRem(2)}
+        px={pxToRem(16)}
+        py={pxToRem(6)}
+        rounded={pxToRem(12)}
+        position="sticky"
+        top={pxToRem(64)}
+      >
+        <Heading as="h3" fontSize="lg" textAlign="center">
+          You have an active booking for this camp
+        </Heading>
+        <Link href="/bookings">
+          <Button variant="outline">Check booking</Button>
+        </Link>
+      </VStack>
+    );
+  }
 
   return (
     <VStack

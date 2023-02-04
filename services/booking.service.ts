@@ -56,7 +56,7 @@ export async function checkActiveBooking(accessToken: string, campId: string) {
     return {
       success: true,
       message: "Got booking for the camp",
-      bookings: response.data.bookings,
+      booking: response.data.booking,
     };
   }
 
