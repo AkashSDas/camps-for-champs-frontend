@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import { useRouter } from "next/router";
 import {
   checkActiveBooking,
+  getCampBookings,
   getUserBookings,
 } from "../services/booking.service";
 import {
@@ -138,6 +139,27 @@ export function useCheckActiveBooking() {
 
   return {
     booking: data?.booking,
+    message: data?.message,
+    isLoading: status == "loading",
+  };
+}
+
+export function useCampBookings() {
+  var { accessToken } = useUser();
+  var router = useRouter();
+  var { data, status } = useQuery(
+    ["camp-bookings", accessToken, router.query?.campId],
+    () =>
+      getCampBookings(accessToken as string, router.query?.campId as string),
+    {
+      retry: false,
+      refetchOnWindowFocus: false,
+      enabled: accessToken != null && router.query?.campId != null,
+    }
+  );
+
+  return {
+    bookings: data?.bookings,
     message: data?.message,
     isLoading: status == "loading",
   };
