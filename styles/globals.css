@@ -30,3 +30,8 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+.stripe-card-element {
+  width: 100%;
+  font-family: "Poppins", sans-serif;
+}

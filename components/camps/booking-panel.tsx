@@ -118,9 +118,7 @@ export default function BookingPanel() {
         <CheckOutInput />
       </HStack>
 
-      <Box>
-        <BookCampButton />
-      </Box>
+      <BookCampButton />
     </VStack>
   );
 }

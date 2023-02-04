@@ -16,7 +16,6 @@ export async function bookCamp(
     headers: { Authorization: `Bearer ${accessToken}` },
   });
 
-  console.log(response);
   if (response.statusCode == 201) {
     return {
       success: true,

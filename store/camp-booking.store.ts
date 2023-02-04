@@ -11,6 +11,7 @@ interface CampBooking {
   amounToCharge: number;
   checkIn?: Date;
   checkOut?: Date;
+  paymentIntent?: any;
 
   incrementGuest: (type: Guest["type"], count: number) => void;
   incrementCampUnit: (count: number) => void;
@@ -18,6 +19,7 @@ interface CampBooking {
   reset: () => void;
   setCheckIn: (date: Date) => void;
   setCheckOut: (date: Date) => void;
+  setPaymentIntent: (pi: any) => void;
 }
 
 export var useCampBookingStore = create<CampBooking>()((set, get) => ({
@@ -30,6 +32,10 @@ export var useCampBookingStore = create<CampBooking>()((set, get) => ({
   amounToCharge: 0,
   checkIn: undefined,
   checkOut: undefined,
+  paymentIntent: undefined,
+  setPaymentIntent(pi) {
+    set({ paymentIntent: pi });
+  },
   reset() {
     set({
       guests: [
