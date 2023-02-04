@@ -1,5 +1,8 @@
+import {
+  checkActiveBooking,
+  getUserBookings,
+} from "../services/booking.service";
 import { getNewAccessToken } from "../services/auth.service";
-import { getUserBookings } from "../services/booking.service";
 import { stat } from "fs";
 import { useQuery } from "react-query";
 import { useRouter } from "next/router";
@@ -109,6 +112,27 @@ export function useUserBookings() {
       retry: false,
       refetchOnWindowFocus: false,
       enabled: accessToken != null,
+    }
+  );
+
+  return {
+    bookings: data?.bookings,
+    message: data?.message,
+    isLoading: status == "loading",
+  };
+}
+
+export function useCheckActiveBooking() {
+  var { accessToken } = useUser();
+  var router = useRouter();
+  var { data, status } = useQuery(
+    ["check-active-booking", accessToken, router.query?.campId],
+    () =>
+      checkActiveBooking(accessToken as string, router.query?.campId as string),
+    {
+      retry: false,
+      refetchOnWindowFocus: false,
+      enabled: accessToken != null && router.query?.campId != null,
     }
   );
 

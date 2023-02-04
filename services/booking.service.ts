@@ -45,3 +45,20 @@ export async function getUserBookings(
 
   return { message: response.error.message, success: false };
 }
+
+export async function checkActiveBooking(accessToken: string, campId: string) {
+  var response = await fetchFromAPI(`/booking/user/${campId}`, {
+    method: "GET",
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+
+  if (response.statusCode == 200) {
+    return {
+      success: true,
+      message: "Got booking for the camp",
+      bookings: response.data.bookings,
+    };
+  }
+
+  return { message: response.error.message, success: false };
+}
