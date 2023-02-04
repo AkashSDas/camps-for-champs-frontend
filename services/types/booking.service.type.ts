@@ -3,7 +3,7 @@ import { Guest } from "../../store/camp-booking.store";
 
 export interface Booking {
   user: string;
-  camp: string;
+  camp: string | Camp;
   checkIn: string;
   checkOut: string;
   guests: Guest[];
