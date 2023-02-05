@@ -119,7 +119,7 @@ function Sidebar() {
           variant="icon-ghost"
           onClick={() => navigationToSetting(Tab.BOOKINGS)}
         >
-          <TableIcon className="icon-normal-fill" />
+          <TableIcon className="icon-normal-stroke" />
         </IconButton>
       </Tooltip>
     </VStack>

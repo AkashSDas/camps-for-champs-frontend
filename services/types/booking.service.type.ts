@@ -2,7 +2,7 @@ import { Camp } from "./camp.service.type";
 import { Guest } from "../../store/camp-booking.store";
 
 export interface Booking {
-  user: string;
+  user: string | { _id: string; email: string; userId: string };
   camp: string | Camp;
   checkIn: string;
   checkOut: string;
