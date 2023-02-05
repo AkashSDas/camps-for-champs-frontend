@@ -1,10 +1,21 @@
 import { CampSettingsLayout } from "./layout";
 import { pxToRem } from "../../lib/chakra-ui";
-import { useCampBookings } from "../../lib/hooks";
+import { queryClient } from "../../lib/react-query";
+import { updateBookingStatus } from "../../services/booking.service";
+import { useCampBookings, useEditCamp, useUser } from "../../lib/hooks";
+import { useMutation } from "react-query";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import {
+  BookingStatus,
+  GetBookingsResponse,
+} from "../../services/types/booking.service.type";
 import {
   Badge,
+  Button,
   Divider,
   Heading,
+  HStack,
   Spinner,
   Table,
   TableContainer,
@@ -12,6 +23,7 @@ import {
   Td,
   Thead,
   Tr,
+  useToast,
   VStack,
 } from "@chakra-ui/react";
 
@@ -65,11 +77,135 @@ function BookingsTable() {
                 <Badge fontFamily="heading">{b.status}</Badge>
               </Td>
 
-              <Td>...</Td>
+              <Td>
+                <UpdateBookingStatusButtong
+                  bookingId={b.bookingId}
+                  status={b.status}
+                />
+              </Td>
             </Tr>
           ))}
         </Tbody>
       </Table>
     </TableContainer>
+  );
+}
+
+interface Props {
+  bookingId: string;
+  status: BookingStatus;
+}
+
+function UpdateBookingStatusButtong({ bookingId, status }: Props) {
+  var { accessToken } = useUser();
+  var { camp } = useEditCamp();
+  var router = useRouter();
+  var toast = useToast();
+
+  var mutation = useMutation({
+    mutationFn: (status: BookingStatus) => {
+      return updateBookingStatus(
+        accessToken as string,
+        bookingId,
+        camp?.campId as string,
+        status
+      );
+    },
+    onMutate: async function (status: BookingStatus) {
+      var data = queryClient.getQueriesData([
+        "camp-bookings",
+        accessToken,
+        router.query?.campId,
+      ]) as any;
+
+      queryClient.setQueriesData(
+        ["camp-bookings", accessToken, router.query?.campId],
+        {
+          ...data[0][1],
+          bookings: (data[0][1] as any)?.bookings?.map((b: any) => ({
+            ...b,
+            status: status,
+          })),
+        }
+      );
+
+      return { previousData: data[0][1] };
+    },
+    onSuccess(data, variables, context) {
+      if (!data.success) {
+        toast({
+          title: "Failed to update status",
+          status: "error",
+          isClosable: true,
+          duration: 5000,
+        });
+
+        queryClient.setQueriesData(
+          ["camp-bookings", accessToken, router.query?.campId],
+          context?.previousData
+        );
+      } else {
+        toast({
+          title: "Status updated",
+          status: "success",
+          isClosable: true,
+          duration: 5000,
+        });
+      }
+    },
+    onError: (_err, _status, context) => {
+      toast({
+        title: "Failed to update status",
+        status: "error",
+        isClosable: true,
+        duration: 5000,
+      });
+
+      queryClient.setQueriesData(
+        ["camp-bookings", accessToken, router.query?.campId],
+        context?.previousData
+      );
+    },
+  });
+
+  if (!(status == BookingStatus.PENDING)) {
+    return <HStack>...</HStack>;
+  }
+
+  if (mutation.isLoading) {
+    return (
+      <HStack>
+        <Spinner size="sm" />
+      </HStack>
+    );
+  }
+
+  return (
+    <HStack gap={0}>
+      <Button
+        h={pxToRem(32)}
+        rounded="md"
+        px={pxToRem(12)}
+        variant="outline"
+        disabled={mutation.isLoading}
+        onClick={() => {
+          mutation.mutate(BookingStatus.FULFILLED);
+        }}
+      >
+        Accept
+      </Button>
+      <Button
+        disabled={mutation.isLoading}
+        onClick={() => {
+          mutation.mutate(BookingStatus.CANCELLED);
+        }}
+        h={pxToRem(32)}
+        rounded="md"
+        px={pxToRem(12)}
+        variant="outline"
+      >
+        Cancel
+      </Button>
+    </HStack>
   );
 }

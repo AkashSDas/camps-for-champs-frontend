@@ -2,6 +2,8 @@ import fetchFromAPI from "../lib/axios";
 import { BookCampInput } from "../lib/input-schema";
 import {
   BookCampResponse,
+  BookingStatus,
+  GetBookingResponse,
   GetBookingsResponse,
 } from "./types/booking.service.type";
 
@@ -77,6 +79,33 @@ export async function getCampBookings(
       success: true,
       message: "Successfully fetched bookings",
       bookings: response.data.bookings,
+    };
+  }
+
+  return { message: response.error.message, success: false };
+}
+
+export async function updateBookingStatus(
+  accessToken: string,
+  bookingId: string,
+  campId: string,
+  status: BookingStatus
+): Promise<GetBookingResponse> {
+  var response = await fetchFromAPI(
+    `/booking/status/${bookingId}/camp/${campId}`,
+    {
+      method: "PUT",
+      data: { status },
+      headers: { Authorization: `Bearer ${accessToken}` },
+    }
+  );
+
+  console.log(response);
+  if (response.statusCode == 200) {
+    return {
+      success: true,
+      message: "Successfully fetched bookings",
+      booking: response.data.booking,
     };
   }
 
