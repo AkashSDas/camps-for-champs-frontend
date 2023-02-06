@@ -1,3 +1,4 @@
+import { getInvoicesForUser } from "../services/payments.service";
 import { getNewAccessToken } from "../services/auth.service";
 import { stat } from "fs";
 import { useQuery } from "react-query";
@@ -160,6 +161,25 @@ export function useCampBookings() {
 
   return {
     bookings: data?.bookings,
+    message: data?.message,
+    isLoading: status == "loading",
+  };
+}
+
+export function useUserInvoices() {
+  var { accessToken } = useUser();
+  var { data, status } = useQuery(
+    ["invoices", accessToken],
+    () => getInvoicesForUser(accessToken as string),
+    {
+      retry: false,
+      refetchOnWindowFocus: false,
+      enabled: accessToken != null,
+    }
+  );
+
+  return {
+    invoices: data?.invoices,
     message: data?.message,
     isLoading: status == "loading",
   };
